@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './Form.css';
 import { useTelegram } from "../../hooks/useTelegram";
+import { NumberField, Label, Group, Input, Button } from 'react-aria-components';
 
 const Form = () => {
     const [country, setCountry] = useState('');
@@ -60,9 +61,14 @@ const Form = () => {
                 value={country}
                 onChange={onChangeCountry}
             />
-            <textarea>
-                Доброго здоровья, тут просто немного текста внутри тега textarea
-            </textarea>
+            <NumberField defaultValue={1024} minValue={0}>
+                <Label>Width</Label>
+                <Group>
+                    <Button slot="decrement">-</Button>
+                    <Input />
+                    <Button slot="increment">+</Button>
+                </Group>
+            </NumberField>
             <input
                 className={'input'}
                 type="text"
