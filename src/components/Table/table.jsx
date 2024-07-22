@@ -1,4 +1,4 @@
-const table = () => {
+const Table = () => {
     return(
         <div className={"table"}><Table aria-label="Files" selectionMode="multiple">
             <TableHeader>

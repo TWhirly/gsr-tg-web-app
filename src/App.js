@@ -20,7 +20,7 @@ function App() {
         <div className="App">
             <Header />
             <Routes>
-                <Route index element={<table />}/>
+                <Route index element={<Table />}/>
                 {/* <Route path={'form'} element={<Form />}/> */}
             </Routes>
         </div>
