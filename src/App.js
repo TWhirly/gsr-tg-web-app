@@ -6,6 +6,7 @@ import {Route, Routes} from 'react-router-dom'
 // import ProductList from "./components/ProductList/ProductList";
 import Form from "./components/Form/Form";
 import { Table } from 'react-aria-components';
+import table from "./components/Table/table.jsx";
 
 function App() {
     // eslint-disable-next-line no-unused-vars
