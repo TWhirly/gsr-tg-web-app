@@ -1,12 +1,12 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './Form.css';
-import {useTelegram} from "../../hooks/useTelegram";
+import { useTelegram } from "../../hooks/useTelegram";
 
 const Form = () => {
     const [country, setCountry] = useState('');
     const [street, setStreet] = useState('');
     const [subject, setSubject] = useState('physical');
-    const {tg} = useTelegram();
+    const { tg } = useTelegram();
 
     const onSendData = useCallback(() => {
         const data = {
@@ -31,7 +31,7 @@ const Form = () => {
     }, [tg.MainButton])
 
     useEffect(() => {
-        if(!street || !country) {
+        if (!street || !country) {
             tg.MainButton.hide();
         } else {
             tg.MainButton.show();
@@ -52,7 +52,7 @@ const Form = () => {
 
     return (
         <div className={"form"}>
-            <h5 style={{backgroundColor: "lightblue"}}>Введите ваши данные</h5>
+            <h5 style={{ backgroundColor: "lightblue" }}>Введите ваши данные</h5>
             <input
                 className={'input'}
                 type="text"
@@ -60,6 +60,9 @@ const Form = () => {
                 value={country}
                 onChange={onChangeCountry}
             />
+            <textarea>
+                Доброго здоровья, тут просто немного текста внутри тега textarea
+            </textarea>
             <input
                 className={'input'}
                 type="text"
