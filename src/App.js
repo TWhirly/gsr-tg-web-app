@@ -5,6 +5,7 @@ import Header from "./components/Header/Header";
 import {Route, Routes} from 'react-router-dom'
 // import ProductList from "./components/ProductList/ProductList";
 import Form from "./components/Form/Form";
+import { Table } from 'react-aria-components';
 
 function App() {
     // eslint-disable-next-line no-unused-vars
@@ -18,7 +19,7 @@ function App() {
         <div className="App">
             <Header />
             <Routes>
-                <Route index element={<Form />}/>
+                <Route index element={<table />}/>
                 {/* <Route path={'form'} element={<Form />}/> */}
             </Routes>
         </div>
