@@ -181,9 +181,9 @@
   }
 }
 
-:where(.react-aria-Row) .react-aria-Checkbox {
+/* :where(.react-aria-Row) .react-aria-Checkbox {
   --selected-color: var(--highlight-foreground);
   --selected-color-pressed: var(--highlight-foreground-pressed);
   --checkmark-color: var(--highlight-background);
   --background-color: var(--highlight-background);
-}
+} */
