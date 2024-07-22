@@ -20,3 +20,52 @@
     background-color: #03101c;
     padding: 10% 10%;
 }
+
+.react-aria-NumberField {
+    margin-bottom: 8px;
+    color: var(--text-color);
+  
+    .react-aria-Group {
+      display: flex;
+      width: fit-content;
+      border-radius: 4px;
+  
+      &[data-focus-within] {
+        outline: 1px solid var(--focus-ring-color);
+        .react-aria-Input,
+        .react-aria-Button {
+          border-color: var(--focus-ring-color);
+        }
+      }
+    }
+  
+    .react-aria-Button {
+      font-size: 1.4rem;
+      width: 2.3rem;
+      padding: 0;
+  
+      &[slot=decrement] {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+      }
+  
+      &[slot=increment] {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+      }
+    }
+  
+    .react-aria-Input {
+      background: var(--field-background);
+      border: 1px solid var(--border-color);
+      border-radius: 0;
+      color: var(--field-text-color);
+      margin: 0 -1px;
+      z-index: 1;
+      font-size: 1rem;
+      padding: 0.429rem 0.571rem;
+      outline: none;
+      width: 6rem;
+      flex: 1;
+    }
+  }
