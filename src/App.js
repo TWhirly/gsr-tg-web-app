@@ -20,7 +20,8 @@ function App() {
     }, [tg])
 
     return (
-        <div className="App">
+        // <div className="App">
+        <div >
             <Header />
             <Routes>
                 <Route index element={<MyTable />}/>
