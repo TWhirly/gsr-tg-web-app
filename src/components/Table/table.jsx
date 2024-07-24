@@ -4,7 +4,7 @@ import './table.css';
 
 const { tg } = useTelegram();
 
-const Table = () => {
+const MyTable = () => {
     return (
         <div className={"react-aria-table"}>
             <Table aria-label="Files" >
@@ -39,4 +39,4 @@ const Table = () => {
     )
 }
 
-export default Table;
+export default MyTable;
