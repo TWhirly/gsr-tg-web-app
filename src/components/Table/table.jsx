@@ -1,5 +1,5 @@
 // import React, { useCallback, useEffect, useState } from 'react';
-import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
+import { Cell, Column, Row, Table, TableBody, TableHeader } from '@react-stately/table';
 import './table.css';
 
 // const { tg } = useTelegram();
