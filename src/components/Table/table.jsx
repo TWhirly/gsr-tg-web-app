@@ -6,7 +6,7 @@ const { tg } = useTelegram();
 
 const MyTable = () => {
     return (
-        <div className={"react-aria-table"}>
+        <div className={"react-aria-Table"}>
             <Table aria-label="Files" >
                 <TableHeader>
 
