@@ -3,13 +3,13 @@ import {useEffect} from "react";
 import {useTelegram} from "./hooks/useTelegram";
 import Header from "./components/Header/Header";
 import {Route, Routes} from 'react-router-dom'
-import {Cell, Column, Row, Table, TableBody, TableHeader} from 'react-aria-components';
+// import {Cell, Column, Row, Table, TableBody, TableHeader} from 'react-aria-components';
 // import ProductList from "./components/ProductList/ProductList";
 import Form from "./components/Form/Form";
 
 
 // import { Table } from 'react-aria-components';
-import MyTable from "./components/Table/table";
+// import MyTable from "./components/Table/table";
 
 function App() {
     // eslint-disable-next-line no-unused-vars
