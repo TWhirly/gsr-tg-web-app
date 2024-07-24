@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './Form.css';
 import { useTelegram } from "../../hooks/useTelegram";
-import { NumberField, Label, Group, Input, Button } from 'react-aria-components';
-import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
+import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
+// import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
 const Form = () => {
     const [country, setCountry] = useState('');
