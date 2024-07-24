@@ -9,7 +9,7 @@ import {Route, Routes} from 'react-router-dom'
 
 
 // import { Table } from 'react-aria-components';
-import { MyTable } from "./components/Table/table";
+import MyTable from "./components/Table/table";
 
 function App() {
     // eslint-disable-next-line no-unused-vars
