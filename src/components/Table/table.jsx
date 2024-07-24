@@ -1,3 +1,5 @@
+import {Cell, Column, Row, Table, TableBody, TableHeader} from 'react-aria-components';
+
 const TableTest = () => {
     return(
         <div className={"table"}><Table aria-label="Files" selectionMode="multiple">
