@@ -36,7 +36,7 @@ const MyTable = () => {
                 </TableBody>
             </Table>
         </div>
-    )
-}
+    );
+};
 
 export default MyTable;
