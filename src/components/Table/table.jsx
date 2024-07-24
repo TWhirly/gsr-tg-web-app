@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+// import React, { useCallback, useEffect, useState } from 'react';
 import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import './table.css';
 
-const { tg } = useTelegram();
+// const { tg } = useTelegram();
 
-const MyTable = () => {
+const MyTable = (props) => {
     return (
         <div className={"react-aria-Table"}>
             <Table aria-label="Files" >
