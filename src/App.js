@@ -6,6 +6,7 @@ import {Route, Routes} from 'react-router-dom'
 import {Cell, Column, Row, Table, TableBody, TableHeader} from 'react-aria-components';
 // import ProductList from "./components/ProductList/ProductList";
 import Form from "./components/Form/Form";
+import TableTest from './components/Table/table';
 
 // import { Table } from 'react-aria-components';
 import TableTest from "./components/Table/table";
