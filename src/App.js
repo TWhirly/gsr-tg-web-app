@@ -9,7 +9,7 @@ import Form from "./components/Form/Form";
 
 
 // import { Table } from 'react-aria-components';
-import TableTest from "./components/Table/table";
+import Table from "./components/Table/table";
 
 function App() {
     // eslint-disable-next-line no-unused-vars
@@ -23,7 +23,7 @@ function App() {
         <div className="App">
             <Header />
             <Routes>
-                <Route index element={<TableTest />}/>
+                <Route index element={<Table />}/>
                 {/* <Route path={'form'} element={<Form />}/> */}
             </Routes>
         </div>
