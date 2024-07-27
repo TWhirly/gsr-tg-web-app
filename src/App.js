@@ -5,7 +5,7 @@ import Header from "./components/Header/Header";
 import {Route, Routes} from 'react-router-dom'
 // import {Cell, Column, Row, Table, TableBody, TableHeader} from 'react-aria-components';
 // import ProductList from "./components/ProductList/ProductList";
-// import Form from "./components/Form/Form";
+import Form from "./components/Form/Form";
 
 
 // import { Table } from 'react-aria-components';
