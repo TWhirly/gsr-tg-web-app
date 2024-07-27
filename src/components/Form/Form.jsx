@@ -25,7 +25,7 @@ const Form = () => {
         return () => {
             tg.offEvent('mainButtonClicked', onSendData)
         }
-    }, [onSendData, data])
+    }, [onSendData, tg])
 
     useEffect(() => {
         tg.MainButton.setParams({
