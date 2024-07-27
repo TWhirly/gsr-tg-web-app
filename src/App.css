@@ -1,12 +1,17 @@
 * {
-  margin: 0;
+  
   padding: 0;
   box-sizing: border-box;
   max-width: 500px;
 
 }
 
+.App{
+  margin: auto;
+}
+
 body {
+  margin: 0 auto;
   background: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
 
