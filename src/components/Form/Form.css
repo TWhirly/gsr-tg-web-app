@@ -41,7 +41,7 @@
 
       .react-aria-Input,
       .react-aria-Button {
-        border-color: var(--tg-theme-button-color);
+        border-color: var(--tg-theme-background-color);
       }
     }
   }
