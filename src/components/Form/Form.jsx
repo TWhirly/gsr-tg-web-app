@@ -66,8 +66,8 @@ const Form = () => {
             <NumberField defaultValue={1024} minValue={0}>
                 <Label>Width</Label>
                 <Group>
-                    <Button slot="decrement">-</Button>
                     <Input />
+                    <Button slot="decrement">-</Button>
                     <Button slot="increment">+</Button>
                 </Group>
             </NumberField>
@@ -82,8 +82,8 @@ const Form = () => {
                 <option value={'physical'}>Физ. лицо</option>
                 <option value={'legal'}>Юр. лицо</option>
             </select>
-            
-            
+
+
         </div>
     );
 };
