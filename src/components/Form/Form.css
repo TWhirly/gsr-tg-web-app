@@ -41,7 +41,7 @@
 
       .react-aria-Input,
       .react-aria-Button {
-        border-color: var(--focus-ring-color);
+        border-color: var(--tg-theme-button-color);
       }
     }
   }
@@ -64,7 +64,7 @@
 
   .react-aria-Input {
     background: var(--field-background);
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--tg-theme-button-color);
     border-radius: 0;
     color: var(--field-text-color);
     margin: 0 -1px;
