@@ -30,7 +30,7 @@ const ButtonList = () =>{
         <div className={'list'}>
             {buttons.map(item => (
                 <ButtonItem
-                    button={item.price}
+                    button={buttons.price}
                     className={'item'}
                     onPush={onPush}
                 />
