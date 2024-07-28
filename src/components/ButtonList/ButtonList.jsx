@@ -18,8 +18,10 @@ const buttons = [
 const ButtonList = () =>{
 
     const onPush = (button) =>{
+        tg.MainButton.show()
         tg.MainButton.setParams({
             text: `Перейти к ${button}`
+           
         })
 
     }
@@ -30,6 +32,7 @@ const ButtonList = () =>{
                 <ButtonItem
                     button={item}
                     className={'item'}
+                    onPush={onPush}
                 />
             ))}
         </div>
