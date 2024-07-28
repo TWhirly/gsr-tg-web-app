@@ -21,7 +21,7 @@ const ButtonList = () =>{
     const onPush = (item) =>{
         tg.MainButton.show()
         tg.MainButton.setParams({
-            text: `Перейти к ${item}`
+            text: `Перейти к ${item.title}`
            
         })
 
