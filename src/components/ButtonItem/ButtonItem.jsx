@@ -14,7 +14,7 @@ const ButtonItem = ({ button, className }) => {
 
 
 
-            <Button className={'add-btn'}>
+            <Button className={'add-btn'} onClick={onPushHandler}>
                 <div className={'img'} />
                 <div className={'title'}>{button.title}</div>
             </Button>
