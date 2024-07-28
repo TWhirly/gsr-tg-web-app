@@ -2,10 +2,11 @@ import React from 'react';
 import Button from "../button/button";
 import './ButtonItem.css';
 
-const ButtonItem = ({ button, className }) => {
+const ButtonItem = ({ button, className, onPush }) => {
 
     const onPushHandler = () => {
         onPush(button);
+        console.log('tap')
     }
 
 

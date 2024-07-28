@@ -16,11 +16,12 @@ const buttons = [
 ]
 
 const ButtonList = () =>{
+    const {tg, queryId} = useTelegram();
 
-    const onPush = (button) =>{
+    const onPush = (item) =>{
         tg.MainButton.show()
         tg.MainButton.setParams({
-            text: `Перейти к ${button}`
+            text: `Перейти к ${item}`
            
         })
 
