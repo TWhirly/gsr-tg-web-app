@@ -21,15 +21,17 @@
   margin-top: 15px;
 }
 
-.h3 {
-  background-color: #03101c;
-  padding: 10% 10%;
+.header-input-your-data {
+  color: brown;
+  padding: 15px;
+  text-align: center;
 }
 
 .react-aria-NumberField {
   padding: 10px;
   margin-bottom: 8px;
   color: var(--text-color);
+  width: 100%;
 
   .react-aria-Group {
     display: flex;

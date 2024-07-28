@@ -55,7 +55,9 @@ const Form = () => {
 
     return (
         <div className={"form"}>
-            <h5 style={{ backgroundColor: "lightblue" }}>Введите ваши данные</h5>
+            <h1 className={'header-input-your-data'}>
+                
+                Введите ваши данные</h1>
             <input
                 className={'input'}
                 type="text"
