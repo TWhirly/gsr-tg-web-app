@@ -27,32 +27,32 @@ const ButtonList = () => {
 
     }
 
-    let res = buttons.map(function (item) {
-        return(
-        <p key={item.id}>
-            <ButtonItem button={item} onPush={onPush} className={'item'} />
-        </p>)
-    });
+    // let res = buttons.map(function (item) {
+    //     return(
+    //     <p key={item.id}>
+    //         <ButtonItem button={item} onPush={onPush} className={'item'} />
+    //     </p>)
+    // });
 
-    return <div>
-        {res}
-    </div>;
+    // return <div>
+    //     {res}
+    // </div>;
 
-    // return (
-    //     <div className={'list'}>
-    //         {buttons.map(item => (
-    //             <ButtonItem
-    //                 button={item}
-    //                 className={'item'}
-    //                 onPush={onPush}
-    //             />
-    //         ))}
-
-
+    return (
+        <div className={'list'}>
+            {buttons.map(item => (
+                <ButtonItem
+                    button={item}
+                    className={'item'}
+                    onPush={onPush}
+                />
+            ))}
 
 
-    //     </div>
-    // );
+
+
+        </div>
+    );
 
 }
 
