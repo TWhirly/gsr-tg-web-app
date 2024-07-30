@@ -1,11 +1,20 @@
 .list {
-    display: flex;
-    flex-wrap: wrap;
+    display: block;
+    flex-wrap: stretch;
     justify-content: 100%;
+    margin-right: 10%;
+    margin-left: 10%;
 }
 
 .item {
     margin-right: 10px;
     margin-bottom: 10px;
     justify-content: stretch;
+}
+
+.btn{
+    display: block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    justify-content: 100%;
 }

@@ -58,7 +58,7 @@ const ButtonList = () => {
     return (
         <div className={'list'}>
 
-            {buttons.map(item => (<button>{item.title}</button>))}
+            {buttons.map(item => ( <button className={'btn'}>   {item.title} </button>))}
 
 
 
