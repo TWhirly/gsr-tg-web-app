@@ -3,6 +3,7 @@ import './ButtonList.css';
 import ButtonItem from "../ButtonItem/ButtonItem";
 import { useTelegram } from "../../hooks/useTelegram";
 import { useCallback, useEffect } from "react";
+import { Button } from "../button/button"
 
 const buttons = [
     { id: '1', description: 'Синего цвета, прямые', title: 'Джинсы', price: 5000 },
@@ -38,15 +39,29 @@ const ButtonList = () => {
     //     {res}
     // </div>;
 
+    // return (
+    //     <div className={'list'}>
+    //         {buttons.map(item => (
+    //             <ButtonItem
+    //                 button={item}
+    //                 className={'item'}
+    //                 onPush={onPush}
+    //             />
+    //         ))}
+
+
+
+
+    //     </div>
+    // );
+    // const listItems = buttons.map(item => item.title)
     return (
         <div className={'list'}>
-            {buttons.map(item => (
-                <ButtonItem
-                    button={item}
-                    className={'item'}
-                    onPush={onPush}
-                />
-            ))}
+
+            {buttons.map(item => (<button>{item.title}</button>))}
+
+
+
 
 
 
