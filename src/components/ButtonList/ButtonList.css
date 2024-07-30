@@ -1,6 +1,6 @@
 .list {
     display: block;
-    flex-wrap: stretch;
+    flex-wrap: wrap;
     justify-content: 100%;
     margin-right: 10%;
     margin-left: 10%;
