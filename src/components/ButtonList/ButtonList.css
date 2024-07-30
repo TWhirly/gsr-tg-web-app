@@ -20,7 +20,8 @@
     outline: none;
     cursor: pointer;
     display: block;
-    margin-right: 10px;
+    margin-right: 10%;
+    margin-left: 10%;
     margin-bottom: 10px;
     justify-content: 100%;
     min-width: 80%;
