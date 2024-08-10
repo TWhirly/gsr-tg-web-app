@@ -19,12 +19,14 @@ const buttons = [
 const ButtonList = () => {
     const { tg, queryId } = useTelegram();
 
-    const onPush = (item) => {
+    const handleClick = (item) => {
         tg.MainButton.show()
         tg.MainButton.setParams({
             text: `Перейти к ${item.title}`
 
         })
+        alert('clicked ' + item);
+        
 
     }
 
@@ -56,9 +58,10 @@ const ButtonList = () => {
     // );
     // const listItems = buttons.map(item => item.title)
     return (
-        <div className={'list'}>
+        <div className={'list'} >
 
-            {buttons.map(item => ( <button className={'btn'}>   {item.title} </button>))}
+            {buttons.map(item => ( <button className={'btn'} onClick={() => handleClick(item.title)}>   {item.title} </button>)) }
+           
 
 
 
