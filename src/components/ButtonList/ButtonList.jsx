@@ -22,7 +22,7 @@ const ButtonList = () => {
     const handleClick = (item) => {
         tg.MainButton.show()
         tg.MainButton.setParams({
-            text: `Перейти к ${item.title}`
+            text: `Перейти к ${item}`
 
         })
         alert('clicked ' + item);
