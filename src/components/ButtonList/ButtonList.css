@@ -1,5 +1,6 @@
 .list {
-    display: block;
+    cursor: pointer;
+    display: block-outline;
     flex-wrap: wrap;
     justify-content: 100%;
     margin-right: 10%;
@@ -29,7 +30,7 @@
     border-radius: 10px;
     text-decoration: none;
     color: white;
-    background: #0B63F6;
+    background: #0B63F6;   
     box-shadow: 0 5px 0 #003CC5;
     display: block;
     margin-bottom: 10px;
