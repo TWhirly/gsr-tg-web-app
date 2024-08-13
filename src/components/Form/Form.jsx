@@ -3,13 +3,14 @@ import './Form.css';
 import '../Table/table.css'
 import { useTelegram } from "../../hooks/useTelegram";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
+
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
 const Form = () => {
     const [country, setCountry] = useState('');
     const [street, setStreet] = useState('');
     const [subject, setSubject] = useState('physical');
-    const { tg } = useTelegram();
+    const { tg, queryId } = useTelegram();
 
     const onSendData = useCallback(() => {
         const data = {
@@ -55,9 +56,9 @@ const Form = () => {
 
     return (
         <div className={"form"}>
-            <h1 className={'header-input-your-data'}>
-                
-                Введите ваши данные</h1>
+            {/* <h1 className={'header-input-your-data'}>
+
+                Введите ваши данные</h1> */}
             <input
                 className={'input'}
                 type="text"
@@ -66,13 +67,17 @@ const Form = () => {
                 onChange={onChangeCountry}
             />
             <NumberField defaultValue={1024} minValue={0}>
-                <Label>Width</Label>
+            <label>Width</label>
                 <Group>
+                
                     <Input />
-                    <Button slot="decrement">-</Button>
-                    <Button slot="increment">+</Button>
+                    
+                    <Button slot="decrement" className={'decrement'}>-</Button>
+                    <Button slot="increment" className={'increment'}>+</Button>
                 </Group>
             </NumberField>
+          
+            
             <input
                 className={'input'}
                 type="text"

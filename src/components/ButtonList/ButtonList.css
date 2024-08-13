@@ -3,8 +3,8 @@
     display: block-outline;
     flex-wrap: wrap;
     justify-content: 100%;
-    margin-right: 10%;
-    margin-left: 10%;
+    margin-right: 1%;
+    margin-left: 1%;
 }
 
 .item {
@@ -27,14 +27,16 @@
     justify-content: 100%;
     min-width: 80%; */
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     text-decoration: none;
-    color: white;
-    background: #0B63F6;   
+    /* color: white;
+    background: #0B63F6;    */
     box-shadow: 0 5px 0 #003CC5;
     display: block;
     margin-bottom: 10px;
     justify-content: 100%;
-    min-width: 80%;
+    min-width: 90%;
     height: 50px;
+    background: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
 }

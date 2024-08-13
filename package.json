@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@mui/base": "^5.0.0-beta.40",
     "@react-aria/example-theme": "^1.0.3",
     "@react-stately/table": "^3.12.1",
     "@testing-library/jest-dom": "^5.16.5",

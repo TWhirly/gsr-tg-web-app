@@ -4,6 +4,10 @@ import ButtonItem from "../ButtonItem/ButtonItem";
 import { useTelegram } from "../../hooks/useTelegram";
 import { useCallback, useEffect } from "react";
 import { Button } from "../button/button"
+import { Link } from 'react-router-dom';
+import Form from "../Form/Form";
+import ResForm from "../ResForm/ResForm";
+import { useNavigate } from "react-router-dom";
 
 // const buttons = [
 //     { id: '1', description: 'Синего цвета, прямые', title: Date.now(), price: 5000 },
@@ -31,11 +35,12 @@ const ButtonList = () => {
     }, []);
 
     const buttons = async () => {
-        const response = await fetch('http://localhost:8000/menu'); // Генерируем объект Response
+        const response = await fetch('http://192.168.1.103:8000/menu'); // Генерируем объект Response
         const jVal = await response.json(); // Парсим тело ответа
         setData(jVal);
     }
 
+    const navigate = useNavigate();
 
     const { tg, queryId } = useTelegram();
 
@@ -45,61 +50,22 @@ const ButtonList = () => {
             text: `Перейти к ` + item
 
         })
-        alert('clicked ' + item);
-
+        // alert('clicked ' + item);
+        navigate("/ResForm");     
 
     }
 
-    // let res = buttons.map(function (item) {
-    //     return(
-    //     <p key={item.id}>
-    //         <ButtonItem button={item} onPush={onPush} className={'item'} />
-    //     </p>)
-    // });
-
-    // return <div>
-    //     {res}
-    // </div>;
-
-    // return (
-    //     <div className={'list'}>
-    //         {buttons.map(item => (
-    //             <ButtonItem
-    //                 button={item}
-    //                 className={'item'}
-    //                 onPush={onPush}
-    //             />
-    //         ))}
-
-    //     </div>
-    // );
-    // const listItems = buttons.map(item => item.title)
-    // return (
-    //     <div className={'list'} >
-
-    //         {buttons.map(item => ( <button className={'btn'} onClick={() => handleClick(item.driver)}>   {item.driver} </button>)) }
-
-
-    //     </div>
-    // );
-
+    
     return (
         <div className={'list'} >
 
-            {data.map(item => ( <button className={'btn'} onClick={() => handleClick(item.action)}>   {item.action} </button>)) }
+            {data.map(item => ( <button className={'btn'} onClick={() => handleClick(item.action)} >  {item.action} </button>)) }
 
 
         </div>
     );
 
-    // return (
-        
-    //     <div>
-    //         <div>123</div>
-    //         {JSON.stringify(data)}
-
-    //     </div>
-    // );
+   
 
 }
 
