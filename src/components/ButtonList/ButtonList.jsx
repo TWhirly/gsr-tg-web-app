@@ -36,7 +36,7 @@ const ButtonList = () => {
 
 
     const buttons = async () => {
-        const response = await fetch('http://192.168.0.234:8000/menu');
+        const response = await fetch('http://192.168.1.103:8000/menu');
         // console.log(...response);
         // Генерируем объект Response
         const jVal = await response.json();

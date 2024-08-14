@@ -4,6 +4,7 @@ import { useTelegram } from "../../hooks/useTelegram";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import { useLinkProps } from '@react-aria/utils';
 
+
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
 
@@ -20,7 +21,7 @@ const ResForm = () => {
 
 
     const buttons = async () => {
-        const response = await fetch('http://192.168.0.234:8000/res'); // Генерируем объект Response
+        const response = await fetch('http://192.168.1.103:8000/res'); // Генерируем объект Response
         const jVal = await response.json(); // Парсим тело ответа
         setData(jVal);
 
@@ -63,9 +64,9 @@ const ResForm = () => {
                 // const resValue = Object.values(item)[0];
                 return (
                     <NumberField  className={'react-aria-NumberField'} minValue={0} key={resTank} onChange={(v) => handlerChange(v, resTank)}>
-                        
-                        <Group>
                         <Label className={'Label'}> {resTank}</Label>
+                        <Group>
+                        
                         <Button slot="decrement">-</Button>
                         <Input  / >   
                         

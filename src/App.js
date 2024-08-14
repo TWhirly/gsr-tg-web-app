@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useTelegram } from "./hooks/useTelegram";
 import Header from "./components/Header/Header";
 import { Route, Routes } from 'react-router-dom'
+import { Unstable_NumberInput as NumberInput } from '@mui/base/Unstable_NumberInput';
 import ProductList from "./components/ProductList/ProductList";
 import ButtonList from "./components/ButtonList/ButtonList";
 // import {Cell, Column, Row, Table, TableBody, TableHeader} from 'react-aria-components';
