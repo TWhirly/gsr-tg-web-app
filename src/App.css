@@ -2,7 +2,8 @@
   
   padding: auto;
   box-sizing: border-box;
-  max-width: 500px;
+  max-width: 100%;
+  flex-direction: column;
  
 
 }
@@ -15,5 +16,6 @@ body {
   margin: 0 auto;
   background: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
+  
 
 }

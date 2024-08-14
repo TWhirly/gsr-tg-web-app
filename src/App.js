@@ -26,7 +26,7 @@ function App() {
 
     return (
         <div className="App">
-            <Header />
+            {/* <Header /> */}
             <Routes>
                 <Route path="/" element={<ButtonList />} />
                 <Route path="/Form" element={<Form />} />

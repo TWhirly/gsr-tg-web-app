@@ -6,6 +6,8 @@
     padding: 0 20px;
     background: var(--tg-theme-button-color);
     color: var(--tg-theme-button-text-color);
+    
+    flex-direction: column;
 }
 
 

@@ -17,9 +17,7 @@ const Header = () => {
 
         <div >
             <button className={'header'} onClick={onClick}>Закрыть</button>
-            <span className={'username'}>
-                {tg.initDataUnsafe?.user?.username}
-            </span>
+            
 
 
         </div>

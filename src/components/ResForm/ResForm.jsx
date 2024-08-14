@@ -10,74 +10,77 @@ import { useLinkProps } from '@react-aria/utils';
 
 const ResForm = () => {
 
-    const [resData, setResData] = useState('');
 
-    const [data, setData] = useState([]);
+
+    const [resFromDB, setData] = useState([]);
     useEffect(() => {
         buttons();
     }, []);
 
+
+
     const buttons = async () => {
-        const response = await fetch('http://192.168.1.103:8000/res'); // Генерируем объект Response
+        const response = await fetch('http://192.168.0.234:8000/res'); // Генерируем объект Response
         const jVal = await response.json(); // Парсим тело ответа
         setData(jVal);
-    }
-
-    
-
-    const { tg, queryId } = useTelegram();
-    // tg.MainButton.hide()
-    // const handleClick = (item) => {
-    //     tg.MainButton.show()
-    //     tg.MainButton.setParams({
-    //         text: `Перейти к ` + item
-
-    //     })
-    //     // alert('clicked ' + item);
-        
-
-    // }
-
-    const handleChange = (e) => {
-        console.log('changed');
-        console.log(e);
-        
-       
-        // resData[e.target.getAttribute('a-key')] = e.target.value;
-        // setResData(resData);
-    }
-
-    const [sent, setSent] = useState('not sent');
-    const handleClick = () => {
-        
-        setSent('sent');
 
     }
-    
-    let values =[];
+
+    // console.log(resFromDB);
+    let inputRes = {};
+    let inputResArray = [];
+
+    // let [resToSubmit, SetResToSubmit] = React.useState(resFromDB.reduce((acc, item, currInd, resFromDB) => {
+    let resToSubmit = resFromDB.reduce((acc, item) => {
+        // acc[Object.keys(item)[0]] = Object.values(item)[0];
+        // console.log('resFromDB ' + resFromDB + ' ' + typeof(resFromDB));
+        // acc[Object.values(item)[0]] = [Object.keys(item)[0]];
+        acc[Object.values(item)[0]] = 0
+        // inputResArray.push();
+        // console.log('Object.values ' + [Object.values(item)[0]] + 'Object keys ' + [Object.keys(item)[0]])
+        return acc;
+    }, {});
+    console.log("resToSubmit var after UseState:", resToSubmit);
+
+    const handlerChange = (v, name) => {
+        console.log("called handlerChange with arguments:", v, name);
+        // SetResToSubmit({ ...resToSubmit, [name]: v });
+        Object.defineProperty(resToSubmit, name, {
+            value: v,
+        });
+    }
+
+    const handleSubmit = () => {
+        console.log(resToSubmit)
+        console.log("tyring to submit resToSubmit values:", resToSubmit);
+    }
 
     return (
-        <div >
-                Введите остатки
-            {data.map(item => ( <NumberField defaultValue={0} minValue={0} a-key={item} onChange={handleChange} label='no spam'>
-            <Label>{item["tank&fuel type"]}</Label>
-            
-                <Group>
-                
-                    <Input />
-                    
-                    <Button slot="decrement" className={'decrement'}>-</Button>
-                    <Button slot="increment" className={'increment'}>+</Button>
-                </Group>
-            </NumberField>)) }
-            <button onClick={() => handleClick()}>Send </button>
-                {sent}<br/>
-                {/* {resData.toString()} */}
+        <>
 
-        </div>
-    );
+            {resFromDB.map(item => {
+                const resTank = Object.values(item)[0];
+                // const resValue = Object.values(item)[0];
+                return (
+                    <NumberField  className={'react-aria-NumberField'} minValue={0} key={resTank} onChange={(v) => handlerChange(v, resTank)}>
+                        
+                        <Group>
+                        <Label className={'Label'}> {resTank}</Label>
+                        <Button slot="decrement">-</Button>
+                        <Input  / >   
+                        
+                            
+                            
+                            <Button slot="increment">+</Button>
+                        </Group>
+                    </NumberField>
+                )
+            })}
+            <Button onPress={handleSubmit} className={'Submit'}>Submit</Button>
+        </>
+    )
 
-   
+
 
 };
 

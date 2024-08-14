@@ -34,11 +34,19 @@ const ButtonList = () => {
         buttons();
     }, []);
 
+
     const buttons = async () => {
-        const response = await fetch('http://192.168.1.103:8000/menu'); // Генерируем объект Response
-        const jVal = await response.json(); // Парсим тело ответа
+        const response = await fetch('http://192.168.0.234:8000/menu');
+        // console.log(...response);
+        // Генерируем объект Response
+        const jVal = await response.json();
+        // console.log(jVal);
+         // Парсим тело ответа
         setData(jVal);
     }
+
+    
+    
 
     const navigate = useNavigate();
 
@@ -51,21 +59,21 @@ const ButtonList = () => {
 
         })
         // alert('clicked ' + item);
-        navigate("/ResForm");     
+        navigate("/ResForm");
 
     }
 
-    
+
     return (
         <div className={'list'} >
 
-            {data.map(item => ( <button className={'btn'} onClick={() => handleClick(item.action)} >  {item.action} </button>)) }
+            {data.map(item => (<button className={'btn'} onClick={handleClick} >  {item.action} </button>))}
 
 
         </div>
     );
 
-   
+
 
 }
 
