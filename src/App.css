@@ -4,13 +4,18 @@
   box-sizing: border-box;
   max-width: 100%;
   flex-direction: column;
-  font-family: 'Roboto';
+  font-family: Calibri, sans-serif;
+  color-scheme: var(--tg-color-scheme);
+  background-color: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
+  
  
 
 }
 
 .App{
   margin: auto;
+  font-family: 'fantasy';
 }
 
 body {

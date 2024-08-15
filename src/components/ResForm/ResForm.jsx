@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './ResForm.css';
-import { useTelegram } from "../../hooks/useTelegram";
+
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import { useLinkProps } from '@react-aria/utils';
+import { useTelegram } from "../../hooks/useTelegram";
 
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
@@ -54,27 +55,35 @@ const ResForm = () => {
     const handleSubmit = () => {
         console.log(resToSubmit)
         console.log("tyring to submit resToSubmit values:", resToSubmit);
+        fetch('http://192.168.1.103:8000/web-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({...resToSubmit, initData: window.Telegram.WebApp.initData})
+        })
+
     }
 
     return (
         <>
-
+                
             {resFromDB.map(item => {
                 const resTank = Object.values(item)[0];
                 // const resValue = Object.values(item)[0];
                 return (
-                    <NumberField  className={'react-aria-NumberField'} minValue={0} key={resTank} onChange={(v) => handlerChange(v, resTank)}>
-                        <Label className={'Label'}> {resTank}</Label>
-                        <Group>
+                    
+                    <NumberField  minValue={0} key={resTank} onChange={(v) => handlerChange(v, resTank)}>
                         
-                        <Button slot="decrement">-</Button>
+                         <Label > {resTank}</Label>
+                        
+                         <Group >
+                        <Button slot="decrement">&minus;</Button>
                         <Input  / >   
-                        
-                            
-                            
                             <Button slot="increment">+</Button>
-                        </Group>
+                            </Group>
                     </NumberField>
+                   
                 )
             })}
             <Button onPress={handleSubmit} className={'Submit'}>Submit</Button>
