@@ -4,4 +4,4 @@ const localUrl = {
 
 export {localUrl};
 
-const foo = ();
+const foo = 'f';
