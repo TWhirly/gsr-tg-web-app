@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import './ResForm.css';
+import {localUrl} from '../../localSettings.js'
 
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import { useLinkProps } from '@react-aria/utils';
@@ -8,8 +9,7 @@ import { useTelegram } from "../../hooks/useTelegram";
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
-
-
+const APIURL = localUrl.APIURL;
 const ResForm = () => {
 
 
@@ -22,7 +22,7 @@ const ResForm = () => {
 
 
     const buttons = async () => {
-        const response = await fetch('http://192.168.1.103:8000/res'); // Генерируем объект Response
+        const response = await fetch(APIURL + '/res'); // Генерируем объект Response
         const jVal = await response.json(); // Парсим тело ответа
         setData(jVal);
 
@@ -55,7 +55,7 @@ const ResForm = () => {
     const handleSubmit = () => {
         console.log(resToSubmit)
         console.log("tyring to submit resToSubmit values:", resToSubmit);
-        fetch('http://192.168.1.103:8000/web-data', {
+        fetch(APIURL + '/web-data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const ResForm = () => {
 
     return (
         <>
-                
+             <h3 style={{textAlign: 'center'}}>Введите текущие расчетные остатки</h3>
             {resFromDB.map(item => {
                 const resTank = Object.values(item)[0];
                 // const resValue = Object.values(item)[0];
@@ -86,7 +86,7 @@ const ResForm = () => {
                    
                 )
             })}
-            <Button onPress={handleSubmit} className={'Submit'}>Submit</Button>
+            <Button onPress={handleSubmit} className={'Submit'}>Отправить</Button>
         </>
     )
 
