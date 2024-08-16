@@ -3,3 +3,5 @@ const localUrl = {
 }
 
 export {localUrl};
+
+const foo = ();
