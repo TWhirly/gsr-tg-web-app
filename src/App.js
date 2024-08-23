@@ -5,6 +5,7 @@ import Header from "./components/Header/Header";
 import { Route, Routes } from 'react-router-dom'
 import ButtonList from "./components/ButtonList/ButtonList";
 import ResForm from "./components/ResForm/ResForm";
+import FormComponent from './components/ResForm/form_try';
 
 function App() {
     // eslint-disable-next-line no-unused-vars
@@ -25,4 +26,4 @@ function App() {
     );
 }
 
-export default App;
+export default App

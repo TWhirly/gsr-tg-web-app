@@ -1,20 +1,11 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import './ResForm.css';
+import React, { useEffect, useState } from 'react';
 import { localUrl } from '../../localSettings.js'
-import 'animate.css';
-
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
-import { useLinkProps } from '@react-aria/utils';
-import { useTelegram } from "../../hooks/useTelegram";
 
-
-// import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
 const APIURL = localUrl.APIURL;
 
-const ResForm = () => {
-
-    let ref = useRef(0);
+const FormComponent = () => {
 
     const fetchFormFields = async () => {
         const response = await fetch(APIURL + '/res'); // Генерируем объект Response
@@ -24,7 +15,7 @@ const ResForm = () => {
 
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState({});
-    const [allFieldsFilled, setIsFormComplete] = useState(false);
+    const [isFormComplete, setIsFormComplete] = useState(false);
 
     useEffect(() => {
         const loadFields = async () => {
@@ -32,8 +23,8 @@ const ResForm = () => {
             setFields(fetchedFields);
             // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
-                acc[field.id] = NaN;
-
+                acc[field.id] = '';
+                
                 return acc;
             }, {});
             setFormData(initialFormData);
@@ -42,26 +33,22 @@ const ResForm = () => {
         loadFields();
     }, []);
 
-
+    
     const handleChange = (value, id) => {
         // const { id, value } = e.target;
         setFormData((prevData) => ({
             ...prevData,
             [id]: value,
         }));
-        console.log('ref', ref.current)
-       
-
     };
 
     useEffect(() => {
         // Проверяем, заполнены ли все поля формы
-        const allFieldsFilled = fields.every(field => !isNaN(formData[field.id]));
+        const allFieldsFilled = fields.every(field => formData[field.id]);
         setIsFormComplete(allFieldsFilled);
     }, [formData, fields]);
 
     const handleSubmit = () => {
-        console.log(allFieldsFilled);
         console.log(formData)
         console.log("tyring to submit resToSubmit values:", formData);
         fetch(APIURL + '/web-data', {
@@ -73,15 +60,15 @@ const ResForm = () => {
         })
 
     }
-
+   
     return (
         <>
             <h3 style={{ textAlign: 'center' }}>Введите текущие расчетные остатки</h3>
             {fields.map((field) => {
-
+                 
                 return (
 
-                    <NumberField id={field.id} value={formData[field.id]} minValue={0} isRequired={true} onChange={(v) => handleChange(v, field.id)}>
+                    <NumberField  id={field.id} value={formData[field.id]} onChange={(v) => handleChange(v, field.id)}>
 
                         <Label > {field.id}</Label>
 
@@ -94,14 +81,11 @@ const ResForm = () => {
 
                 )
             })}
-
-            {/* {!isFormComplete && (<Button  className={'Submit'} ></Button>)} */}
-            {(<Button onPress={allFieldsFilled && handleSubmit} className={'Submit'} >Отправить</Button>)}
-            {/* {(<Button onPress={handleSubmit} isDisabled={!isFormComplete} className={'Submit'} >Отправить</Button>)} */}
-
+        
+            {isFormComplete && (<Button onPress={handleSubmit}  className={'Submit'} >Отправить</Button>)}
         </>
     )
 
 };
 
-export default ResForm;
+export default FormComponent;

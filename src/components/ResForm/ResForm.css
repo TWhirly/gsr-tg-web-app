@@ -98,12 +98,21 @@
 }
 
 .Submit{
+  
   font-size: 0.8rem;
   border: none;
   outline: none;
- 
+ /* color: black; */
   color: var(--tg-theme-button-text-color);
   width: 100%;
   height: 2.4rem;
   background: var(--tg-theme-button-color);
+  animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
+
+  
+}
+
+.Submit:disabled{
+  background: black;
 }
