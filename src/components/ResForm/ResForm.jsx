@@ -60,7 +60,9 @@ const ResForm = () => {
 
     const handleInput = (e) => {
        const id = e.target['id'];
-       const value = e.target['value']
+       const value = e.target['value'].toString().replace(/\s/g,'');
+      
+
     //    if(value == '' || isNaN(value)){
     //     setIsFormComplete(NaN)
     //    }
@@ -77,6 +79,7 @@ const ResForm = () => {
     useEffect(() => {
         // Проверяем, заполнены ли все поля формы
         const allFieldsFilled = fields.every(field => (!isNaN(formData[field.id]) && formData[field.id]));
+       
         setIsFormComplete(allFieldsFilled);
     }, [formData, fields]);
 
@@ -104,9 +107,9 @@ const ResForm = () => {
 
                     <NumberField id={field.id} value={formData[field.id]}
                         minValue={0}
-                        defaultValue={''} 
+                        // defaultValue={''} 
                         isRequired={true}
-                        maxValue={99999} 
+                        // maxValue={99999} 
                         onInput={handleInput}
                         onChange={(v) => handleChange(v, field.id)}
 
