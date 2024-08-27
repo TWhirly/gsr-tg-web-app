@@ -27,6 +27,7 @@ const ResForm = () => {
 
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState({});
+    const [formDataInputs, setFormDataInputs] = useState({});
     const [allFieldsFilled, setIsFormComplete] = useState(false);
 
     useEffect(() => {
@@ -60,14 +61,15 @@ const ResForm = () => {
 
     const handleInput = (e) => {
        const id = e.target['id'];
-       const value = e.target['value'].toString().replace(/\s/g,'');
+    //    const value = e.target['value'].toString().replace(/\s/g,'');
+       const value = e.target['value'];
       
 
     //    if(value == '' || isNaN(value)){
     //     setIsFormComplete(NaN)
     //    }
        console.log(e.target['value'])
-        setFormData((prevData) => ({
+        setFormDataInputs((prevData) => ({
             ...prevData,
             [id]: value,
         }));
@@ -78,10 +80,10 @@ const ResForm = () => {
 
     useEffect(() => {
         // Проверяем, заполнены ли все поля формы
-        const allFieldsFilled = fields.every(field => (!isNaN(formData[field.id]) && formData[field.id]));
+        const allFieldsFilled = fields.every(field => (formDataInputs[field.id]));
        
         setIsFormComplete(allFieldsFilled);
-    }, [formData, fields]);
+    }, [formDataInputs, fields]);
 
     const handleSubmit = () => {
         console.log(allFieldsFilled);
