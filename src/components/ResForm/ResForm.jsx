@@ -20,7 +20,13 @@ const ResForm = () => {
     
     const navigate = useNavigate();
     const fetchFormFields = async () => {
-        const response = await fetch(APIURL + '/res'); // Генерируем объект Response
+        const response = await fetch(APIURL + '/res', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({initData: window.Telegram.WebApp.initData })
+        }); // Генерируем объект Response
         const jVal = await response.json(); // Парсим тело ответа
         return jVal
     };
