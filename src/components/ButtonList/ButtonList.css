@@ -1,16 +1,41 @@
 .list {
     cursor: pointer;
-    display: block-outline;
+    /* display: block-outline; */
+    display: flex;
     flex-wrap: wrap;
     justify-content: 100%;
+    text-align: left;
     margin-right: 1%;
     margin-left: 1%;
+    background: var(--tg-theme-bg-color);
+    
+}
+
+.plan {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0%;
+    margin-right: 0%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    white-space: break-spaces;
+    color:var(--tg-theme-section-header-text-color);
+    text-align: left;
+    justify-content: 100%;
+    font-size: 0.8rem;
+    border: 2px solid;
+    width: 100%;
+    background-color: var(--tg-theme-section-bg-color);
+    border-radius: 5px;
+    border-color: var(--tg-theme-button-color)
 }
 
 .item {
     margin-right: 10px;
     margin-bottom: 10px;
     justify-content: stretch;
+    background: var(--tg-theme-bg-color)
 }
 
 .btn{

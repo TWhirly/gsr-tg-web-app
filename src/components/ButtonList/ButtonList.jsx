@@ -16,14 +16,50 @@ const ButtonList = () => {
         buttons();
     }, []);
 
+    
+
+        const [Plandata, setPlanData] = useState('');
+        useEffect(() => {
+            planMessage();
+        }, '');
+
+
+    // const buttons = async () => {
+    //     const response = await fetch(APIURL + '/menu');
+    //     // Генерируем объект Response
+    //     const jVal = await response.json();
+    //     // Парсим тело ответа
+    //     setData(jVal);
+    // }
 
     const buttons = async () => {
-        const response = await fetch(APIURL + '/menu');
-        // Генерируем объект Response
-        const jVal = await response.json();
-        // Парсим тело ответа
+        const response = await fetch(APIURL + '/menu', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({initData: window.Telegram.WebApp.initData })
+        }); // Генерируем объект Response
+        const jVal = await response.json(); // Парсим тело ответа
         setData(jVal);
-    }
+        console.log(jVal)
+    };
+
+    const planMessage = async () => {
+        const response = await fetch(APIURL + '/planMenu', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({initData: window.Telegram.WebApp.initData })
+        }); // Генерируем объект Response
+        // const jVal = await response.json(); 
+        // Парсим тело ответа
+        const plan = await response.json()
+        console.log('plan string is ', response)
+        setPlanData(plan);
+        console.log('plan is ',plan)
+    };
 
 
     const routes = {
@@ -33,7 +69,7 @@ const ButtonList = () => {
   
     const navigate = useNavigate();
     const { tg, queryId } = useTelegram();
-    
+
     const handleClick = (path) => {
         navigate(routes[path]);
     }
@@ -41,7 +77,8 @@ const ButtonList = () => {
 
     return (
         <div className={'list'} >
-
+            {/* {Plandata.map(item => (<>{item}</>))} */}
+            <legend  className='plan'>{Plandata}</legend>
             {data.map(item => (<button className={'btn'} onClick={(v) => handleClick(item.action)}  >  {item.action} </button>))}
 
 

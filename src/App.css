@@ -1,21 +1,56 @@
 * {
   
+  
   padding: auto;
   box-sizing: border-box;
-  max-width: 100%;
-  flex-direction: column;
+  /* width: 100vw; */
+  /* max-width: 100%; */
+  /* flex-direction: column; */
   font-family: Calibri, sans-serif;
   color-scheme: var(--tg-color-scheme);
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
+  background: var(--tg-theme-bg-color)
   
  
 
 }
 
+:root {
+  background: var(--tg-theme-bg-color);
+  --background-color:var(--tg-theme-bg-color);
+  --gray-50: #ffffff;
+  --gray-100: #d0d0d0;
+  --gray-200: #afafaf;
+  --gray-300: #8f8f8f;
+  --gray-400: #717171;
+  --gray-500: #555555;
+  --gray-600: #393939;
+  --purple-100: #d5c9fa;
+  --purple-200: #b8a3f6;
+  --purple-300: #997cf2;
+  --purple-400: #7a54ef;
+  --purple-500: #582ddc;
+  --purple-600: #3c1e95;
+  --red-100: #f7c4ba;
+  --red-200: #f29887;
+  --red-300: #eb664d;
+  --red-400: #de2300;
+  --red-500: #a81b00;
+  --red-600: #731200;
+  --highlight-hover: rgb(0 0 0 / 0.07);
+  --highlight-pressed: rgb(0 0 0 / 0.15);
+}
+
 .App{
-  margin: auto;
-  font-family: 'fantasy';
+  position: flex;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  /* margin: auto; */
+  font-family: Calibri, sans-serif;
+  background: var(--tg-theme-bg-color)
 }
 
 body {

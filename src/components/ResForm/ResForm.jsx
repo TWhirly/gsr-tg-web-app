@@ -61,6 +61,11 @@ const ResForm = () => {
             [id]: value,
         }));
 
+        setFormDataInputs((prevData) => ({
+            ...prevData,
+            [id]: value,
+        }));
+
         console.log('change ', formData)
 
     };
