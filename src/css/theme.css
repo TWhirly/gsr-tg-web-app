@@ -3,8 +3,8 @@
   font-family: system-ui;
   font-size: 24px;
   line-height: 1.5;
-  background: var(--background-color);
-  /* color: var(--gray-600); */
+  background: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
 }
 
 /* color themes for dark and light modes, generated with Leonardo.
