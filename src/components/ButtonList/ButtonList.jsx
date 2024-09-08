@@ -78,7 +78,7 @@ const ButtonList = () => {
     return (
         <div className={'list'} >
             {/* {Plandata.map(item => (<>{item}</>))} */}
-            <legend  className='plan'>{Plandata}</legend>
+            {(Plandata && <legend  className='plan'>{Plandata}</legend>)}
             {data.map(item => (<button className={'btn'} onClick={(v) => handleClick(item.action)}  >  {item.action} </button>))}
 
 
