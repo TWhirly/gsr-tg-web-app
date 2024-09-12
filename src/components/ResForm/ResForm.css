@@ -1,10 +1,9 @@
 @import '../../css/Button.css';
 @import "../../css/theme.css";
 
-
-.main{
+.main {
   color: var(--tg-theme-section-header-text-color);
-  display: flexbox;
+  display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
@@ -13,13 +12,13 @@
   margin-right: 1rem;
 }
 
-.header{
-  display: flexbox;
+.header {
+  display: flex;
   color: var(--tg-theme-section-header-text-color);
   text-align: center;
   margin-bottom: 0.3rem;
   margin-top: 5px;
-  line-height: normal
+  line-height: normal;
 }
 
 .react-aria-NumberField {
@@ -27,107 +26,104 @@
   color: var(--text-color);
   display: flex;
   align-items: baseline;
-
-  .react-aria-Group {
-    display: flex;
-    border-radius: 2px;
-    margin-right: 5px;
-
-    &[data-focus-within] {
-      outline: 1px solid var(--focus-ring-color);
-
-      .react-aria-Input,
-      .react-aria-Button {
-        border-color: var(--focus-ring-color);
-      }
-    }
-  }
-
-  .react-aria-Button {
-    font-size: 1.4rem;
-    width: 2.3rem;
-    padding: 0;
-
-    &[slot=decrement] {
-      border-start-end-radius: 0;
-      border-end-end-radius: 0;
-    }
-
-    &[slot=increment] {
-      border-start-start-radius: 0;
-      border-end-start-radius: 0;
-    }
-  }
-
-  .react-aria-Input {
-    background: var(--field-background);
-    border: 1px solid var(--border-color);
-    border-radius: 0;
-    color: var(--field-text-color);
-    margin: 0 -1px;
-    z-index: 1;
-    font-size: 1rem;
-    padding: 0.429rem 0.571rem;
-    outline: none;
-    width: 100%;
-    flex: 1;
-  }
-
-  &[data-invalid] {
-
-    .react-aria-Input,
-    .react-aria-Button {
-      border-color: var(--invalid-color);
-    }
-
-    &:focus-within {
-
-      .react-aria-Input,
-      .react-aria-Button {
-        border-color: var(--focus-ring-color);
-      }
-    }
-  }
-
-  .react-aria-FieldError {
-    font-size: 12px;
-    color: var(--invalid-color);
-  }
-
-  [slot=description] {
-    font-size: 12px;
-  }
-
-  .react-aria-Button {
-    &[data-disabled] {
-      border-color: var(--border-color-disabled);
-      color: var(--text-color-disabled);
-    }
-  }
-
-  .react-aria-Input {
-    &[data-disabled] {
-      border-color: var(--border-color-disabled);
-      color: var(--text-color-disabled);
-    }
-  }
-
-  .react-aria-Label {
-    color:var(--tg-theme-section-header-text-color);
-    width: 4rem;
-    vertical-align: center;
-    margin-left: 5px;
-  }
 }
-.Submit{
-  display: flexbox;
-  flex-direction: column;
-  align-items: center;
-  width: 98%;
+
+.react-aria-Group {
+  display: flex;
+  border-radius: 2px;
+  margin-right: 5px;
+}
+
+.react-aria-Group[data-focus-within] {
+  outline: 1px solid var(--focus-ring-color);
+}
+
+.react-aria-Group[data-focus-within] .react-aria-Input,
+.react-aria-Group[data-focus-within] .react-aria-Button {
+  border-color: var(--focus-ring-color);
+}
+
+.react-aria-Button {
+  font-size: 1.4rem;
+  width: 2.3rem;
+  padding: 0;
+}
+
+.react-aria-Button[slot=decrement] {
   text-align: center;
+  background: var(--tg-theme-bg-color);
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  color: var(--tg-theme-text-color);
+}
+
+.react-aria-Button[slot=increment] {
+  text-align: center;
+  background: var(--tg-theme-bg-color);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  color: var(--tg-theme-text-color);
+}
+
+.react-aria-Input {
+  background: var(--tg-theme-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0;
+  color: var(--tg-theme-text-color);
+  margin: 0 -1px;
+  z-index: 1;
+  font-size: 1rem;
+  padding: 0.429rem 0.571rem;
+  outline: none;
+  width: 100%;
+  flex: 1;
+}
+
+.react-aria-NumberField[data-invalid] .react-aria-Input,
+.react-aria-NumberField[data-invalid] .react-aria-Button {
+  border-color: var(--invalid-color);
+}
+
+.react-aria-NumberField[data-invalid]:focus-within .react-aria-Input,
+.react-aria-NumberField[data-invalid]:focus-within .react-aria-Button {
+  border-color: var(--focus-ring-color);
+}
+
+.react-aria-FieldError {
+  font-size: 12px;
+  color: var(--invalid-color);
+}
+
+.react-aria-NumberField[slot=description] {
+  font-size: 12px;
+}
+
+.react-aria-Button[data-disabled] {
+  border-color: var(--border-color-disabled);
+  color: var(--text-color-disabled);
+}
+
+.react-aria-Input[data-disabled] {
+  border-color: var(--border-color-disabled);
+  color: var(--text-color-disabled);
+}
+
+.react-aria-Label {
+  color: var(--tg-theme-section-header-text-color);
+  width: 4rem;
+  vertical-align: center;
+  margin-left: 5px;
+}
+
+.Submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 98%;
+  /* text-align: center; */
   margin: auto;
   margin-top: 0.5rem;
-  margin-left: 5px;
+  /* margin-left: 5px; */
   border-radius: 5px;
   font-size: 1rem;
   border: none;
@@ -137,9 +133,8 @@
   background: var(--tg-theme-button-color);
   animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
   animation-duration: 2s; /* don't forget to set a duration! */
-
 }
 
-.Submit:disabled{
+.Submit:disabled {
   background: black;
 }

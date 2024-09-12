@@ -1,3 +1,6 @@
+@import './css/Button.css';
+@import "./css/theme.css";
+
 * {
   
   
@@ -16,7 +19,7 @@
 
 }
 
-:root {
+/* :root {
   background: var(--tg-theme-bg-color);
   --background-color:var(--tg-theme-bg-color);
   --gray-50: #ffffff;
@@ -40,7 +43,7 @@
   --red-600: #731200;
   --highlight-hover: rgb(0 0 0 / 0.07);
   --highlight-pressed: rgb(0 0 0 / 0.15);
-}
+} */
 
 .App{
   position: flex;
