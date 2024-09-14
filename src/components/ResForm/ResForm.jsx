@@ -74,8 +74,8 @@ const ResForm = () => {
 
     const handleInput = (e) => {
        const id = e.target['id'];
-    //    const value = e.target['value'].toString().replace(/\s/g,'');
-       const value = e.target['value'];
+       const value = e.target['value'].toString().replace(/\s/g,'');
+    //    const value = e.target['value'];
       
 
     //    if(value == '' || isNaN(value)){
@@ -102,7 +102,7 @@ const ResForm = () => {
         console.log(allFieldsFilled);
         console.log(formData)
         console.log("tyring to submit resToSubmit values:", formData);
-        fetch(APIURL + '/web-data', {
+        fetch(APIURL + '/send-res', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

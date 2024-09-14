@@ -85,8 +85,8 @@
 
     width: auto;
     height: auto;
-    /* animation: fadeOut; /* referring directly to the animation's @keyframe declaration */
-    /* animation-duration: 2s; don't forget to set a duration! */ 
+    animation: fadeOut; 
+    animation-duration: 4s 
     
     
 
