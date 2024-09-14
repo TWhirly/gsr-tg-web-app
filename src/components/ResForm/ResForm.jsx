@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import './ResForm.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
@@ -17,7 +17,7 @@ const APIURL = localUrl.APIURL;
 
 const ResForm = () => {
 
-    
+    // const history = useHistory();
     const navigate = useNavigate();
     const fetchFormFields = async () => {
         const response = await fetch(APIURL + '/res', {
@@ -47,10 +47,12 @@ const ResForm = () => {
                 return acc;
             }, {});
             setFormData(initialFormData);
+            
         };
 
         loadFields();
     }, []);
+
 
 
     const handleChange = (value, id) => {
@@ -91,7 +93,7 @@ const ResForm = () => {
 
     useEffect(() => {
         // Проверяем, заполнены ли все поля формы
-        const allFieldsFilled = fields.every(field => (formDataInputs[field.id]));
+        const allFieldsFilled = fields.every(field => (formDataInputs[field.id])) && Object.keys(formData).length > 0;
        
         setIsFormComplete(allFieldsFilled);
     }, [formDataInputs, fields]);
@@ -107,7 +109,11 @@ const ResForm = () => {
             },
             body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData })
         })
-        navigate('/')
+        //    navigate('/')
+        navigate('/', {replace: true,
+             state: {sent: true}
+          });
+          
 
     }
 
