@@ -1,0 +1,40 @@
+.number-field {
+  position: relative;
+  margin-bottom: 20px; /* Отступ между полями */
+}
+
+.description {
+  z-index: 100;
+  color: var(--tg-theme-section-header-text-color);
+  position: absolute;
+  text-align: center;
+  left: 65px; 
+  /* Отступ от левого края */
+  top: 10px; /* Начальная позиция сверху */
+  transition: all 0.2s ease; /* Плавный переход */
+  /* background-color: white; */
+   /* Фон для описания */
+  padding: 0 5px; /* Отступы вокруг текста */
+  pointer-events: none; /* Запретить взаимодействие с текстом */
+}
+
+.number-field:focus-within .description,
+.number-field input:focus + .description,
+.number-field input:valid + .description {
+  top: -10px; /* Поднимаем текст при фокусе */
+  left: 65px; /* Оставляем отступ слева */
+  font-size: 12px; /* Уменьшаем размер шрифта */
+  color: #007bff; /* Цвет текста при фокусе */
+}
+
+input {
+  border: 1px solid #ccc; /* Рамка поля ввода */
+  padding: 10px; /* Отступ внутри поля ввода */
+  width: 100%; /* Ширина поля ввода */
+  box-sizing: border-box; /* Учитываем отступы и рамку в ширине */
+}
+
+input:focus {
+  border-color: #007bff; /* Цвет рамки при фокусе */
+  outline: none; /* Убираем стандартный контур */
+}

@@ -6,6 +6,7 @@ import Header from "./components/Header/Header";
 import { Route, Routes } from 'react-router-dom'
 import ButtonList from "./components/ButtonList/ButtonList";
 import ResForm from "./components/ResForm/ResForm";
+import CoffeCounts from './components/coffeCounts/CoffeCounts';
 import FormComponent from './components/ResForm/form_try';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<ButtonList />} />
                 <Route path="/ResForm" element={<ResForm />} />
+                <Route path="/CoffeCounts" element={<CoffeCounts />} />
             </Routes>
         </div>
     );

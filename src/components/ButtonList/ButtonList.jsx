@@ -87,7 +87,8 @@ const ButtonList = () => {
 
     const routes = {
         'Отчёт 0 часов': "/0hrep",
-        'Остатки': "/ResForm"
+        'Остатки': "/ResForm",
+        'Счётчики КМ': "/CoffeCounts"
     }
   
    
