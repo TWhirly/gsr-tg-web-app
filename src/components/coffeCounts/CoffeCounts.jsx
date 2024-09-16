@@ -146,7 +146,8 @@ const CoffeCounts = () => {
                     </div>
                 )
             })}
-            {(allFieldsFilled && <Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>)}
+            {/* {(allFieldsFilled && <Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>)} */}
+            {<Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>}
         </>
     )
 };
