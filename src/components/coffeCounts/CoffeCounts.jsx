@@ -25,7 +25,7 @@ const CoffeCounts = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({initData: window.Telegram.WebApp.initData })
+            body: JSON.stringify({ initData: window.Telegram.WebApp.initData })
         }); // Генерируем объект Response
         const jVal = await response.json(); // Парсим тело ответа
         return jVal
@@ -42,12 +42,12 @@ const CoffeCounts = () => {
             setFields(fetchedFields);
             // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
-                acc[field.id] = NaN;
+                acc[field.id] = field.cnt;
 
                 return acc;
             }, {});
             setFormData(initialFormData);
-            
+
         };
 
         loadFields();
@@ -57,7 +57,7 @@ const CoffeCounts = () => {
 
     const handleChange = (value, id) => {
 
-        
+
         setFormData((prevData) => ({
             ...prevData,
             [id]: value,
@@ -73,28 +73,28 @@ const CoffeCounts = () => {
     };
 
     const handleInput = (e) => {
-       const id = e.target['id'];
-       const value = e.target['value'].toString().replace(/\s/g,'');
-    //    const value = e.target['value'];
-      
+        const id = e.target['id'];
+        const value = e.target['value'].toString().replace(/\s/g, '');
+        //    const value = e.target['value'];
 
-    //    if(value == '' || isNaN(value)){
-    //     setIsFormComplete(NaN)
-    //    }
-       console.log(e.target['value'])
+
+        //    if(value == '' || isNaN(value)){
+        //     setIsFormComplete(NaN)
+        //    }
+        console.log(e.target['value'])
         setFormDataInputs((prevData) => ({
             ...prevData,
             [id]: value,
         }));
 
         console.log('input ', formData)
-       
+
     };
 
     useEffect(() => {
         // Проверяем, заполнены ли все поля формы
         const allFieldsFilled = fields.every(field => (formDataInputs[field.id])) && Object.keys(formData).length > 0;
-       
+
         setIsFormComplete(allFieldsFilled);
     }, [formDataInputs, fields]);
 
@@ -102,18 +102,26 @@ const CoffeCounts = () => {
         console.log(allFieldsFilled);
         console.log(formData)
         console.log("tyring to submit resToSubmit values:", formData);
+        var date = new Date();
+        const updDateTime = date.getFullYear() + '-' +
+            ('00' + (date.getMonth() + 1)).slice(-2) + '-' +
+            ('00' + date.getDate()).slice(-2) + ' ' +
+            ('00' + date.getHours()).slice(-2) + ':' +
+            ('00' + date.getMinutes()).slice(-2) + ':' +
+            ('00' + date.getSeconds()).slice(-2);
         fetch(APIURL + '/sendCoffeCounts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData })
+            body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
         })
         //    navigate('/')
-        navigate('/', {replace: true,
-             state: {sent: true}
-          });
-          
+        navigate('/', {
+            replace: true,
+            state: { sent: true }
+        });
+
 
     }
 
@@ -123,26 +131,26 @@ const CoffeCounts = () => {
             {fields.map((field) => {
                 return (
                     <div className="number-field" key={field.id}>
-                    <NumberField id={field.id} value={formData[field.id]}
-                        minValue={0}
-                        description={field.id}
-                        // defaultValue={''} 
-                        isRequired={true}
-                        // maxValue={99999} 
-                        onInput={handleInput}
-                        onChange={(v) => handleChange(v, field.id)}
+                        <NumberField id={field.id} value={formData[field.id]}
+                            minValue={0}
+                            description={field.id}
+                            // defaultValue={''} 
+                            isRequired={true}
+                            // maxValue={99999} 
+                            onInput={handleInput}
+                            onChange={(v) => handleChange(v, field.id)}
 
-                    >
-                        <Group >
-                            <Button slot="decrement">&minus;</Button>
-                            <Input />
-                            <Text className="description" slot="description">{field.id}</Text>
-                            <Button slot="increment">+</Button>
-                           
-                        </Group>
-                     
+                        >
+                            <Group >
+                                <Button slot="decrement">&minus;</Button>
+                                <Input />
+                                <Text className="description" slot="description">{field.id}</Text>
+                                <Button slot="increment">+</Button>
 
-                    </NumberField>
+                            </Group>
+
+
+                        </NumberField>
                     </div>
                 )
             })}
