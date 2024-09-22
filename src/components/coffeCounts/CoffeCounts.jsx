@@ -33,8 +33,13 @@ const CoffeCounts = () => {
 
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState({});
-    const [formDataInputs, setFormDataInputs] = useState({});
+    let [formDataInputs, setFormDataInputs] = useState({});
     const [allFieldsFilled, setIsFormComplete] = useState(false);
+
+    const [TotCoffe, setTotCoffe] = useState('');
+    useEffect(() => {
+        setTotCoffe();
+    }, []);
 
     useEffect(() => {
         const loadFields = async () => {
@@ -62,41 +67,50 @@ const CoffeCounts = () => {
             ...prevData,
             [id]: value,
         }));
+        formDataInputs = formData;
+        // setFormDataInputs((prevData) => ({
+        //     ...prevData,
+        //     [id]: value,
+        // }));
 
-        setFormDataInputs((prevData) => ({
-            ...prevData,
-            [id]: value,
-        }));
 
-        console.log('change ', formData)
+        // const totalCount = formData((sum, item) => sum + item.cnt, 0)
+
 
     };
 
     const handleInput = (e) => {
         const id = e.target['id'];
         const value = e.target['value'].toString().replace(/\s/g, '');
-        //    const value = e.target['value'];
+        console.log('e ', e.target['value'])
 
-
-        //    if(value == '' || isNaN(value)){
-        //     setIsFormComplete(NaN)
-        //    }
-        console.log(e.target['value'])
-        setFormDataInputs((prevData) => ({
+        setFormData((prevData) => ({
             ...prevData,
             [id]: value,
         }));
 
-        console.log('input ', formData)
-
     };
 
     useEffect(() => {
-        // Проверяем, заполнены ли все поля формы
-        const allFieldsFilled = fields.every(field => (formDataInputs[field.id])) && Object.keys(formData).length > 0;
+        var n = Object.values(formData).filter((item) => !isNaN(item)).reduce((sum, item) => sum + +item, 0)
+        console.log('change ', formData, 'sum ', )
+        const getDrinkWord = (n) => {
+            if (n % 10 === 1 && n % 100 !== 11) {
+                return 'напиток';
+            } else if (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) {
+                return 'напитка';
+            } else {
+                return 'напитков';
+            }
+        };
+        const getTotalDrinksMessage = (n) => {
+            const drinkWord = getDrinkWord(n);
+            return `Итого ${n} ${drinkWord}`;
+        };
+        setTotCoffe(getTotalDrinksMessage(n));
+    }, [formData, fields]);
 
-        setIsFormComplete(allFieldsFilled);
-    }, [formDataInputs, fields]);
+
 
     const handleSubmit = () => {
         console.log(allFieldsFilled);
@@ -131,7 +145,7 @@ const CoffeCounts = () => {
             {fields.map((field) => {
                 return (
                     <div className="number-field" key={field.id}>
-                        <NumberField id={field.id} value={formData[field.id]}
+                        <NumberField id={field.id} value={formData[field.id]} aria-label="e"
                             minValue={0}
                             description={field.id}
                             // defaultValue={''} 
@@ -154,7 +168,7 @@ const CoffeCounts = () => {
                     </div>
                 )
             })}
-            {/* {(allFieldsFilled && <Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>)} */}
+            {TotCoffe}
             {<Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>}
         </>
     )
