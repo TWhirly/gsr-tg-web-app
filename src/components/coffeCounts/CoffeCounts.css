@@ -1,6 +1,9 @@
 .number-field {
   position: relative;
   margin-bottom: 20px; /* Отступ между полями */
+  top: 1rem;
+  bottom: 6.3rem;
+  
 }
 
 .description {
@@ -38,3 +41,15 @@ input:focus {
   border-color: #007bff; /* Цвет рамки при фокусе */
   outline: none; /* Убираем стандартный контур */
 }
+
+.totcoffe{
+  font-size: 0.7rem;
+  position: flex;
+  text-align: center;
+  width: 100%;
+  top: 1px;
+  bottom: 1px;
+  z-index: 100;
+  color: var(--tg-theme-text-color);
+}
+

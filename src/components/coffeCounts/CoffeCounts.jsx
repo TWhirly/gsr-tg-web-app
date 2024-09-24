@@ -35,8 +35,23 @@ const CoffeCounts = () => {
     const [formData, setFormData] = useState({});
     let [formDataInputs, setFormDataInputs] = useState({});
     const [allFieldsFilled, setIsFormComplete] = useState(false);
-
+    const [Ycounts, setYcounts] = useState({});
     const [TotCoffe, setTotCoffe] = useState('');
+    // const [TimeNow, formatDate] = useState('')
+
+    const date = new Date();
+
+    // const formatDate = (date) => {
+    //     const day = String(date.getUTCDate()).padStart(2, '0'); // Получаем день
+    //     const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // Получаем месяц (месяцы начинаются с 0)
+    //     const year = date.getUTCFullYear(); // Получаем год
+    //     const hours = String(date.getUTCHours()).padStart(2, '0'); // Получаем часы
+    //     const minutes = String(date.getUTCMinutes()).padStart(2, '0'); // Получаем минуты
+
+    //     return `${hours}:${minutes} ${day}.${month}.${year}`; // Форматируем строку
+    // };
+    // const TimeNow = formatDate(date);
+
     useEffect(() => {
         setTotCoffe();
     }, []);
@@ -44,7 +59,12 @@ const CoffeCounts = () => {
     useEffect(() => {
         const loadFields = async () => {
             const fetchedFields = await fetchFormFields();
+
+            const Ycounts = fetchedFields.pop()
+            console.log('fetched', fetchedFields)
+            console.log(Ycounts)
             setFields(fetchedFields);
+            setYcounts(Ycounts)
             // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
                 acc[field.id] = field.cnt;
@@ -93,7 +113,7 @@ const CoffeCounts = () => {
 
     useEffect(() => {
         var n = Object.values(formData).filter((item) => !isNaN(item)).reduce((sum, item) => sum + +item, 0)
-        console.log('change ', formData, 'sum ', )
+        console.log('change ', formData, 'sum ',)
         const getDrinkWord = (n) => {
             if (n % 10 === 1 && n % 100 !== 11) {
                 return 'напиток';
@@ -103,11 +123,12 @@ const CoffeCounts = () => {
                 return 'напитков';
             }
         };
-        const getTotalDrinksMessage = (n) => {
-            const drinkWord = getDrinkWord(n);
-            return `Итого ${n} ${drinkWord}`;
+        const getTotalDrinksMessage = (n, Ycounts) => {
+            const total = n - Ycounts.sum;
+            const drinkWord = getDrinkWord(total);
+            return `Итого ${total} ${drinkWord} за период с ${Ycounts.time} по настоящее время`;
         };
-        setTotCoffe(getTotalDrinksMessage(n));
+        setTotCoffe(getTotalDrinksMessage(n, Ycounts));
     }, [formData, fields]);
 
 
@@ -142,7 +163,7 @@ const CoffeCounts = () => {
     return (
         <>
             <h3 className='header'>Введите показания счетчиков кофемашины</h3>
-            {fields.map((field) => {
+            <div>{fields.map((field) => {
                 return (
                     <div className="number-field" key={field.id}>
                         <NumberField id={field.id} value={formData[field.id]} aria-label="e"
@@ -165,11 +186,17 @@ const CoffeCounts = () => {
 
 
                         </NumberField>
+                        
                     </div>
                 )
             })}
-            {TotCoffe}
-            {<Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>}
+            <div className='totcoffe'>{TotCoffe}</div>
+            </div>
+            <div>
+            <Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>
+            </div>
+            
+            {}
         </>
     )
 };
