@@ -119,7 +119,7 @@ const ResForm = () => {
 
     return (
         <>
-            <h3 className='header'>Введите текущие расчетные остатки</h3>
+            <h3 className='headerres'>Введите текущие расчетные остатки</h3>
             {fields.map((field) => {
 
                 return (

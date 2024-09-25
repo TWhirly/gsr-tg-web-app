@@ -12,6 +12,8 @@ import FormComponent from './components/ResForm/form_try';
 function App() {
     // eslint-disable-next-line no-unused-vars
     const { onToggleButton, tg } = useTelegram();
+    window.Telegram.WebApp.expand();
+    window.Telegram.WebApp.disableVerticalSwipes()
 
     useEffect(() => {
         tg.ready();

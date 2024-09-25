@@ -160,45 +160,59 @@ const CoffeCounts = () => {
 
     }
 
+    // return (
+    //     <>
+    //         <h3 className='header'>Введите показания счетчиков кофемашины</h3>
+            // <div>{fields.map((field) => {
+            //     return (
+            //         <div className="number-field" key={field.id}>
+            //             <NumberField id={field.id} value={formData[field.id]} aria-label="e"
+            //                 minValue={0}
+            //                 description={field.id}
+            //                 isRequired={true}
+            //                 onInput={handleInput}
+            //                 onChange={(v) => handleChange(v, field.id)}>
+            //                 <Group >
+            //                     <Button slot="decrement">&minus;</Button>
+            //                     <Input />
+            //                     <Text className="description" slot="description">{field.id}</Text>
+            //                     <Button slot="increment">+</Button>
+            //                 </Group>
+            //             </NumberField>
+            //         </div>
+            //     )
+            // })}
+    //          <div className='totcoffe'>{TotCoffe}</div>
+    //         <Button className='Submit' onPress={handleSubmit}  >Отправить</Button>
+    //         </div>
+    //     </>
+    // )
     return (
-        <>
-            <h3 className='header'>Введите показания счетчиков кофемашины</h3>
-            <div>{fields.map((field) => {
+        <div className="container">
+          <header className="header">Счётчики кофемашины</header>
+          <div className='group'>{fields.map((field) => {
                 return (
                     <div className="number-field" key={field.id}>
                         <NumberField id={field.id} value={formData[field.id]} aria-label="e"
                             minValue={0}
                             description={field.id}
-                            // defaultValue={''} 
                             isRequired={true}
-                            // maxValue={99999} 
                             onInput={handleInput}
-                            onChange={(v) => handleChange(v, field.id)}
-
-                        >
+                            onChange={(v) => handleChange(v, field.id)}>
                             <Group >
                                 <Button slot="decrement">&minus;</Button>
                                 <Input />
                                 <Text className="description" slot="description">{field.id}</Text>
                                 <Button slot="increment">+</Button>
-
                             </Group>
-
-
                         </NumberField>
-                        
                     </div>
                 )
-            })}
-            <div className='totcoffe'>{TotCoffe}</div>
-            </div>
-            <div>
-            <Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>
-            </div>
-            
-            {}
-        </>
-    )
-};
+            })}</div>
+                    <div className='totcoffe'>{TotCoffe}</div>
+                    <Button className="submit"onPress={handleSubmit}  >Отправить</Button>
+                  </div>
+      );
+    }
 
 export default CoffeCounts;

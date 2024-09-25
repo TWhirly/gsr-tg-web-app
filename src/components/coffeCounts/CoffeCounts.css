@@ -1,8 +1,47 @@
-.number-field {
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Занимает всю высоту окна */
+  background-color: var(--tg-theme-bg-color);
+  text-align: center;
+}
+
+.header {
+  /* background: var(--tg-theme-secondary-bg-color); */
+  /* background: black; */
+  margin-bottom: 1px;
+  font-size: 0.7rem;
+  height: 0.7rem;
+  text-align: center;
+  justify-content: center;
+  position: fixed; /* Фиксирует заголовок сверху */
+  top: 0; /* Привязывает к верхней части окна */
+  width: 100%;
+  /* background-color: var() */
+  
+  /* bottom: 70rem; */
+  z-index: 1000; /* Обеспечивает, что заголовок будет поверх других элементов */
+}
+
+.group{
+  flex-grow: 1;
   position: relative;
-  margin-bottom: 20px; /* Отступ между полями */
-  top: 1rem;
-  bottom: 6.3rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  top: 0.7rem;
+  margin-top: 0.5rem;
+  margin-bottom: 6.5rem;
+}
+
+.number-field {
+  flex-grow: 1;
+  top: 0rem;
+  margin-top: 0.5rem;
+  position: relative;
+  
+  bottom: 5.5rem;
+  
   
 }
 
@@ -10,8 +49,11 @@
   z-index: 100;
   color: var(--tg-theme-section-header-text-color);
   position: absolute;
-  text-align: center;
-  left: 65px; 
+  
+  /* text-align: center;
+  left: 65px;  */
+  left: 50%;
+transform: translateX(-50%);
   /* Отступ от левого края */
   top: 10px; /* Начальная позиция сверху */
   transition: all 0.2s ease; /* Плавный переход */
@@ -24,32 +66,69 @@
 .number-field:focus-within .description,
 .number-field input:focus + .description,
 .number-field input:valid + .description {
-  top: -10px; /* Поднимаем текст при фокусе */
-  left: 65px; /* Оставляем отступ слева */
-  font-size: 12px; /* Уменьшаем размер шрифта */
+  top: -0.5rem; /* Поднимаем текст при фокусе */
+  /* left: 65px; Оставляем отступ слева */
+  box-sizing: content-box;
+ 
+  font-size: 0.7rem; /* Уменьшаем размер шрифта */
   color: #007bff; /* Цвет текста при фокусе */
 }
 
 input {
+  text-align: center;
   border: 1px solid #ccc; /* Рамка поля ввода */
   padding: 10px; /* Отступ внутри поля ввода */
   width: 100%; /* Ширина поля ввода */
   box-sizing: border-box; /* Учитываем отступы и рамку в ширине */
+  
 }
 
 input:focus {
   border-color: #007bff; /* Цвет рамки при фокусе */
   outline: none; /* Убираем стандартный контур */
+  
 }
 
 .totcoffe{
+  display: block;
+  outline: none;
   font-size: 0.7rem;
-  position: flex;
+  height: 1rem;
+  position: fixed;
+  justify-content: center;
   text-align: center;
   width: 100%;
-  top: 1px;
-  bottom: 1px;
-  z-index: 100;
+  margin-bottom: 1px;
+  margin-top: 1px;
+  padding: 2px;
+  /* top: 1px; */
+  bottom: 4rem;
+  /* z-index: 100; */
   color: var(--tg-theme-text-color);
+  z-index: 1000;
+}
+
+.submit {
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 20px;
+  position: fixed;
+  z-index: 1000;
+  bottom: 0.1rem;
+  /* text-align: center; */
+  margin: auto;
+  /* margin-top: 0.1rem; */
+  /* margin-left: 5px; */
+  border-radius: 5px;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  color: var(--tg-theme-button-text-color);
+  height: 2.4rem;
+  background: var(--tg-theme-button-color);
+  animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
+  animation-duration: 2s; /* don't forget to set a duration! */
 }
 
