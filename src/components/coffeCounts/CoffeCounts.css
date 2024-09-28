@@ -24,14 +24,18 @@
 }
 
 .group{
+  box-sizing: border-box;
   flex-grow: 1;
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
   top: 0.7rem;
+  /* margin: auto; */
   margin-top: 0.5rem;
-  margin-bottom: 6.5rem;
+  padding-bottom: 20rem;
+  
+  
 }
 
 .number-field {
@@ -40,7 +44,7 @@
   margin-top: 0.5rem;
   position: relative;
   
-  bottom: 5.5rem;
+  bottom: auto;
   
   
 }
@@ -74,12 +78,19 @@ transform: translateX(-50%);
   color: #007bff; /* Цвет текста при фокусе */
 }
 
-input {
+.Input1 {
   text-align: center;
-  border: 1px solid #ccc; /* Рамка поля ввода */
-  padding: 10px; /* Отступ внутри поля ввода */
-  width: 100%; /* Ширина поля ввода */
-  box-sizing: border-box; /* Учитываем отступы и рамку в ширине */
+  background: var(--tg-theme-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0;
+  color: var(--tg-theme-text-color);
+  margin: 0 -1px;
+  z-index: 1;
+  font-size: 1rem;
+  padding: 0.429rem 0.571rem;
+  outline: none;
+  width: 100%;
+  flex: 1;
   
 }
 
@@ -93,7 +104,7 @@ input:focus {
   display: block;
   outline: none;
   font-size: 0.7rem;
-  height: 1rem;
+  --height1: auto;
   position: fixed;
   justify-content: center;
   text-align: center;
@@ -102,7 +113,7 @@ input:focus {
   margin-top: 1px;
   padding: 2px;
   /* top: 1px; */
-  bottom: 4rem;
+  bottom: 2.5rem;
   /* z-index: 100; */
   color: var(--tg-theme-text-color);
   z-index: 1000;
@@ -128,7 +139,6 @@ input:focus {
   color: var(--tg-theme-button-text-color);
   height: 2.4rem;
   background: var(--tg-theme-button-color);
-  animation: fadeIn; /* referring directly to the animation's @keyframe declaration */
-  animation-duration: 2s; /* don't forget to set a duration! */
+  
 }
 

@@ -13,6 +13,8 @@ import { type } from '@testing-library/user-event/dist/type/index.js';
 
 const APIURL = localUrl.APIURL;
 
+const CCNumberfield = NumberField;
+
 
 
 const CoffeCounts = () => {
@@ -34,9 +36,10 @@ const CoffeCounts = () => {
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState({});
     let [formDataInputs, setFormDataInputs] = useState({});
-    const [allFieldsFilled, setIsFormComplete] = useState(false);
+    const [ycountsReady, setIsYcountsReady] = useState(false);
     const [Ycounts, setYcounts] = useState({});
     const [TotCoffe, setTotCoffe] = useState('');
+    
     // const [TimeNow, formatDate] = useState('')
 
     const date = new Date();
@@ -64,7 +67,8 @@ const CoffeCounts = () => {
             console.log('fetched', fetchedFields)
             console.log(Ycounts)
             setFields(fetchedFields);
-            setYcounts(Ycounts)
+            setYcounts(Ycounts);
+            setIsYcountsReady(true);
             // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
                 acc[field.id] = field.cnt;
@@ -123,11 +127,20 @@ const CoffeCounts = () => {
                 return 'напитков';
             }
         };
+        
         const getTotalDrinksMessage = (n, Ycounts) => {
             const total = n - Ycounts.sum;
             const drinkWord = getDrinkWord(total);
+            if(Ycounts.time !== false){
             return `Итого ${total} ${drinkWord} за период с ${Ycounts.time} по настоящее время`;
+            }
+            else{
+                return `Вчера счётчики кофемашины введены не были, рассчитать количество проданных за смену напитков невозможно. Введите актуальные счетчики сейчас 
+                для того чтобы расчет стал возможен завтра. Сообщите руководителю АЗС о возникшей проблеме.`
+            }
         };
+    
+       
         setTotCoffe(getTotalDrinksMessage(n, Ycounts));
     }, [formData, fields]);
 
@@ -193,7 +206,7 @@ const CoffeCounts = () => {
           <div className='group'>{fields.map((field) => {
                 return (
                     <div className="number-field" key={field.id}>
-                        <NumberField id={field.id} value={formData[field.id]} aria-label="e"
+                        <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
                             minValue={0}
                             description={field.id}
                             isRequired={true}
@@ -201,15 +214,15 @@ const CoffeCounts = () => {
                             onChange={(v) => handleChange(v, field.id)}>
                             <Group >
                                 <Button slot="decrement">&minus;</Button>
-                                <Input />
+                                <Input className='Input1'/>
                                 <Text className="description" slot="description">{field.id}</Text>
                                 <Button slot="increment">+</Button>
                             </Group>
-                        </NumberField>
+                        </CCNumberfield>
                     </div>
                 )
             })}</div>
-                    <div className='totcoffe'>{TotCoffe}</div>
+                    <div className='totcoffe'>{(ycountsReady && TotCoffe)}</div>
                     <Button className="submit"onPress={handleSubmit}  >Отправить</Button>
                   </div>
       );
