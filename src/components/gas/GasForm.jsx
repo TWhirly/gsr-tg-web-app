@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
-import './CoffeCounts.css';
+import React, { useCallback, useEffect, useState, useRef, Component } from 'react';
+import styles from './GasForm.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
@@ -11,10 +11,10 @@ import { type } from '@testing-library/user-event/dist/type/index.js';
 const APIURL = localUrl.APIURL;
 const CCNumberfield = NumberField;
 
-const CoffeCounts = () => {
+const GasForm = () => {
     const navigate = useNavigate();
     const fetchFormFields = async () => {
-        const response = await fetch(APIURL + '/coffeCounts', {
+        const response = await fetch(APIURL + '/gas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -41,16 +41,14 @@ const CoffeCounts = () => {
     useEffect(() => {
         const loadFields = async () => {
             const fetchedFields = await fetchFormFields();
-            const Ycounts = fetchedFields.pop()
+           
             console.log('fetched', fetchedFields)
             console.log(Ycounts)
             setFields(fetchedFields);
-            setYcounts(Ycounts);
             setIsYcountsReady(true);
             // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
                 acc[field.id] = field.cnt;
-
                 return acc;
             }, {});
             setFormData(initialFormData);
@@ -108,6 +106,9 @@ const CoffeCounts = () => {
     }, [formData, fields]);
 
     const handleSubmit = () => {
+        console.log(allFieldsFilled);
+        console.log(formData)
+        console.log("tyring to submit resToSubmit values:", formData);
         var date = new Date();
         const updDateTime = date.getFullYear() + '-' +
             ('00' + (date.getMonth() + 1)).slice(-2) + '-' +
@@ -131,31 +132,30 @@ const CoffeCounts = () => {
     }
     
     return (
-        <div className="container">
-          <header className="header">Счётчики кофемашины</header>
-          <div className='group'>{fields.map((field) => {
+        <div className={ styles.container }>
+          <header className={ styles.header }>Газовые баллоны</header>
+          <Group className={ styles.group }>{fields.map((field) => {
                 return (
-                    <div className="number-field" key={field.id}>
+                    <div className={ styles.numberField } key={field.id}>
                         <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
                             minValue={0}
-                            description={field.id}
-                            isRequired={true}
+                            description={field.name}
+                            // isRequired={true}
                             onInput={handleInput}
                             onChange={(v) => handleChange(v, field.id)}>
                             <Group >
                                 <Button slot="decrement">&minus;</Button>
-                                <Input className='Input1'/>
-                                <Text className="description" slot="description">{field.id}</Text>
+                                <Input className={ styles.Input }/>
+                                <Text className={ styles.description } slot="description">{field.name}</Text>
                                 <Button slot="increment">+</Button>
                             </Group>
                         </CCNumberfield>
                     </div>
                 )
-            })}</div>
-                    <div className='totcoffe'>{(ycountsReady && TotCoffe)}</div>
-                    <Button className="submit"onPress={handleSubmit}  >Отправить</Button>
+            })}</Group>
+                    <Button className={ styles.submit }onPress={handleSubmit}  >Отправить</Button>
                   </div>
       );
     }
 
-export default CoffeCounts;
+export default GasForm;

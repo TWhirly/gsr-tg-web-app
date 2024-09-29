@@ -88,7 +88,8 @@ const ButtonList = () => {
     const routes = {
         'Отчёт 0 часов': "/0hrep",
         'Остатки': "/ResForm",
-        'Счётчики КМ': "/CoffeCounts"
+        'Счётчики КМ': "/CoffeCounts",
+        "Газовые баллоны": "/GasForm"
     }
   
    
@@ -102,16 +103,10 @@ const ButtonList = () => {
     return (
         <div className={'list'} >
            {sentVisible && <h2 className='sent'>{'Отправлено'}</h2>}
-            {/* {Plandata.map(item => (<>{item}</>))} */}
             {(Plandata && <legend  className='plan'>{Plandata}</legend>)}
             {data.map(item => (<button className={'btn'} onClick={(v) => handleClick(item.action)}  >  {item.action} </button>))}
-
-
         </div>
     );
-
-
-
 }
 
 export default ButtonList;

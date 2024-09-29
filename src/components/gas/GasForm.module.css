@@ -1,0 +1,147 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Занимает всю высоту окна */
+  background-color: var(--tg-theme-bg-color);
+  text-align: center;
+}
+
+.header {
+  /* background: var(--tg-theme-secondary-bg-color); */
+  /* background: black; */
+  margin-bottom: 1px;
+  font-size: 0.7rem;
+  height: 0.7rem;
+  text-align: center;
+  justify-content: center;
+  position: fixed; /* Фиксирует заголовок сверху */
+  top: 0; /* Привязывает к верхней части окна */
+  width: 100%;
+  /* background-color: var() */
+  
+  /* bottom: 70rem; */
+  z-index: 1000; /* Обеспечивает, что заголовок будет поверх других элементов */
+}
+
+.group{
+  width: 100%;
+  box-sizing: border-box;
+  border-color: blueviolet;
+  flex-grow: 1;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  top: 0.7rem;
+  /* margin: auto; */
+  bottom: auto;
+  margin-top: 0.5rem;
+  padding-bottom: 10rem;
+  
+  
+}
+
+.numberField {
+  flex-grow: 1;
+  top: 0rem;
+  margin-top: 0.5rem;
+  position: relative;
+  
+  bottom: auto;
+  
+  
+}
+
+.description {
+  z-index: 100;
+  color: var(--tg-theme-section-header-text-color);
+  position: absolute;
+  font-size: 0.7rem;
+  text-align: center;
+  left: 50%;
+  box-sizing: content-box;
+transform: translateX(-50%);
+  /* Отступ от левого края */
+  top: 10px; /* Начальная позиция сверху */
+  transition: all 0.2s ease; /* Плавный переход */
+  /* background-color: white; */
+   /* Фон для описания */
+  padding: 0 5px; /* Отступы вокруг текста */
+  pointer-events: none; /* Запретить взаимодействие с текстом */
+}
+
+.numberField:focus-within.description,
+.numberField input:focus + .description,
+.numberField input:valid + .description {
+  top: -0.5rem; /* Поднимаем текст при фокусе */
+  /* left: 65px; Оставляем отступ слева */
+  box-sizing: content-box;
+ 
+  font-size: 0.7rem; /* Уменьшаем размер шрифта */
+  color: #007bff; /* Цвет текста при фокусе */
+}
+
+.Input {
+  text-align: center;
+  background: var(--tg-theme-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0;
+  color: var(--tg-theme-text-color);
+  margin: 0 -1px;
+  z-index: 1;
+  font-size: 1rem;
+  padding: 0.429rem 0.571rem;
+  outline: none;
+  width: 100%;
+  flex: 1;
+  
+}
+
+input:focus {
+  border-color: #007bff; /* Цвет рамки при фокусе */
+  outline: none; /* Убираем стандартный контур */
+  
+}
+
+.totcoffe{
+  display: block;
+  outline: none;
+  font-size: 0.7rem;
+  --height1: auto;
+  position: fixed;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1px;
+  margin-top: 1px;
+  padding: 2px;
+  /* top: 1px; */
+  bottom: 2.5rem;
+  /* z-index: 100; */
+  color: var(--tg-theme-text-color);
+  z-index: 1000;
+}
+
+.submit {
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 20px;
+  position: fixed;
+  z-index: 1000;
+  bottom: 0;
+  /* text-align: center; */
+  margin: auto;
+  /* margin-top: 0.1rem; */
+  /* margin-left: 5px; */
+  border-radius: 5px;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  color: var(--tg-theme-button-text-color);
+  height: 2.4rem;
+  background: var(--tg-theme-button-color);
+  
+}
+

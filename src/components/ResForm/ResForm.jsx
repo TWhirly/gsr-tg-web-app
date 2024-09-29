@@ -16,8 +16,6 @@ const APIURL = localUrl.APIURL;
 
 
 const ResForm = () => {
-
-    // const history = useHistory();
     const navigate = useNavigate();
     const fetchFormFields = async () => {
         const response = await fetch(APIURL + '/res', {
@@ -53,11 +51,7 @@ const ResForm = () => {
         loadFields();
     }, []);
 
-
-
     const handleChange = (value, id) => {
-
-        
         setFormData((prevData) => ({
             ...prevData,
             [id]: value,
@@ -67,26 +61,16 @@ const ResForm = () => {
             ...prevData,
             [id]: value,
         }));
-
-        console.log('change ', formData)
-
     };
 
     const handleInput = (e) => {
        const id = e.target['id'];
        const value = e.target['value'].toString().replace(/\s/g,'');
-    //    const value = e.target['value'];
-      
-
-    //    if(value == '' || isNaN(value)){
-    //     setIsFormComplete(NaN)
-    //    }
        console.log(e.target['value'])
         setFormDataInputs((prevData) => ({
             ...prevData,
             [id]: value,
         }));
-
         console.log('input ', formData)
        
     };
