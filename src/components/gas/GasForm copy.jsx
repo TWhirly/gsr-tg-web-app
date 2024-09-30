@@ -31,7 +31,7 @@ const GasForm = () => {
     const [ycountsReady, setIsYcountsReady] = useState(false);
     const [Ycounts, setYcounts] = useState({});
     const [TotCoffe, setTotCoffe] = useState('');
-
+    
     const date = new Date();
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const GasForm = () => {
     useEffect(() => {
         const loadFields = async () => {
             const fetchedFields = await fetchFormFields();
-
+           
             console.log('fetched', fetchedFields)
             console.log(Ycounts)
             setFields(fetchedFields);
@@ -103,57 +103,32 @@ const GasForm = () => {
 
 
     }
-    console.log('type field', fields)
+    
     return (
-        <div className={styles.container}>
-            <header className={styles.header}>Газовые баллоны</header>
-
-            <group className={styles.firstgroup}>
-                <div className={styles.inputs}>{fields.filter((item) => (item.id) == 'sales').map((field) => {
-                    return (
-                        <div className={styles.numberField} key={field.id}>
-                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
-                                minValue={0}
-                                description={field.name}
-                                // isRequired={true}
-                                onInput={handleInput}
-                                onChange={(v) => handleChange(v, field.id)}>
-                                <Group >
-                                    <Button slot="decrement">&minus;</Button>
-                                    <Input className={styles.Input} />
-                                    <Text className={styles.description} slot="description">{field.name}</Text>
-                                    <Button slot="increment">+</Button>
-                                </Group>
-                            </CCNumberfield>
-                        </div>
-                    )
-                })}</div>
-            </group>
-            <group className={styles.group}>
-                Пустые
-                <Group className={styles.inputs}>{fields.filter((item) => (item.id) == 'b82e' || (item.id) == '83-99e' || (item.id) == '00-21e').map((field) => {
-                    return (
-                        <div className={styles.numberField} key={field.id}>
-                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
-                                minValue={0}
-                                description={field.name}
-                                // isRequired={true}
-                                onInput={handleInput}
-                                onChange={(v) => handleChange(v, field.id)}>
-                                <Group >
-                                    <Button slot="decrement">&minus;</Button>
-                                    <Input className={styles.Input} />
-                                    <Text className={styles.description} slot="description">{field.name}</Text>
-                                    <Button slot="increment">+</Button>
-                                </Group>
-                            </CCNumberfield>
-                        </div>
-                    )
-                })}</Group>
-            </group>
-            <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
-        </div>
-    );
-}
+        <div className={ styles.container }>
+          <header className={ styles.header }>Газовые баллоны</header>
+          <Group className={ styles.group }>{fields.map((field) => {
+                return (
+                    <div className={ styles.numberField } key={field.id}>
+                        <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                            minValue={0}
+                            description={field.name}
+                            // isRequired={true}
+                            onInput={handleInput}
+                            onChange={(v) => handleChange(v, field.id)}>
+                            <Group >
+                                <Button slot="decrement">&minus;</Button>
+                                <Input className={ styles.Input }/>
+                                <Text className={ styles.description } slot="description">{field.name}</Text>
+                                <Button slot="increment">+</Button>
+                            </Group>
+                        </CCNumberfield>
+                    </div>
+                )
+            })}</Group>
+                    <Button className={ styles.submit }onPress={handleSubmit}  >Отправить</Button>
+                  </div>
+      );
+    }
 
 export default GasForm;

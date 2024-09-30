@@ -1,3 +1,13 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  /* height: 100vh; Занимает всю высоту окна */
+  background-color: var(--tg-theme-bg-color);
+  border-color:hsl(from color h s l);
+  text-align: center;
+}
+
 .header {
   /* background: var(--tg-theme-secondary-bg-color); */
   /* background: black; */
@@ -15,62 +25,20 @@
   z-index: 1000; /* Обеспечивает, что заголовок будет поверх других элементов */
 }
 
-.firstgroup{
-  top: 2rem;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
-  position: relative;
-  bottom: auto;
-  outline: none;
-  padding: 2px;
-  margin: auto;
-  text-align: center;
-  justify-items: center;
-  margin-bottom: 1rem;
-  
-  
-}
-
 .group{
-  top: 2rem;
-  height: fit-content;
+  width: 100%;
+  box-sizing: border-box;
+  border-color: blueviolet;
+  flex-grow: 1;
+  position: absolute;
   display: flex;
   flex-direction: column;
-  /* justify-content: flex-end; */
-  /* box-sizing: border-box; */
-  width: fit-content;
-  /* box-sizing: border-box; */
-  /* flex-grow: 1; */
-  position: relative;
-  /* overflow-y: scroll; */
+  overflow-y: scroll;
+  top: 0.7rem;
+  /* margin: auto; */
   bottom: auto;
-  outline: auto;
-  padding: 2px;
-  margin: auto;
-  /* border: none; */
-  text-align: center;
-  /* align-items: flex-start; */
-  justify-items: center;
-  
-  
-}
-
-.inputs{
-  
-  text-align: left;
-  background: var(--tg-theme-bg-color);
-  /* border: 1px solid var(--border-color); */
-  border-radius: 0;
-  color: var(--tg-theme-text-color);
-  margin: 0 -1px;
-  z-index: 1;
-  font-size: 1rem;
-  padding: 0.429rem 0.571rem;
-  outline: none;
-  width: 100%;
-  flex: 1;
+  margin-top: 0.5rem;
+  padding-bottom: 10rem;
   
   
 }
@@ -80,7 +48,7 @@
   top: 0rem;
   margin-top: 0.5rem;
   position: relative;
-  width: 100%;
+  
   bottom: auto;
   
   
@@ -116,16 +84,15 @@ transform: translateX(-50%);
 }
 
 .Input {
-  display: grid;
   text-align: center;
   background: var(--tg-theme-bg-color);
   border: 1px solid var(--border-color);
   border-radius: 0;
   color: var(--tg-theme-text-color);
-  /* margin: 0 -1px; */
+  margin: 0 -1px;
   z-index: 1;
   font-size: 1rem;
-  padding: 0.5rem 0.5rem;
+  padding: 0.429rem 0.571rem;
   outline: none;
   width: 100%;
   flex: 1;
