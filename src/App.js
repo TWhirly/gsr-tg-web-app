@@ -15,6 +15,12 @@ function App() {
     const { onToggleButton, tg } = useTelegram();
     window.Telegram.WebApp.expand();
     window.Telegram.WebApp.disableVerticalSwipes()
+    if(window.Telegram.WebApp.colorScheme == 'dark'){
+    tg.setHeaderColor("#000000");}
+    else {
+        tg.setHeaderColor("#ffffff")    
+    }
+    console.log('scheme', window.Telegram.WebApp.colorScheme)
 
     useEffect(() => {
         tg.ready();

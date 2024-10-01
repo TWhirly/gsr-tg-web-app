@@ -3,38 +3,59 @@
   /* background: black; */
   margin-bottom: 1px;
   font-size: 0.7rem;
-  height: 0.7rem;
+  height: 1rem;
   text-align: center;
   justify-content: center;
   position: fixed; /* Фиксирует заголовок сверху */
   top: 0; /* Привязывает к верхней части окна */
   width: 100%;
-  /* background-color: var() */
+  /* background-color: var(--tg-theme-header-bg-color); */
+  background-color: var(--tg-theme-secondary-bg-color);
   
   /* bottom: 70rem; */
   z-index: 1000; /* Обеспечивает, что заголовок будет поверх других элементов */
 }
 
-.firstgroup{
-  top: 2rem;
-  height: fit-content;
-  display: flex;
+.container{
+  background-color: var(--tg-theme-secondary-bg-color);
+}
+
+.subheader{
+  background-color: var(--tg-theme-secondary-bg-color);
+  background-color: none;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.formContainer{
+  /* top: 1rem; */
+  /* height: auto; */
+  margin-bottom: 2.5rem;
+  display: flexbox;
   flex-direction: column;
   width: fit-content;
   position: relative;
-  bottom: auto;
+  /* bottom: auto; */
   outline: none;
   padding: 2px;
   margin: auto;
   text-align: center;
   justify-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
+  overflow-y: scroll;
+  outline: none;
+  
+  
   
   
 }
 
 .group{
-  top: 2rem;
+  outline: none;
+  border-radius: 5px;
+  /* background-color: var(--tg-theme-section-bg-color); */
+  background-color: var(--tg-theme-secondary-bg-color);
+  /* top: 1rem; */
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -46,9 +67,13 @@
   position: relative;
   /* overflow-y: scroll; */
   bottom: auto;
-  outline: auto;
+  /* border-color: var(--tg-theme-section-separator-color); */
+  /* border-color: black; */
+  /* outline: auto; */
+  
   padding: 2px;
   margin: auto;
+  margin-top: 1rem;
   /* border: none; */
   text-align: center;
   /* align-items: flex-start; */
@@ -60,7 +85,8 @@
 .inputs{
   
   text-align: left;
-  background: var(--tg-theme-bg-color);
+  /* background: var(--tg-theme-bg-color); */
+  background-color: var(--tg-theme-secondary-bg-color);
   /* border: 1px solid var(--border-color); */
   border-radius: 0;
   color: var(--tg-theme-text-color);
@@ -82,8 +108,22 @@
   position: relative;
   width: 100%;
   bottom: auto;
-  
-  
+}
+
+.react-aria-Button[slot=decrement] {
+  text-align: center;
+  background: var(--tg-theme-secondary-bg-color);
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
+  color: var(--tg-theme-text-color);
+}
+
+.react-aria-Button[slot=increment] {
+  text-align: center;
+  background: var(--tg-theme-secondary-bg-color);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  color: var(--tg-theme-text-color);
 }
 
 .description {
@@ -110,15 +150,17 @@ transform: translateX(-50%);
   top: -0.5rem; /* Поднимаем текст при фокусе */
   /* left: 65px; Оставляем отступ слева */
   box-sizing: content-box;
- 
+  background-color: var(--tg-theme-secondary-bg-color);
   font-size: 0.7rem; /* Уменьшаем размер шрифта */
   color: #007bff; /* Цвет текста при фокусе */
 }
 
 .Input {
   display: grid;
+  bottom: 0;
   text-align: center;
-  background: var(--tg-theme-bg-color);
+  /* background: var(--tg-theme-bg-color); */
+  background-color: var(--tg-theme-secondary-bg-color);
   border: 1px solid var(--border-color);
   border-radius: 0;
   color: var(--tg-theme-text-color);
@@ -136,25 +178,6 @@ input:focus {
   border-color: #007bff; /* Цвет рамки при фокусе */
   outline: none; /* Убираем стандартный контур */
   
-}
-
-.totcoffe{
-  display: block;
-  outline: none;
-  font-size: 0.7rem;
-  --height1: auto;
-  position: fixed;
-  justify-content: center;
-  text-align: center;
-  width: 100%;
-  margin-bottom: 1px;
-  margin-top: 1px;
-  padding: 2px;
-  /* top: 1px; */
-  bottom: 2.5rem;
-  /* z-index: 100; */
-  color: var(--tg-theme-text-color);
-  z-index: 1000;
 }
 
 .submit {

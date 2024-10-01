@@ -34,6 +34,7 @@
   /* margin: auto; */
   margin-top: 0.5rem;
   padding-bottom: 20rem;
+
   
   
 }
@@ -53,13 +54,13 @@
   z-index: 100;
   color: var(--tg-theme-section-header-text-color);
   position: absolute;
-  
+  font-size: 0.7rem;
   /* text-align: center;
   left: 65px;  */
   left: 50%;
 transform: translateX(-50%);
   /* Отступ от левого края */
-  top: 10px; /* Начальная позиция сверху */
+  top: -0.5rem; /* Начальная позиция сверху */
   transition: all 0.2s ease; /* Плавный переход */
   /* background-color: white; */
    /* Фон для описания */

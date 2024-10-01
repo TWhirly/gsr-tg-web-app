@@ -79,7 +79,6 @@ const GasForm = () => {
     };
 
     const handleSubmit = () => {
-        console.log(allFieldsFilled);
         console.log(formData)
         console.log("tyring to submit resToSubmit values:", formData);
         var date = new Date();
@@ -107,31 +106,10 @@ const GasForm = () => {
     return (
         <div className={styles.container}>
             <header className={styles.header}>Газовые баллоны</header>
-
-            <group className={styles.firstgroup}>
-                <div className={styles.inputs}>{fields.filter((item) => (item.id) == 'sales').map((field) => {
-                    return (
-                        <div className={styles.numberField} key={field.id}>
-                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
-                                minValue={0}
-                                description={field.name}
-                                // isRequired={true}
-                                onInput={handleInput}
-                                onChange={(v) => handleChange(v, field.id)}>
-                                <Group >
-                                    <Button slot="decrement">&minus;</Button>
-                                    <Input className={styles.Input} />
-                                    <Text className={styles.description} slot="description">{field.name}</Text>
-                                    <Button slot="increment">+</Button>
-                                </Group>
-                            </CCNumberfield>
-                        </div>
-                    )
-                })}</div>
-            </group>
+            <div className={ styles.formContainer }>
             <group className={styles.group}>
-                Пустые
-                <Group className={styles.inputs}>{fields.filter((item) => (item.id) == 'b82e' || (item.id) == '83-99e' || (item.id) == '00-21e').map((field) => {
+                <h4 className={styles.subheader}>Реализация</h4>
+                <Group className={styles.inputs}>{fields.filter((item) => (item.id) == 'sales').map((field) => {
                     return (
                         <div className={styles.numberField} key={field.id}>
                             <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
@@ -151,6 +129,98 @@ const GasForm = () => {
                     )
                 })}</Group>
             </group>
+            <group className={styles.group}>
+                <h4 className={styles.subheader}>Пустые</h4>
+                <Group className={styles.inputs}>{fields.filter((item) => ((item.id) == 'b82e' || (item.id) == '83-99e' ||
+                 (item.id) == '00-21e')).map((field) => {
+                    return (
+                        <div className={styles.numberField} key={field.id}>
+                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                                minValue={0}
+                                description={field.name}
+                                // isRequired={true}
+                                onInput={handleInput}
+                                onChange={(v) => handleChange(v, field.id)}>
+                                <Group >
+                                    <Button slot="decrement">&minus;</Button>
+                                    <Input className={styles.Input} />
+                                    <Text className={styles.description} slot="description">{field.name}</Text>
+                                    <Button slot="increment">+</Button>
+                                </Group>
+                            </CCNumberfield>
+                        </div>
+                    )
+                })}</Group>
+            </group>
+            <group className={styles.group}>
+                <h4 className={styles.subheader}>Полные</h4>
+                <Group className={styles.inputs}>{fields.filter((item) => ((item.id) == 'b82f' || (item.id) == '83-99f' ||
+                 (item.id) == '00-21f')).map((field) => {
+                    return (
+                        <div className={styles.numberField} key={field.id}>
+                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                                minValue={0}
+                                description={field.name}
+                                // isRequired={true}
+                                onInput={handleInput}
+                                onChange={(v) => handleChange(v, field.id)}>
+                                <Group >
+                                    <Button slot="decrement">&minus;</Button>
+                                    <Input className={styles.Input} />
+                                    <Text className={styles.description} slot="description">{field.name}</Text>
+                                    <Button slot="increment">+</Button>
+                                </Group>
+                            </CCNumberfield>
+                        </div>
+                    )
+                })}</Group>
+            </group>
+            <group className={styles.group}>
+                 <h4 className={styles.subheader}>Брак</h4>
+                <Group className={styles.inputs}>{fields.filter((item) => ((item.id) == 'b82d' || (item.id) == '83-99d' ||
+                 (item.id) == '00-21d')).map((field) => {
+                    return (
+                        <div className={styles.numberField} key={field.id}>
+                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                                minValue={0}
+                                description={field.name}
+                                // isRequired={true}
+                                onInput={handleInput}
+                                onChange={(v) => handleChange(v, field.id)}>
+                                <Group >
+                                    <Button slot="decrement">&minus;</Button>
+                                    <Input className={styles.Input} />
+                                    <Text className={styles.description} slot="description">{field.name}</Text>
+                                    <Button slot="increment">+</Button>
+                                </Group>
+                            </CCNumberfield>
+                        </div>
+                    )
+                })}</Group>
+            </group>
+            <group className={styles.group}>
+                  <h4 className={styles.subheader}>Новые</h4>
+                <Group className={styles.inputs}>{fields.filter((item) => ((item.id) == 'new')).map((field) => {
+                    return (
+                        <div className={styles.numberField} key={field.id}>
+                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                                minValue={0}
+                                description={field.name}
+                                // isRequired={true}
+                                onInput={handleInput}
+                                onChange={(v) => handleChange(v, field.id)}>
+                                <Group >
+                                    <Button slot="decrement">&minus;</Button>
+                                    <Input className={styles.Input} />
+                                    <Text className={styles.description} slot="description">{field.name}</Text>
+                                    <Button slot="increment">+</Button>
+                                </Group>
+                            </CCNumberfield>
+                        </div>
+                    )
+                })}</Group>
+            </group>
+            </div>
             <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
         </div>
     );
