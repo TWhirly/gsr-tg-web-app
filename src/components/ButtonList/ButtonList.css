@@ -33,9 +33,9 @@
 }
 
 .item {
-    margin-right: 10px;
+    /* margin-right: 10px; */
     margin-bottom: 10px;
-    justify-content: stretch;
+    /* justify-content: stretch; */
     background: var(--tg-theme-bg-color)
 }
 

@@ -9,7 +9,7 @@ import { useTelegram } from "../../hooks/useTelegram.js";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 
 const APIURL = localUrl.APIURL;
-const CCNumberfield = NumberField;
+// const NumberField = NumberField;
 
 const GasForm = () => {
     const navigate = useNavigate();
@@ -111,20 +111,20 @@ const GasForm = () => {
                 <h4 className={styles.subheader}>Реализация</h4>
                 <Group className={styles.inputs}>{fields.filter((item) => (item.id) == 'sales').map((field) => {
                     return (
-                        <div className={styles.numberField} key={field.id}>
-                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                        <div  key={field.id}>
+                            <NumberField className={styles.numberField} id={field.id} value={formData[field.id]} aria-label="e"
                                 minValue={0}
                                 description={field.name}
                                 // isRequired={true}
                                 onInput={handleInput}
                                 onChange={(v) => handleChange(v, field.id)}>
-                                <Group >
-                                    <Button slot="decrement">&minus;</Button>
-                                    <Input className={styles.Input} />
+                                <div className={styles.inputLine}>
+                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                    <Input className={styles.input1} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
-                                    <Button slot="increment">+</Button>
-                                </Group>
-                            </CCNumberfield>
+                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                </div>
+                            </NumberField>
                         </div>
                     )
                 })}</Group>
@@ -135,7 +135,7 @@ const GasForm = () => {
                  (item.id) == '00-21e')).map((field) => {
                     return (
                         <div className={styles.numberField} key={field.id}>
-                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                            <NumberField id={field.id} value={formData[field.id]} aria-label="e"
                                 minValue={0}
                                 description={field.name}
                                 // isRequired={true}
@@ -147,7 +147,7 @@ const GasForm = () => {
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button slot="increment">+</Button>
                                 </Group>
-                            </CCNumberfield>
+                            </NumberField>
                         </div>
                     )
                 })}</Group>
@@ -158,7 +158,7 @@ const GasForm = () => {
                  (item.id) == '00-21f')).map((field) => {
                     return (
                         <div className={styles.numberField} key={field.id}>
-                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                            <NumberField id={field.id} value={formData[field.id]} aria-label="e"
                                 minValue={0}
                                 description={field.name}
                                 // isRequired={true}
@@ -170,7 +170,7 @@ const GasForm = () => {
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button slot="increment">+</Button>
                                 </Group>
-                            </CCNumberfield>
+                            </NumberField>
                         </div>
                     )
                 })}</Group>
@@ -181,7 +181,7 @@ const GasForm = () => {
                  (item.id) == '00-21d')).map((field) => {
                     return (
                         <div className={styles.numberField} key={field.id}>
-                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                            <NumberField id={field.id} value={formData[field.id]} aria-label="e"
                                 minValue={0}
                                 description={field.name}
                                 // isRequired={true}
@@ -193,7 +193,7 @@ const GasForm = () => {
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button slot="increment">+</Button>
                                 </Group>
-                            </CCNumberfield>
+                            </NumberField>
                         </div>
                     )
                 })}</Group>
@@ -203,7 +203,7 @@ const GasForm = () => {
                 <Group className={styles.inputs}>{fields.filter((item) => ((item.id) == 'new')).map((field) => {
                     return (
                         <div className={styles.numberField} key={field.id}>
-                            <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
+                            <NumberField id={field.id} value={formData[field.id]} aria-label="e"
                                 minValue={0}
                                 description={field.name}
                                 // isRequired={true}
@@ -215,7 +215,7 @@ const GasForm = () => {
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button slot="increment">+</Button>
                                 </Group>
-                            </CCNumberfield>
+                            </NumberField>
                         </div>
                     )
                 })}</Group>

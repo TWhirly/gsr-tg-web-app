@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* Занимает всю высоту окна */
-  background-color: var(--tg-theme-bg-color);
+  background: black;
   text-align: center;
+  width: 100%;
 }
 
 .header {
@@ -24,6 +25,7 @@
 }
 
 .group{
+  width: 100%;
   box-sizing: border-box;
   flex-grow: 1;
   position: absolute;
@@ -40,6 +42,7 @@
 }
 
 .number-field {
+  width: 100%;
   flex-grow: 1;
   top: 0rem;
   margin-top: 0.5rem;
@@ -81,7 +84,7 @@ transform: translateX(-50%);
 
 .Input1 {
   text-align: center;
-  background: var(--tg-theme-bg-color);
+  background: black;
   border: 1px solid var(--border-color);
   border-radius: 0;
   color: var(--tg-theme-text-color);

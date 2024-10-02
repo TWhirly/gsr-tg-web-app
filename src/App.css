@@ -1,5 +1,5 @@
-/* @import './css/Button.css';
-@import "./css/theme.css"; */
+/* @import './css/Button.css'; */
+/* @import "./css/theme.css";  */
 
 * {
   
@@ -11,9 +11,9 @@
   /* flex-direction: column; */
   font-family: Calibri, sans-serif;
   color-scheme: var(--tg-color-scheme);
-  background-color: var(--tg-theme-bg-color);
+  background-color: black;
   color: var(--tg-theme-text-color);
-  background: var(--tg-theme-bg-color)
+  background: black
   
  
 
@@ -53,13 +53,13 @@
   left: 0;
   /* margin: auto; */
   font-family: Calibri, sans-serif;
-  background: var(--tg-theme-bg-color)
+  background: black
 }
 
 body {
   margin: 0 auto;
   background: var(--tg-theme-bg-color);
-  color: var(--tg-theme-text-color);
+  color: black;
   
 
 }
