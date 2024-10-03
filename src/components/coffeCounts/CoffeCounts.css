@@ -117,7 +117,7 @@ input:focus {
   margin-top: 1px;
   padding: 2px;
   /* top: 1px; */
-  bottom: 2.5rem;
+  bottom: 2.4rem;
   /* z-index: 100; */
   color: var(--tg-theme-text-color);
   z-index: 1000;
@@ -131,7 +131,7 @@ input:focus {
   padding: 10px 20px;
   position: fixed;
   z-index: 1000;
-  bottom: 0.1rem;
+  bottom: 0;
   /* text-align: center; */
   margin: auto;
   /* margin-top: 0.1rem; */
@@ -143,6 +143,7 @@ input:focus {
   color: var(--tg-theme-button-text-color);
   height: 2.4rem;
   background: var(--tg-theme-button-color);
+  z-index: 1000;
   
 }
 

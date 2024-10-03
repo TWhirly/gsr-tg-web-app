@@ -26,8 +26,8 @@ const GasForm = () => {
     };
 
     const [fields, setFields] = useState([]);
-    const [formData, setFormData] = useState({});
-    let [formDataInputs, setFormDataInputs] = useState({});
+    var [formData, setFormData] = useState({});
+    var [formDataInputs, setFormDataInputs] = useState({});
     const [ycountsReady, setIsYcountsReady] = useState(false);
     const [Ycounts, setYcounts] = useState({});
     const [TotCoffe, setTotCoffe] = useState('');
@@ -104,15 +104,15 @@ const GasForm = () => {
     }
     console.log('type field', fields)
     return (
-        <div className={styles.container}>
+        <div className={styles.container1}>
             <header className={styles.header}>Газовые баллоны</header>
             <div className={ styles.formContainer }>
             <group className={styles.group}>
                 <h4 className={styles.subheader}>Реализация</h4>
                 <Group className={styles.inputs}>{fields.filter((item) => (item.id) == 'sales').map((field) => {
                     return (
-                        <div  key={field.id}>
-                            <NumberField className={styles.numberField} id={field.id} value={formData[field.id]} aria-label="e"
+                        <div className={styles.numberField} key={field.id}>
+                            <NumberField id={field.id} value={formData[field.id]} aria-label="e"
                                 minValue={0}
                                 description={field.name}
                                 // isRequired={true}
@@ -141,12 +141,12 @@ const GasForm = () => {
                                 // isRequired={true}
                                 onInput={handleInput}
                                 onChange={(v) => handleChange(v, field.id)}>
-                                <Group >
-                                    <Button slot="decrement">&minus;</Button>
-                                    <Input className={styles.Input} />
+                                <div className={styles.inputLine}>
+                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                    <Input className={styles.input1} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
-                                    <Button slot="increment">+</Button>
-                                </Group>
+                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                </div>
                             </NumberField>
                         </div>
                     )
@@ -164,12 +164,12 @@ const GasForm = () => {
                                 // isRequired={true}
                                 onInput={handleInput}
                                 onChange={(v) => handleChange(v, field.id)}>
-                                <Group >
-                                    <Button slot="decrement">&minus;</Button>
-                                    <Input className={styles.Input} />
+                                <div className={styles.inputLine}>
+                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                    <Input className={styles.input1} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
-                                    <Button slot="increment">+</Button>
-                                </Group>
+                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                </div>
                             </NumberField>
                         </div>
                     )
@@ -187,12 +187,12 @@ const GasForm = () => {
                                 // isRequired={true}
                                 onInput={handleInput}
                                 onChange={(v) => handleChange(v, field.id)}>
-                                <Group >
-                                    <Button slot="decrement">&minus;</Button>
-                                    <Input className={styles.Input} />
+                                <div className={styles.inputLine}>
+                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                    <Input className={styles.input1} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
-                                    <Button slot="increment">+</Button>
-                                </Group>
+                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                </div>
                             </NumberField>
                         </div>
                     )
@@ -209,12 +209,12 @@ const GasForm = () => {
                                 // isRequired={true}
                                 onInput={handleInput}
                                 onChange={(v) => handleChange(v, field.id)}>
-                                <Group >
-                                    <Button slot="decrement">&minus;</Button>
-                                    <Input className={styles.Input} />
+                                <div className={styles.inputLine}>
+                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                    <Input className={styles.input1} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
-                                    <Button slot="increment">+</Button>
-                                </Group>
+                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                </div>
                             </NumberField>
                         </div>
                     )
