@@ -123,8 +123,8 @@
   margin: 0;
   width: 100%;
   flex-direction: row;
-  outline: 0.5px solid;
-  border: none;
+  /* outline: 0.5px solid; */
+  border: 1px solid DimGray;
   z-index: 100
 }
 

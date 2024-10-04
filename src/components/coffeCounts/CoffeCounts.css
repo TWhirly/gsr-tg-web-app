@@ -25,17 +25,20 @@
 }
 
 .group{
-  width: 100%;
-  box-sizing: border-box;
+  width: fit-content;
+  height: fit-content;
+  /* box-sizing: border-box; */
   flex-grow: 1;
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   top: 0.7rem;
   /* margin: auto; */
   margin-top: 0.5rem;
-  padding-bottom: 20rem;
+  /* padding-bottom: calc(--totcoffe-height + --submit-height); */
+  margin-bottom: 20rem;
+  bottom: auto
 
   
   
@@ -56,6 +59,7 @@
 .description {
   z-index: 100;
   color: var(--tg-theme-section-header-text-color);
+  /* flex-direction: column; */
   position: absolute;
   font-size: 0.7rem;
   /* text-align: center;
@@ -63,7 +67,7 @@
   left: 50%;
 transform: translateX(-50%);
   /* Отступ от левого края */
-  top: -0.5rem; /* Начальная позиция сверху */
+  top: -0.5rem;
   transition: all 0.2s ease; /* Плавный переход */
   /* background-color: white; */
    /* Фон для описания */
@@ -105,7 +109,7 @@ input:focus {
 }
 
 .totcoffe{
-  display: block;
+  display: flexbox;
   outline: none;
   font-size: 0.7rem;
   --height1: auto;
@@ -113,7 +117,7 @@ input:focus {
   justify-content: center;
   text-align: center;
   width: 100%;
-  margin-bottom: 1px;
+  /* margin-bottom: 1px; */
   margin-top: 1px;
   padding: 2px;
   /* top: 1px; */
