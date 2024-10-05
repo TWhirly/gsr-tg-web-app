@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import './ResForm.css';
+import styles from './ResForm.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
@@ -100,41 +100,74 @@ const ResForm = () => {
           
 
     }
+    return(
+        <div className={styles.container}>
+            
+           
+            <group className={styles.group}>
+                <h4 className={styles.subheader}>Введите текущие расчетные остатки</h4>
+                <Group className={styles.inputs}>{fields.map((field) => {
+                    return (
+                        <div className={styles.numberField} key={field.id}>
+                            <NumberField id={field.id} value={formData[field.id]} aria-label="e"
+                                minValue={0}
+                                description={field.name}
+                                // isRequired={true}
+                                onInput={handleInput}
+                                onChange={(v) => handleChange(v, field.id)}>
+                                     <Label className={styles.inputLineWithLabel}>
+                                        <div className={styles.label}> {field.id} </div> 
+                                       
+                                <div className={styles.inputLine}>
+                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                    <Input className={styles.input} />
+                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                </div>
+                                </Label>
+                            </NumberField>
+                        </div>
+                    )
+                })}</Group>
+            </group>
+           
+            {(allFieldsFilled && <Button onPress={handleSubmit} className={styles.submit} >Отправить</Button>)}
+            </div>
+            
+    )
 
     return (
-        <>
-            <h3 className='headerres'>Введите текущие расчетные остатки</h3>
+        <div className={ styles.container1 }>
+            <h3 className={styles.header}>Введите текущие расчетные остатки</h3>
             {fields.map((field) => {
-
+               
                 return (
-
-                    <NumberField id={field.id} value={formData[field.id]}
+                    <Group className={styles.inputs}>
+                    <div className={styles.numberField} key={field.id}>
+                         <div className={ styles.formContainer }>
+                         <group className={styles.group}>
+                         <Label className={styles.label}> {field.id}
+                    <NumberField  id={field.id} value={formData[field.id]}
                         minValue={0}
                         // defaultValue={''} 
                         isRequired={true}
                         // maxValue={99999} 
                         onInput={handleInput}
-                        onChange={(v) => handleChange(v, field.id)}
-
-                    >
-
-                        <Label > {field.id}</Label>
-
-                        <Group >
-                            <Button slot="decrement">&minus;</Button>
-                            <Input />
-                            <Button slot="increment">+</Button>
+                        onChange={(v) => handleChange(v, field.id)}>
+                        <Group className={styles.inputLine}>
+                            <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                            <Input className={styles.input}/>
+                            <Button  className={styles.reactAriaButton}slot="increment">+</Button>
                         </Group>
                     </NumberField>
-
+                    </Label>
+                    </group>
+                    </div>
+                </div>
+                </Group>
                 )
             })}
-
-            {/* {!isFormComplete && (<Button  className={'Submit'} ></Button>)} */}
-            {(allFieldsFilled && <Button onPress={handleSubmit} className={'Submit'} >Отправить</Button>)}
-            {/* {(<Button onPress={handleSubmit} isDisabled={!isFormComplete} className={'Submit'} >Отправить</Button>)} */}
-
-        </>
+            {(allFieldsFilled && <Button onPress={handleSubmit} className={styles.submit} >Отправить</Button>)}
+        </div>
     )
 
 };

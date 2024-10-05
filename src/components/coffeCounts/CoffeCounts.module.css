@@ -4,6 +4,7 @@
   /* display: flexbox; */
 
   /* margin-bottom: 15px; */
+  flex: 0 0 auto;
   font-size: 0.7rem;
   height: 1rem;
   left: 0px;
@@ -30,6 +31,7 @@
 }
 
 .container {
+  display: flex;
   background: var(--bgColor);
   top: 0;
   width: 100%;
@@ -53,30 +55,36 @@
 }
 
 .formContainer {
-  top: 5px;
-  margin-top: 1rem;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  /* top: 5px; */
+  /* margin-top: 1rem; */
   display: flex;
   right: 0;
-  flex-direction: column;
-  width: 100%;
-  position: relative;
-  padding: 3px;
-  margin: 0px;
+  /* flex-direction: column; */
+  /* width: 100%; */
+  /* position: relative; */
+  /* padding: 3px; */
+  /* margin: 0px; */
   border-radius: 10px;
   text-align: center;
-  margin-bottom: 2.5rem;
+  /* margin-bottom: auto; */
   outline: none;
-  z-index: 100;
+  /* z-index: 100; */
+
 }
 
 .group {
+  display: flex;
+  flex: 1 1 auto;
   outline: none;
   border-radius: 5px;
   /* background-color: var(--tg-theme-section-bg-color); */
   background-color: var(--tg-theme-secondary-bg-color);
   /* top: 1rem; */
-  height: fit-content;
-  justify-content: baseline;
+  /* height: fit-content; */
+  justify-content: space-between;
+  
   display: flex;
   flex-direction: column;
   /* justify-content: flex-end; */
@@ -87,7 +95,7 @@
   /* flex-grow: 1; */
   position: relative;
   /* overflow-y: scroll; */
-  /* bottom: auto; */
+  bottom: var(--totCoffeHeight);
   /* border-color: var(--tg-theme-section-separator-color); */
   /* border-color: black; */
   /* outline: auto; */
@@ -95,7 +103,7 @@
   /* padding: 2px; */
   margin: auto;
   margin-top: 1rem;
-  margin-bottom: 0px;
+  height: auto;
   /* border: none; */
   text-align: center;
   /* align-items: flex-start; */
@@ -122,11 +130,12 @@
 .inputs {
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
   left: 0;
   right: 0;
-  bottom: 1px;
-  top: 0;
-  position: relative;
+  /* bottom: 1px; */
+  /* top: 0; */
+  /* position: relative; */
   text-align: center;
   /* background: var(--tg-theme-bg-color); */
   background-color: var(--tg-theme-secondary-bg-color);
@@ -137,27 +146,27 @@
   /* margin: 0 -1px; */
   border: none;
   border-radius: 5px;
-  z-index: 1;
+  /* z-index: 1; */
   font-size: 1rem;
   /* padding: 0.429rem 0.571rem; */
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
   outline: none;
-  width: 100%;
-  margin-bottom: 0px;
+  /* width: 100%; */
+  /* margin-bottom: 0px; */
   /* flex: initial; */
 
 
 }
 
 .numberField {
-  display: flow-root;
+  /* display: flow-root; */
   flex-direction: row;
-  top: 0rem;
+  /* top: 0rem; */
   justify-content: center;
   margin-top: 20px;
   position: relative;
   width: 100%;
-  bottom: 0;
+  /* bottom: 0; */
   padding: 0;
   outline: none;
   border: none
@@ -244,6 +253,7 @@
   outline: none;
   width: 100%;
   flex: 1;
+  
 
 }
 
@@ -254,10 +264,30 @@
   border-width: 2px;
 }
 
+.totcoffe{
+  margin-top: auto;
+  margin-bottom: 2.5rem;
+  display: flex;
+  outline: none;
+  font-size: 0.7rem;
+  /* --height1: auto; */
+  /* position: fixed; */
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  /* margin-bottom: 1px; */
+  /* margin-top: 1px; */
+  /* padding: 2px; */
+  /* top: 1px; */
+  /* bottom: 2.4rem; */
+  /* z-index: 100; */
+  color: var(--tg-theme-text-color);
+  /* z-index: 1000; */
+}
 
 
 .submit {
-  /* display: flex; */
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
   min-width: calc(100% - 6px);

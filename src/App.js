@@ -1,5 +1,5 @@
 // import '../src/css/theme.css';
-import './App.css'
+import styles from './App.module.css'
 import { useEffect } from "react";
 import { useTelegram } from "./hooks/useTelegram";
 import Header from "./components/Header/Header";
@@ -15,10 +15,18 @@ function App() {
     const { onToggleButton, tg } = useTelegram();
     window.Telegram.WebApp.expand();
     window.Telegram.WebApp.disableVerticalSwipes()
-    if(window.Telegram.WebApp.colorScheme == 'dark'){
-    tg.setHeaderColor("#000000");}
+    var appStyleClassName = ''
+    const bgColorInput = document.getElementById("bg-color");
+
+    if (window.Telegram.WebApp.colorScheme == 'dark') {
+        appStyleClassName = 'AppDark';
+        document.documentElement.style.setProperty("--bgColor", "#000000");
+        tg.setHeaderColor("#000000");
+    }
     else {
-        tg.setHeaderColor("#ffffff")    
+        appStyleClassName = 'AppLight';
+        document.documentElement.style.setProperty("--bgColor", "#ffffff");
+        tg.setHeaderColor("#ffffff")
     }
     console.log('scheme', window.Telegram.WebApp.colorScheme)
 
@@ -26,8 +34,11 @@ function App() {
         tg.ready();
     }, [])
 
+    const divContainer = document.getElementById("App");
+    
+
     return (
-        <div className="App">
+        <div className={App}>
             <Header />
             <Routes>
                 <Route path="/" element={<ButtonList />} />

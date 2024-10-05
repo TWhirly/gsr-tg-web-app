@@ -1,4 +1,4 @@
-/* @import './css/Button.css'; */
+@import './css/Button.css';
 /* @import "./css/theme.css";  */
 
 * {
@@ -11,9 +11,9 @@
   /* flex-direction: column; */
   font-family: Calibri, sans-serif;
   color-scheme: var(--tg-color-scheme);
-  background-color: black;
+  /* background-color: black; */
   color: var(--tg-theme-text-color);
-  background: black
+  /* background: black */
   
  
 
@@ -45,6 +45,11 @@
   --highlight-pressed: rgb(0 0 0 / 0.15);
 } */
 
+:root {
+  --bgColor: #ffffff;
+  
+}
+
 .App{
   position: flex;
   width: 100%;
@@ -53,8 +58,9 @@
   left: 0;
   /* margin: auto; */
   font-family: Calibri, sans-serif;
-  background: black
+  background: var(--bgColor)
 }
+
 
 body {
   margin: 0 auto;

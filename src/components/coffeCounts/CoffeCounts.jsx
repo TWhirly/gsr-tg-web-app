@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
-import './CoffeCounts.css';
+import styles from './CoffeCounts.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
@@ -31,7 +31,7 @@ const CoffeCounts = () => {
     const [ycountsReady, setIsYcountsReady] = useState(false);
     const [Ycounts, setYcounts] = useState({});
     const [TotCoffe, setTotCoffe] = useState('');
-    
+
     const date = new Date();
 
     useEffect(() => {
@@ -92,14 +92,14 @@ const CoffeCounts = () => {
                 return 'напитков';
             }
         };
-        
+
         const getTotalDrinksMessage = (n, Ycounts) => {
             const total = n - Ycounts.sum;
             const drinkWord = getDrinkWord(total);
-            if(Ycounts.time !== false){
-            return `Итого ${total} ${drinkWord} за период с ${Ycounts.time} по настоящее время`;
+            if (Ycounts.time !== false) {
+                return `Итого ${total} ${drinkWord} за период с ${Ycounts.time} по настоящее время`;
             }
-            else{
+            else {
                 return `Вчера счётчики кофемашины введены не были, рассчитать количество проданных за смену напитков невозможно. Введите актуальные счетчики сейчас 
                 для того чтобы расчет стал возможен завтра. Сообщите руководителю АЗС о возникшей проблеме.`
             }
@@ -129,11 +129,55 @@ const CoffeCounts = () => {
 
 
     }
-    
+
+    var elem = (document.getElementById("totcoffe"))
+    // var theCSSprop = window.getComputedStyle("totcoffe",null).getPropertyValue("height");
+    console.log('elem', elem)
+    // document.documentElement.style.setProperty("--totCoffeHeight", document.getElementById('totcoffe').offsetHeight);
+
+    return (
+        <div className={styles.container}>
+            <header className={styles.header}>Счётчики кофемашины</header>
+            <div className={styles.formContainer}>
+               
+
+                    <Group className={styles.inputs}>{fields.map((field) => {
+                        return (
+                            <div className={styles.numberField} key={field.id}>
+                                <NumberField id={field.id} value={formData[field.id]} aria-label="e"
+                                    minValue={0}
+                                    description={field.id}
+                                    // isRequired={true}
+                                    onInput={handleInput}
+                                    onChange={(v) => handleChange(v, field.id)}>
+                                    <div className={styles.inputLine}>
+                                        <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                        <Input className={styles.input} />
+                                        <Text className={styles.description} slot="description">{field.id}</Text>
+                                        <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                    </div>
+                                </NumberField>
+                            </div>
+
+                        );
+
+                    })}
+
+                    </Group>
+                    
+                   
+             
+
+            </div>
+            <div className={styles.totcoffe}>{(ycountsReady && TotCoffe)}</div>
+            <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
+        </div>
+    )
+
     return (
         <div className="container">
-          <header className="header">Счётчики кофемашины</header>
-          <div className='group'>{fields.map((field) => {
+            <header className="header">Счётчики кофемашины</header>
+            <div className='group'>{fields.map((field) => {
                 return (
                     <div className="number-field" key={field.id}>
                         <CCNumberfield id={field.id} value={formData[field.id]} aria-label="e"
@@ -144,7 +188,7 @@ const CoffeCounts = () => {
                             onChange={(v) => handleChange(v, field.id)}>
                             <Group >
                                 <Button slot="decrement">&minus;</Button>
-                                <Input className='Input1'/>
+                                <Input className='Input1' />
                                 <Text className="description" slot="description">{field.id}</Text>
                                 <Button slot="increment">+</Button>
                             </Group>
@@ -152,10 +196,10 @@ const CoffeCounts = () => {
                     </div>
                 )
             })}</div>
-                    <div className='totcoffe'>{(ycountsReady && TotCoffe)}</div>
-                    <Button className="submit"onPress={handleSubmit}  >Отправить</Button>
-                  </div>
-      );
-    }
+            <div className='totcoffe'>{(ycountsReady && TotCoffe)}</div>
+            <Button className="submit" onPress={handleSubmit}  >Отправить</Button>
+        </div>
+    );
+}
 
 export default CoffeCounts;

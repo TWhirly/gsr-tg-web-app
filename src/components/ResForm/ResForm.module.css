@@ -30,15 +30,16 @@
 }
 
 .container {
-  background: var(--bgColor);
   top: 0;
-  width: 100%;
-  height: 100%;
-  /* left: 0;
-    top: 0; */
+  width: 100vw;
+  height: 100vh;
+ display: flex;
+    background: var(--bgColor);
   flex-direction: column;
-  /* background-color: var(--tg-theme-secondary-bg-color); */
-  /* background-color: white; */
+  align-items: center;
+  
+  justify-content: center;
+ 
 }
 
 .subheader {
@@ -53,8 +54,9 @@
 }
 
 .formContainer {
-  top: 5px;
-  margin-top: 1rem;
+  
+  /* top: 5px; */
+  /* margin-top: 1rem; */
   display: flex;
   right: 0;
   flex-direction: column;
@@ -64,8 +66,25 @@
   margin: 0px;
   border-radius: 10px;
   text-align: center;
-  margin-bottom: 2.5rem;
+  justify-content: center;
+  /* margin-bottom: 2.5rem; */
   outline: none;
+  z-index: 100;
+}
+
+.label{
+  /* left: 0; */
+  width: 3rem;
+  position: relative;
+  /* margin-left: 0; */
+  /* margin-right: 1%; */
+  /* padding-left: 1px; */
+  /* text-align: left; */
+  display: flex;
+  flex-direction: row;
+  color: blue;
+  align-items: center;
+  border: none;
   z-index: 100;
 }
 
@@ -76,13 +95,13 @@
   background-color: var(--tg-theme-secondary-bg-color);
   /* top: 1rem; */
   height: fit-content;
-  justify-content: baseline;
+  /* justify-content: center; */
   display: flex;
   flex-direction: column;
   /* justify-content: flex-end; */
   /* box-sizing: border-box; */
   width: 100%;
-  padding: 0;
+  /* padding: 0; */
   /* box-sizing: border-box; */
   /* flex-grow: 1; */
   position: relative;
@@ -93,9 +112,9 @@
   /* outline: auto; */
 
   /* padding: 2px; */
-  margin: auto;
-  margin-top: 1rem;
-  margin-bottom: 0px;
+  
+  /* margin-top: 0; */
+  /* margin-bottom: 0px; */
   /* border: none; */
   text-align: center;
   /* align-items: flex-start; */
@@ -114,9 +133,15 @@
   margin: 0;
   width: 100%;
   flex-direction: row;
-  /* outline: 0.5px solid; */
   border: 1px solid DimGray;
+  /* outline: 0.5px solid; */
+  
   z-index: 100
+}
+
+.inputLineWithLabel{
+  display: flex;
+  flex-direction: row;
 }
 
 .inputs {
@@ -125,13 +150,13 @@
   left: 0;
   right: 0;
   bottom: 1px;
-  top: 0;
+  /* top: 0; */
   position: relative;
   text-align: center;
   /* background: var(--tg-theme-bg-color); */
   background-color: var(--tg-theme-secondary-bg-color);
   /* border: 1px solid var(--border-color); */
-  
+  height: fit-content;
   color: var(--tg-theme-text-color);
 
   /* margin: 0 -1px; */

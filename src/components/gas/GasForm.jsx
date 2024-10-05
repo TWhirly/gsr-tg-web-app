@@ -104,7 +104,7 @@ const GasForm = () => {
     }
     console.log('type field', fields)
     return (
-        <div className={styles.container1}>
+        <div className={styles.container}>
             <header className={styles.header}>Газовые баллоны</header>
             <div className={ styles.formContainer }>
             <group className={styles.group}>
@@ -120,7 +120,7 @@ const GasForm = () => {
                                 onChange={(v) => handleChange(v, field.id)}>
                                 <div className={styles.inputLine}>
                                     <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                    <Input className={styles.input1} />
+                                    <Input className={styles.input} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                 </div>
@@ -143,7 +143,7 @@ const GasForm = () => {
                                 onChange={(v) => handleChange(v, field.id)}>
                                 <div className={styles.inputLine}>
                                     <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                    <Input className={styles.input1} />
+                                    <Input className={styles.input} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                 </div>
@@ -166,7 +166,7 @@ const GasForm = () => {
                                 onChange={(v) => handleChange(v, field.id)}>
                                 <div className={styles.inputLine}>
                                     <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                    <Input className={styles.input1} />
+                                    <Input className={styles.input} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                 </div>
@@ -189,7 +189,7 @@ const GasForm = () => {
                                 onChange={(v) => handleChange(v, field.id)}>
                                 <div className={styles.inputLine}>
                                     <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                    <Input className={styles.input1} />
+                                    <Input className={styles.input} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                 </div>
@@ -211,7 +211,7 @@ const GasForm = () => {
                                 onChange={(v) => handleChange(v, field.id)}>
                                 <div className={styles.inputLine}>
                                     <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                    <Input className={styles.input1} />
+                                    <Input className={styles.input} />
                                     <Text className={styles.description} slot="description">{field.name}</Text>
                                     <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                 </div>
