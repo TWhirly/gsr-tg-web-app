@@ -42,18 +42,7 @@
 }
 
 .btn {
-    /* padding: 10px 15px;
-    background: var(--tg-theme-button-color);
-    color: var(--tg-theme-button-text-color);
-    border: none;
-    outline: none;
-    cursor: pointer;
-    display: block;
-    margin-right: 10%;
-    margin-left: 10%;
-    margin-bottom: 10px;
-    justify-content: 100%;
-    min-width: 80%; */
+   
     border: none;
     border-radius: 5px;
     text-decoration: none;
@@ -65,7 +54,8 @@
     font-weight: bold;
     flex-direction: column;
     margin-bottom: 10px;
-    justify-content: 100%;
+    justify-content: center;
+    text-align: center;
     min-width: calc(100% - 2px);
     margin-left: 1px;
     margin-right: 1px;
