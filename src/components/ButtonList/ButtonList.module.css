@@ -52,7 +52,7 @@
     display: block;
     font-size: 0.8rem;
     font-weight: bold;
-    flex-direction: column;
+    flex-direction: row;
     margin-bottom: 10px;
     justify-content: center;
     text-align: center;
