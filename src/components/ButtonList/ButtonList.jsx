@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './ButtonList.css';
+import styles from'./ButtonList.module.css';
 import { useTelegram } from "../../hooks/useTelegram";
 import { useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -102,9 +102,9 @@ const ButtonList = () => {
 
     return (
         <div className={'list'} >
-           {sentVisible && <h2 className='sent'>{'Отправлено'}</h2>}
-            {(Plandata && <legend  className='plan'>{Plandata}</legend>)}
-            {data.map(item => (<button className={'btn'} onClick={(v) => handleClick(item.action)}  >  {item.action} </button>))}
+           {sentVisible && <h2 className={styles.sent}>{'Отправлено'}</h2>}
+            {(Plandata && <legend  className={styles.plan}>{Plandata}</legend>)}
+            {data.map(item => (<button className={styles.btn} onClick={(v) => handleClick(item.action)}  >  {item.action} </button>))}
         </div>
     );
 }
