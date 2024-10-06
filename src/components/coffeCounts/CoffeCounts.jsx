@@ -54,6 +54,7 @@ const CoffeCounts = () => {
                 return acc;
             }, {});
             setFormData(initialFormData);
+            console.log('FormData ', fields)
         };
         loadFields();
     }, []);

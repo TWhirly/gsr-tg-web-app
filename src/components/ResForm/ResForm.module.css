@@ -38,7 +38,7 @@
   flex-direction: column;
   align-items: center;
   
-  justify-content: center;
+  /* justify-content: center; */
  
 }
 
@@ -66,7 +66,7 @@
   margin: 0px;
   border-radius: 10px;
   text-align: center;
-  justify-content: center;
+  /* justify-content: center; */
   /* margin-bottom: 2.5rem; */
   outline: none;
   z-index: 100;
@@ -74,16 +74,17 @@
 
 .label{
   /* left: 0; */
-  width: 3rem;
+  width: 4rem;
   position: relative;
   /* margin-left: 0; */
   /* margin-right: 1%; */
   /* padding-left: 1px; */
   /* text-align: left; */
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
   color: blue;
   align-items: center;
+  text-align: left;
   border: none;
   z-index: 100;
 }
