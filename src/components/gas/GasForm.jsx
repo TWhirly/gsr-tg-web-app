@@ -16,18 +16,26 @@ const APIURL = localUrl.APIURL;
 const GasForm = () => {
     const navigate = useNavigate();
     const fetchFormFields = async () => {
+        try{
         const response = await fetch(APIURL + '/gas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ initData: window.Telegram.WebApp.initData })
-        }); // Генерируем объект Response
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        } // Генерируем объект Response
         const jVal = await response.json(); // Парсим тело ответа
         return jVal
+    }
+    catch (error) {
+        console.log(error); // Устанавливаем ошибку
+    }
     };
 
-    const [fields, setFields] = useState([]);
+    const [fields, setFields] = useState([null]);
     var [formData, setFormData] = useState({});
     var [formDataInputs, setFormDataInputs] = useState({});
     const [formReady, setIsFormReady] = useState(false);
@@ -54,6 +62,9 @@ const GasForm = () => {
         };
         loadFields();
     }, []);
+
+
+
 
     const handleChange = (value, id) => {
 
@@ -87,7 +98,7 @@ const GasForm = () => {
             ('00' + date.getHours()).slice(-2) + ':' +
             ('00' + date.getMinutes()).slice(-2) + ':' +
             ('00' + date.getSeconds()).slice(-2);
-        fetch(APIURL + '/sendCoffeCounts', {
+        fetch(APIURL + '/sendGas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -111,7 +122,7 @@ const GasForm = () => {
                         <Group className={styles.inputs}>{fields.filter((item) => (item.id) == 'sales').map((field) => {
                             return (
                                 <div className={styles.numberField} key={field.id}>
-                                    <NumberField id={field.id} value={0} aria-label="e"
+                                    <NumberField id={field.id} defaultValue={0} aria-label="e"
                                         minValue={0}
                                         description={field.name}
                                         // isRequired={true}

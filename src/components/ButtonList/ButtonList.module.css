@@ -1,22 +1,21 @@
 .list {
-    cursor: pointer;
-    /* display: block-outline; */
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: 100%;
-    text-align: left;
-    /* margin-right: 1px;
-    margin-left: 1px; */
-    width: 100%;
-    /* background: var(--tg-theme-bg-color); */
+    /* cursor: pointer; */
+    /* position: absolute; */
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    /* justify-content: 100%; */
+    /* text-align: left; */
+    /* margin-left: 1px; */
+    /* width: 100%; */
+    background-color: var(--bgColor);
+    max-width: calc(100% - 2px);
 
 }
 
 .plan {
     display: block;
     font-weight: bold;
-    margin-top: 10px;
+    top: 30px;
     margin-bottom: 10px;
     margin-left: 1px;
     margin-right: 1px;
@@ -25,13 +24,14 @@
     white-space: break-spaces;
     color: var(--tg-theme-section-header-text-color);
     text-align: left;
-    justify-content: 100%;
+    justify-content: center;
     font-size: 0.8rem;
     border: 2px solid;
-    width: 100%;
+    width: calc(100% - 2px);
     background-color: var(--tg-theme-section-bg-color);
     border-radius: 5px;
-    border-color: var(--tg-theme-button-color)
+    border-color: var(--tg-theme-button-color);
+    z-index: 0;
 }
 
 .item {
