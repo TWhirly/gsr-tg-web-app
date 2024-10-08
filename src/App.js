@@ -8,6 +8,7 @@ import ButtonList from "./components/ButtonList/ButtonList";
 import ResForm from "./components/ResForm/ResForm";
 import GasForm from './components/gas/GasForm';
 import CoffeCounts from './components/coffeCounts/CoffeCounts';
+import CafeRems from './components/CafeRems/CafeRems';
 import FormComponent from './components/ResForm/form_try';
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/ResForm" element={<ResForm />} />
                 <Route path="/CoffeCounts" element={<CoffeCounts />} />
                 <Route path="/GasForm" element={<GasForm />} />
+                <Route path="/CafeRems" element={<CafeRems />} />
             </Routes>
         </div>
     );

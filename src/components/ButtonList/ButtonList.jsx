@@ -89,7 +89,8 @@ const ButtonList = () => {
         'Отчёт 0 часов': "/0hrep",
         'Остатки': "/ResForm",
         'Счётчики КМ': "/CoffeCounts",
-        "Газовые баллоны": "/GasForm"
+        "Газовые баллоны": "/GasForm",
+        "Остатки кафе": "/CafeRems"
     }
   
    
