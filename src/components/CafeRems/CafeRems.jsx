@@ -31,7 +31,12 @@ const CafeRems = () => {
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState([]);
     let [formDataInputs, setFormDataInputs] = useState({});
+    console.log('Form Data', formData)
 
+    const amtsData = [
+        {id: 'остаток'},
+        {id: 'продажа'}
+    ]
 
     useEffect(() => {
         const loadFields = async () => {
@@ -97,30 +102,38 @@ const CafeRems = () => {
 
 
     return (
-        <div className={styles.container}>
+        <div >
             
            
        
             <h4 className={styles.header}>Остатки кафе</h4>
-            <Group className={styles.inputs}>{fields.map((field) => {
+            <Group className={styles.container}>{fields.map((field) => {
                 return (
                     <div  key={field.id}>
-                        <NumberField className={styles.numberField} id={field.id} value={formData[field.id]} aria-label="e"
+                        <productField className={styles.productField} id={field.id} value={formData[field.id]} aria-label="e"
                             minValue={0}
-                            description={field.name}
+                            // description={field.name}
                             // isRequired={true}
                             onInput={handleInput}
-                            onChange={(v) => handleChange(v, field.id)}>
-                                 <Label className={styles.inputLineWithLabel}>
-                                    <div className={styles.label}> {field.id} </div> 
+                            >
+                                 <Label className={styles.productName} >{field.id}
                                    
-                            <div className={styles.inputLine}>
-                                <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                <Input className={styles.input} />
-                                <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                   
+                            <div className={styles.inputLine}>{amtsData.map((amtsData) => {
+                                return (
+                                <><NumberField key={amtsData.id}
+                                        className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
+                                        onChange={(v) => handleChange(v, field.id)} aria-label="i">
+                                        <Label className={styles.inputtype}>{amtsData.id} </Label>
+                                        <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                        <Input className={styles.input} />
+                                        <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                    </NumberField></>
+                            )
+                        })}
                             </div>
                             </Label>
-                        </NumberField>
+                        </productField>
                         
                     </div>
                 )

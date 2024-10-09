@@ -2,7 +2,8 @@
     display: flex;
     flex-direction: column;
     font-size: 1rem;
-    height: auto;
+    height: 2rem;
+    width: 100%;
     left: 0px;
     right: 0px;
     color: var(--tg-theme-text-color);
@@ -15,217 +16,51 @@
     background-color: var(--bgColor);
     z-index: 1000;
     text-align: center;
-  }
-  
-  .container {
+}
+
+.container {
     position: absolute;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-   display: flex;
-      background: var(--bgColor);
+    top: 2rem;
+    left: 0;
+    right: inherit;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    height: fit-content;
+    background: var(--bgColor);
     flex-direction: column;
     align-items: center;
     padding: 0%;
-    
-    /* justify-content: center; */
-   
 
-      .inputs {
-        margin-top: 2rem;
-        display: flex;
-        flex-direction: column;
-        left: 0;
-        right: 0;
-        /* bottom: 2.4rem; */
+    .productField {
         position: relative;
-        text-align: center;
-        background-color: var(--tg-theme-secondary-bg-color);
-        /* background-color: white; */
-        height: fit-content;
-        color: var(--tg-theme-text-color);
-        border: none;
-        border-radius: 5px;
-        z-index: 1;
-        font-size: 1rem;
-        padding: 0px 0.5rem;
-        outline: none;
-        width: 100%;
-        /* margin-bottom: 2.4rem; */
-
-        .numberField {
-            height: fit-content;
-            align-content: center;
-            display: flex;
-            flex-direction: column;
-            /* top: 2rem; */
-            justify-content: center;
-            /* margin-top: 20px; */
-            position: relative;
-            width: 100%;
-            bottom: 0;
-            padding: 5px;
-            outline: none;
-            border: none;
-            align-items: center;
-             
-          };
-
-        .inputLineWithLabel{
-            display: flex;
-            flex-direction: column;
-            border: 2px solid;
-            border-radius: 5px;
-            min-width: calc(100% - 6px);
-            justify-items: center;
-            /* text-align: center; */
-            /* align-items: center; */
-        
-            .inputLine {
-                justify-content: center;
-                height: 2rem;
-                display: flex;
-                left: 0;
-                right: 0;
-                /* bottom: 0; */
-                position: relative;
-                /* padding: 0; */
-                /* margin: 0; */
-                flex-direction: row;
-                min-width: calc(100% - 6px);
-                
-                /* border: 1px solid DimGray; */
-                /* outline: 0.5px solid; */
-
-                
-                
-                z-index: 100;
-                .input {
-                    height: 2rem;
-                    display: flex;
-                    position: relative;
-                    flex-direction: row;
-                    bottom: 0;
-                    text-align: center;
-                    background-color: var(--tg-theme-secondary-bg-color);
-                    border: none;
-                    /* border-bottom: 1px solid DimGray; */
-                    color: var(--tg-theme-text-color);
-                    font-size: 1rem;
-                    padding: 0.5rem 0.5rem;
-                    outline: none;
-                    width: 100%;
-                    flex: 1;
-                  
-                  }
-              }
-              .label{
-                /* left: 0; */
-                width: 100%;
-                position: relative;
-                justify-content: center;
-                display: flex;
-                flex-direction: row;
-                color: var(--tg-theme-text-color);
-                align-items: center;
-                text-align: center;
-                border: none;
-                z-index: 100;
-              }
-          }
-      }
-      .submit {
-        align-items: center;
         justify-content: center;
-        min-width: calc(100% - 6px);
-        padding: 10px 20px;
-        position: relative;
-        z-index: 1000;
-        bottom: 0;
-        margin-right: 3px;
-        margin-left: 3px;
-        border-radius: 5px;
-        font-size: 1rem;
-        border: none;
-        outline: none;
-        color: var(--tg-theme-button-text-color);
-        height: 2.4rem;
-        background: var(--tg-theme-button-color);
-      
-      }
-  }
-  
-  
-  
-  
-  
-  
-  
- 
-  
-  .reactAriaButton {
-    height: 2rem;
-    border: 0;
-    outline: 0;
-    background: black;
-    font-size: 1.4rem;
-    width: 2.5rem;
-    padding: 0;
-  }
-  
-  .reactAriaButton[slot=decrement] {
-    text-align: center;
-    background: var(--tg-theme-secondary-bg-color);
-    border: none;
-    color: var(--tg-theme-text-color);
-    width: 2.5rem;
-    outline: none;
-  }
-  
-  .reactAriaButton[slot=increment] {
-    border: 0;
-    text-align: center;
-    background: var(--tg-theme-secondary-bg-color);
-    border-start-start-radius: 0;
-    border-end-start-radius: 0;
-    color: var(--tg-theme-text-color);
-    width: 2.5rem
-  }
-  
-  
-  
-  .numberField input:focus+.description,
-  .numberField input:valid+.description {
-    /* top: -0.5rem; */
-    box-sizing: content-box;
-    background-color: var(--tg-theme-secondary-bg-color);
-    font-size: 0.7rem;
-    
-    /* Уменьшаем размер шрифта */
-    color: #007bff;
-    /* Цвет текста при фокусе */
-  }
-  
-  .inputLine focus-within.description {
-    /* top: -0.5rem; */
-    box-sizing: content-box;
-    background-color: var(--tg-theme-secondary-bg-color);
-    font-size: 2rem;
-    font-weight: bold;
-    /* Уменьшаем размер шрифта */
-    color: #007bff;
-    /* Цвет текста при фокусе */
-  }
-  
-  
-  
-  
-  
-  .inputLine:focus-within{
-    border-color: var(--focus-ring-color);
-    border-width: 2px;
-  }
-  
-  
-  
-  
+        display: flex;
+        width: 100vw;
+        
+        border: 1px solid;
+
+        .inputLine{
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            .inputtype{
+                position: relative;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        .productName{
+            width: 100%;
+            color: blue;
+            text-align: center;
+        }
+
+        .numberField{
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
