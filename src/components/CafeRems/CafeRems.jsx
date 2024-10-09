@@ -125,9 +125,11 @@ const CafeRems = () => {
                                         className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
                                         onChange={(v) => handleChange(v, field.id)} aria-label="i">
                                         <Label className={styles.inputtype}>{amtsData.id} </Label>
+                                        <div className={styles.inputAndIncDec}>
                                         <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
                                         <Input className={styles.input} />
                                         <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                        </div>
                                     </NumberField></>
                             )
                         })}
