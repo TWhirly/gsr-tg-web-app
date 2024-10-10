@@ -148,7 +148,10 @@
     background-color: var(--tg-theme-secondary-bg-color);
     left: 50%;
     transform: translateX(-50%);
-    padding: auto 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 0px;
    margin-bottom: -0.65rem;
    z-index: 100
     
