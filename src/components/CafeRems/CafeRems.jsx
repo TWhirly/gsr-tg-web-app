@@ -103,10 +103,7 @@ const CafeRems = () => {
 
     return (
         <div >
-            
-           
-       
-            <h4 className={styles.header}>Остатки кафе</h4>
+            <h4 className={styles.header}>Отчёт по кафе</h4>
             <Group className={styles.container}>{fields.map((field) => {
                 return (
                     <div  key={field.id}>
@@ -123,6 +120,7 @@ const CafeRems = () => {
                                 return (
                                 <><NumberField key={amtsData.id}
                                         className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
+                                        minValue={0} defaultValue={amtsData.id == 'продажа' ? 0 : field.cnt}
                                         onChange={(v) => handleChange(v, field.id)} aria-label="i">
                                         <Label className={styles.inputtype}>{amtsData.id} </Label>
                                         <div className={styles.inputAndIncDec}>
@@ -135,14 +133,17 @@ const CafeRems = () => {
                         })}
                             </div>
                             </Label>
+                           
                         </productField>
-                        
+                      
                     </div>
+                     
                 )
-            })}</Group>
-       
-        <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
-       
+                
+            })}
+             <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
+            </Group>
+      
         </div>
     )
 

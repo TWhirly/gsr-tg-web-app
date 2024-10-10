@@ -122,7 +122,6 @@
   margin: 0;
   width: 100%;
   flex-direction: row;
-  /* outline: 0.5px solid; */
   border: 1px solid DimGray;
   z-index: 100
 }
@@ -133,40 +132,22 @@
   flex: 1 1 auto;
   left: 0;
   right: 0;
-  /* bottom: 1px; */
-  /* top: 0; */
-  /* position: relative; */
   text-align: center;
-  /* background: var(--tg-theme-bg-color); */
   background-color: var(--tg-theme-secondary-bg-color);
-  /* border: 1px solid var(--border-color); */
-  
   color: var(--tg-theme-text-color);
-
-  /* margin: 0 -1px; */
   border: none;
   border-radius: 5px;
-  /* z-index: 1; */
   font-size: 1rem;
-  /* padding: 0.429rem 0.571rem; */
   padding: 0.5rem;
   outline: none;
-  /* width: 100%; */
-  /* margin-bottom: 0px; */
-  /* flex: initial; */
-
-
 }
 
 .numberField {
-  /* display: flow-root; */
   flex-direction: row;
-  /* top: 0rem; */
   justify-content: center;
   margin-top: 20px;
   position: relative;
   width: 100%;
-  /* bottom: 0; */
   padding: 0;
   outline: none;
   border: none
@@ -221,10 +202,7 @@
   box-sizing: content-box;
   background-color: var(--tg-theme-secondary-bg-color);
   font-size: 0.7rem;
-  
-  /* Уменьшаем размер шрифта */
   color: #007bff;
-  /* Цвет текста при фокусе */
 }
 
 .inputLine focus-within.description {
