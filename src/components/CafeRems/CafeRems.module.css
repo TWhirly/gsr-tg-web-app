@@ -107,7 +107,7 @@
     /* border-radius: 5px; */
     margin: 5px;
     
-    z-index: 1000;
+    /* z-index: 1000; */
    
 }
 .reactAriaButton{
@@ -140,12 +140,17 @@
 
 .inputtype{
     font-size: 0.6rem;
+    color: var(--tg-theme-section-header-text-color);
     position: relative;
-    display: flexbox;
+    display: inline;
+    width: fit-content;
     flex-direction: row;
-    border: none;
-    padding: auto;
-    margin: auto;
+    background-color: var(--tg-theme-secondary-bg-color);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: auto 5px;
+   margin-bottom: -0.65rem;
+   z-index: 100
     
 }
 
