@@ -22,7 +22,7 @@
   margin-left: 3px;
   /* padding: 3px; */
   /* background-color: var(--tg-theme-header-bg-color); */
-  background-color: var(--tg-theme-secondary-bg-color);
+  background-color: var(--bgColor);
 
   /* bottom: 70rem; */
   z-index: 1000;
@@ -45,7 +45,8 @@
 .subheader {
   position: relative;
   height: auto;
-  background: var(--tg-theme-secondary-bg-color);
+  color: var(--tg-theme-text-color);
+  background-color: var(--bgColor);
   /* background-color: none; */
   border-radius: 5px;
   margin-bottom: 0;

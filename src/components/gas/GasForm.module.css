@@ -22,7 +22,7 @@
   margin-left: 3px;
   /* padding: 3px; */
   /* background-color: var(--tg-theme-header-bg-color); */
-  background-color: var(--tg-theme-secondary-bg-color);
+  background-color: var(--bgColor);
 
   /* bottom: 70rem; */
   z-index: 1000;
@@ -104,8 +104,11 @@
 
 }
 
+
+
 .inputLine {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   left: 0;
   right: 0;
   bottom: 0;

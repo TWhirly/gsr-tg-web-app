@@ -25,17 +25,20 @@ const CafeRems = () => {
         const jVal = await response.json(); // Парсим тело ответа
         console.log('Jval is ', jVal)
         return jVal
-        
+
     };
 
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState([]);
     let [formDataInputs, setFormDataInputs] = useState({});
+    const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     console.log('Form Data', formData)
 
     const amtsData = [
-        {id: 'остаток'},
-        {id: 'продажа'}
+        { id: 'остаток' },
+        { id: 'продажа' },
+        {id: 'списание'},
+        {id: 'заказ'}
     ]
 
     useEffect(() => {
@@ -55,6 +58,10 @@ const CafeRems = () => {
         loadFields();
     }, []);
 
+    useEffect(() => {
+        setShowAdditionalFields(showAdditionalFields)
+    }, [showAdditionalFields, setShowAdditionalFields])
+
     const handleChange = (value, id) => {
 
 
@@ -65,17 +72,15 @@ const CafeRems = () => {
         formDataInputs = formData;
     };
 
-    const handleInput = (e) => {
-        const id = e.target['id'];
-        const value = e.target['value'].toString().replace(/\s/g, '');
-        console.log('e ', e.target['value'])
+      const toggleAdditionalFields = (fieldID) => {
+        setShowAdditionalFields(showAdditionalFields.get(fieldID) === (true) ? showAdditionalFields.set(fieldID, false) : showAdditionalFields.set(fieldID, true));
+       
+        console.log(showAdditionalFields)
+        // return showAdditionalFields.get(fieldID)
+        
+       }
 
-        setFormData((prevData) => ({
-            ...prevData,
-            [id]: value,
-        }));
-
-    };
+      
 
     const handleSubmit = () => {
         var date = new Date();
@@ -106,44 +111,71 @@ const CafeRems = () => {
             <h4 className={styles.header}>Отчёт по кафе</h4>
             <Group className={styles.container}>{fields.map((field) => {
                 return (
-                    <div  key={field.id}>
+                    <div key={field.id}>
                         <productField className={styles.productField} id={field.id} value={formData[field.id]} aria-label="e"
                             minValue={0}
                             // description={field.name}
                             // isRequired={true}
-                            onInput={handleInput}
-                            >
-                                 <Label className={styles.productName} >{field.id}
-                                   
-                                   
-                            <div className={styles.inputLine}>{amtsData.map((amtsData) => {
-                                return (
-                                <><NumberField key={amtsData.id}
-                                        className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
-                                        minValue={0} defaultValue={amtsData.id == 'продажа' ? 0 : field.cnt}
-                                        onChange={(v) => handleChange(v, field.id)} aria-label="i">
-                                        <Label className={styles.inputtype}>{amtsData.id} </Label>
-                                        <div className={styles.inputAndIncDec}>
-                                        <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                        <Input className={styles.input} />
-                                        <Button className={styles.reactAriaButton} slot="increment">+</Button>
-                                        </div>
-                                    </NumberField></>
-                            )
-                        })}
-                            </div>
+                            // onInput={handleInput}
+                        >
+                            <Label className={styles.productName} >{field.id}  
+
+
+                                <div className={styles.inputLine}>{amtsData.filter((item) => (item.id) == 'остаток' || item.id == 'продажа').map((amtsData) => {
+                                    return (
+                                        <><NumberField key={amtsData.id}
+                                            className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
+                                            minValue={0} defaultValue={amtsData.id == 'продажа' ? 0 : field.cnt}
+                                            onChange={(v) => handleChange(v, field.id)} aria-label="i">
+                                            <Label className={styles.inputtype}>{amtsData.id} </Label>
+                                            <div className={styles.inputAndIncDec}>
+                                                <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                                <Input className={styles.input} />
+                                                <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                            </div>
+                                           
+                                        </NumberField>
+                                       </>
+                                    )
+                                })}
+                                    
+                                </div>
+                               
+                                {(showAdditionalFields.get(field.id) && <div className={styles.inputLine2}>{amtsData.filter((item) => (item.id) == 'списание' || item.id == 'заказ').map((amtsData) => {
+                                    return (
+                                       
+                                        <><NumberField key={amtsData.id}
+                                            className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
+                                            minValue={0} defaultValue={0}
+                                            onChange={(v) => handleChange(v, field.id)} aria-label="i">
+                                            <Label className={styles.inputtype}>{amtsData.id} </Label>
+                                            <div className={styles.inputAndIncDec}>
+                                                <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                                <Input className={styles.input} />
+                                                <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                            </div>
+                                           
+                                        </NumberField>
+                                       </>
+                                    )
+                                })}
+                                    
+                                </div>)}
                             </Label>
-                           
+                            <button type="button" onClick={(v) => toggleAdditionalFields(field.id)}>
+                                        {showAdditionalFields ? '−' : '+'} 
+                                    </button>
+                                  
                         </productField>
-                      
+                                    
                     </div>
-                     
+
                 )
-                
+
             })}
-             <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
+                <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
             </Group>
-      
+
         </div>
     )
 

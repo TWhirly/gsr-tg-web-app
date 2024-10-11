@@ -23,7 +23,7 @@
   margin-left: 3px;
   /* padding: 3px; */
   /* background-color: var(--tg-theme-header-bg-color); */
-  background-color: var(--tg-theme-secondary-bg-color);
+  background-color: var(--bgColor);
 
   /* bottom: 70rem; */
   z-index: 1000;

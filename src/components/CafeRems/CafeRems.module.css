@@ -51,9 +51,16 @@
             flex-direction: row;
             margin: auto;
             padding: auto;
-          
-           
-           
+        }
+
+        .inputLine2{
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            margin: auto;
+            padding: auto;
+            overflow: hidden;
+            transition: max-height 0.9s ease-out;
         }
 
         .productName{
