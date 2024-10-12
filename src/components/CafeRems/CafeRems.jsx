@@ -126,6 +126,7 @@ const CafeRems = () => {
     }
 
 
+    console.log('init: ', window.Telegram.WebApp.initData)
     return (
         <div >
             <h4 className={styles.header}>Отчёт по кафе</h4>
