@@ -35,8 +35,10 @@
     .productField {
         position: relative;
         justify-content: center;
+        flex-direction: column;
         display: flex;
         box-sizing: content-box;
+        height: auto;
         background-color: var(--tg-theme-secondary-bg-color);
         /* width: 100vw; */
         min-width: calc(100% - 6px);
@@ -179,6 +181,20 @@
   outline: none;
   background-color: var(--tg-theme-secondary-bg-color);
   font-size: 1rem;
+}
+
+.expandButton{
+    /* background-image: url(../../icons/expand.png); */
+    display: flexbox;
+    flex-direction: row;
+    position: relative;
+  
+  left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    /* color: red;
+    fill: red; */
 }
 
 

@@ -83,7 +83,7 @@
   /* text-align: left; */
   display: flex;
   /* flex-direction: row; */
-  color: blue;
+  color: var(--tg-theme-text-color);
   align-items: center;
   text-align: left;
   border: none;
@@ -159,8 +159,7 @@
   background-color: var(--tg-theme-secondary-bg-color);
   /* border: 1px solid var(--border-color); */
   height: fit-content;
-  color: var(--tg-theme-text-color);
-
+  color: var(--tg-theme-section-header-text-color);
   /* margin: 0 -1px; */
   border: none;
   border-radius: 5px;

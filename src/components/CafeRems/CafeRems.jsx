@@ -4,6 +4,8 @@ import { localUrl } from '../../localSettings.js'
 import 'animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
+import expandLogo from '../../icons/angle-small-down.svg'
+import decreaseLogo from '../../icons/angle-small-up.svg'
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram.js";
 import { type } from '@testing-library/user-event/dist/type/index.js';
@@ -31,14 +33,16 @@ const CafeRems = () => {
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState([]);
     let [formDataInputs, setFormDataInputs] = useState({});
+    // const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
+    const [toggleState, setToggleState] = useState(false);
     console.log('Form Data', formData)
 
     const amtsData = [
         { id: 'остаток' },
         { id: 'продажа' },
-        {id: 'списание'},
-        {id: 'заказ'}
+        { id: 'списание' },
+        { id: 'заказ' }
     ]
 
     useEffect(() => {
@@ -60,7 +64,7 @@ const CafeRems = () => {
 
     useEffect(() => {
         setShowAdditionalFields(showAdditionalFields)
-    }, [showAdditionalFields, setShowAdditionalFields])
+    }, [showAdditionalFields, toggleState])
 
     const handleChange = (value, id) => {
 
@@ -71,16 +75,32 @@ const CafeRems = () => {
         }));
         formDataInputs = formData;
     };
+    
 
-      const toggleAdditionalFields = (fieldID) => {
-        setShowAdditionalFields(showAdditionalFields.get(fieldID) === (true) ? showAdditionalFields.set(fieldID, false) : showAdditionalFields.set(fieldID, true));
-       
+    const toggleAdditionalFields = (fieldID) => {
+        setToggleState(toggleState == true ? false : true) 
+        console.log('1', showAdditionalFields)
+        if(showAdditionalFields.get(fieldID) === true){
+            showAdditionalFields.set(fieldID, false)
+        }
+        else{
+            showAdditionalFields.set(fieldID, true)
+        }
+        setShowAdditionalFields(showAdditionalFields)
+
         console.log(showAdditionalFields)
-        // return showAdditionalFields.get(fieldID)
-        
-       }
 
-      
+    }
+
+    // const toggleAdditionalFields = () => {
+    //     const showAdditionalFields1 = showAdditionalFields ? false : true
+    //     setShowAdditionalFields(showAdditionalFields1)
+
+    //     console.log(showAdditionalFields)
+
+    // }
+
+
 
     const handleSubmit = () => {
         var date = new Date();
@@ -112,17 +132,21 @@ const CafeRems = () => {
             <Group className={styles.container}>{fields.map((field) => {
                 return (
                     <div key={field.id}>
+                        
                         <productField className={styles.productField} id={field.id} value={formData[field.id]} aria-label="e"
                             minValue={0}
-                            // description={field.name}
-                            // isRequired={true}
-                            // onInput={handleInput}
+                        // description={field.name}
+                        // isRequired={true}
+                        // onInput={handleInput}
                         >
-                            <Label className={styles.productName} >{field.id}  
+                              
+                            <Label className={styles.productName} >{field.id}
+                           
 
 
                                 <div className={styles.inputLine}>{amtsData.filter((item) => (item.id) == 'остаток' || item.id == 'продажа').map((amtsData) => {
                                     return (
+
                                         <><NumberField key={amtsData.id}
                                             className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
                                             minValue={0} defaultValue={amtsData.id == 'продажа' ? 0 : field.cnt}
@@ -133,17 +157,17 @@ const CafeRems = () => {
                                                 <Input className={styles.input} />
                                                 <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                             </div>
-                                           
+
                                         </NumberField>
-                                       </>
+                                        </>
                                     )
                                 })}
-                                    
+
                                 </div>
-                               
+
                                 {(showAdditionalFields.get(field.id) && <div className={styles.inputLine2}>{amtsData.filter((item) => (item.id) == 'списание' || item.id == 'заказ').map((amtsData) => {
                                     return (
-                                       
+                                           
                                         <><NumberField key={amtsData.id}
                                             className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
                                             minValue={0} defaultValue={0}
@@ -154,20 +178,22 @@ const CafeRems = () => {
                                                 <Input className={styles.input} />
                                                 <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                             </div>
-                                           
+
                                         </NumberField>
-                                       </>
+                                        </>
                                     )
                                 })}
-                                    
+
                                 </div>)}
+                              
                             </Label>
-                            <button type="button" onClick={(v) => toggleAdditionalFields(field.id)}>
-                                        {showAdditionalFields ? '−' : '+'} 
-                                    </button>
-                                  
+                          
+                           {(!showAdditionalFields.get(field.id) && <img src={expandLogo} className={styles.expandButton} type="button" onClick={(v) => toggleAdditionalFields(field.id)} >
+                            </img>)}
+                            {(showAdditionalFields.get(field.id) && <img src={decreaseLogo} className={styles.expandButton} type="button" onClick={(v) => toggleAdditionalFields(field.id)} >
+                            </img>)}
                         </productField>
-                                    
+
                     </div>
 
                 )
