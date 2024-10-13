@@ -1,3 +1,6 @@
+@import '/node_modules/animate.css/animate.css';
+
+
 .header {
     display: flex;
     flex-direction: column;
@@ -16,6 +19,8 @@
     background-color: var(--bgColor);
     z-index: 1000;
     text-align: center;
+    animation: ease-in-out;
+    animation-duration: 3s;
 }
 
 .container {
@@ -31,95 +36,100 @@
     flex-direction: column;
     align-items: center;
     padding: 0%;
-
-    .productField {
-        position: relative;
-        justify-content: center;
-        flex-direction: column;
-        display: flex;
-        box-sizing: content-box;
-        height: auto;
-        background-color: var(--tg-theme-secondary-bg-color);
-        /* width: 100vw; */
-        min-width: calc(100% - 6px);
-        margin: 5px;
-        border-radius: 5px;
-        /* border: transparent; */
-        z-index: 100;
-
-        .inputLine{
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            margin: auto;
-            padding: auto;
-        }
-
-        .inputLine2{
-            position: relative;
-            display: flex;
-            flex-direction: row;
-            margin: auto;
-            padding: auto;
-            overflow: hidden;
-            transition: max-height 0.9s ease-out;
-        }
-
-        .productName{
-            box-sizing: content-box;
-            width: 100%;
-            color: var(--tg-theme-section-header-text-color);
-            text-align: center;
-            border: none;
-        }
-
-        .numberField{
-            
-            display: flex;
-            flex-direction: column;
-            /* border-radius: 5px; */
-            border: none;
-          
-            
-            
-        }
-    }
-    .submit {
-        align-items: center;
-        display: flex;
-        left: 1px;
-        justify-content: center;
-        width: calc(100% - 6px);
-        margin: 5px;
-        /* padding: 10px 20px; */
-        position: relative;
-        z-index: 1000;
-        bottom: 0;
-        /* margin-right: 3px;
-        margin-left: 3px; */
-        border-radius: 5px;
-        font-size: 1rem;
-        border: none;
-        outline: none;
-        color: var(--tg-theme-button-text-color);
-        height: 2.4rem;
-        background: var(--tg-theme-button-color);
-      
-      }
+    transition: all 3s ease;
 }
 
-.inputAndIncDec{
+.productField {
+    position: relative;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    box-sizing: content-box;
+    max-height: auto;
+    background-color: var(--tg-theme-secondary-bg-color);
+    /* width: 100vw; */
+    min-width: calc(100% - 6px);
+    margin: 5px;
+    border-radius: 5px;
+    /* border: transparent; */
+    z-index: 100;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in,
+     opacity 0.3s ease-out;
+   
+}
+
+.additionalField {
+    max-height: 0; /* Начальное состояние скрыто */
+    opacity: 0; /* Начальная прозрачность */
+    position: relative;
+    display: flex;
+    transition: max-height 0.3s ease-out,
+    opacity 0.3s ease-out; 
+}
+
+.additionalField.show {
+    max-height: 200px; /* Установите максимальную высоту, чтобы показать содержимое */
+    opacity: 1; /* Полная непрозрачность */
+    z-index: 100;
+}
+
+.numberField {
+
+    display: flex;
+    flex-direction: column;
+    /* border-radius: 5px; */
+    border: none;
+    z-index: 100;
+}
+
+.productName {
+    box-sizing: content-box;
+    width: 100%;
+    color: var(--tg-theme-section-header-text-color);
+    text-align: center;
+    border: none;
+}
+
+
+.inputLine {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    padding: auto;
+z-index: inherit;
+}
+
+
+
+.inputAndIncDec {
     background-color: var(--tg-theme-secondary-bg-color);
     display: flex;
     flex-direction: row;
     border: 1px solid DimGray;
     /* border-radius: 5px; */
     margin: 5px;
-    
+
     /* z-index: 1000; */
-   
+
 }
-.reactAriaButton{
+
+.inputLine2 {
+    position: relative;
+    display: inline-flex;
+    flex-direction: row;
+    margin: auto;
+    padding: auto;
+    /* overflow: hidden; */
+    transition: all 3s ease;
+    /* animation: slideInDown; */
+    /* animation: fadeIn; referring directly to the animation's @keyframe declaration */
+    animation-duration: 2s; 
+
+}
+
+.reactAriaButton {
     background-color: var(--tg-theme-secondary-bg-color);
     border: none;
     /* border-radius: 5px; */
@@ -132,22 +142,23 @@
     align-items: center;
     font-size: 1rem;
     outline: none;
-    
-   
+
+
 }
 
-.input{
+.input {
     border: none;
     background-color: var(--tg-theme-secondary-bg-color);
     width: calc(100% - 4rem - 2px);
     font-size: 1rem;
     text-align: center;
     outline: none;
+   
 }
 
 
 
-.inputtype{
+.inputtype {
     font-size: 0.6rem;
     color: var(--tg-theme-section-header-text-color);
     position: relative;
@@ -161,44 +172,67 @@
     padding-left: 5px;
     padding-top: 3px;
     padding-bottom: 0px;
-   margin-bottom: -0.65rem;
-   z-index: 100
-    
+    margin-bottom: -0.65rem;
+    z-index: 100
 }
 
-.inputAndIncDec:focus-within{
+.inputAndIncDec:focus-within {
     border-color: var(--focus-ring-color);
     border-width: 2px;
     height: auto;
     outline: none;
-    
+
 }
 
-.input:focus{
-  /* top: -0.5rem; */
-  /* box-sizing: content-box; */
-  border: none;
-  outline: none;
-  background-color: var(--tg-theme-secondary-bg-color);
-  font-size: 1rem;
+.input:focus {
+    /* top: -0.5rem; */
+    /* box-sizing: content-box; */
+    border: none;
+    outline: none;
+    background-color: var(--tg-theme-secondary-bg-color);
+    font-size: 1rem;
 }
 
-.expandButton{
+.expandButton {
     /* background-image: url(../../icons/expand.png); */
-    display: flexbox;
-    flex-direction: row;
+    display: content-box;
+    flex-direction: column;
     position: relative;
-  
-  left: 50%;
+    transition: all 3s ease;
+
+    left: 50%;
     transform: translateX(-50%);
     width: 30px;
     height: 30px;
+    opacity: 0.3s ease-out; 
     /* color: red;
     fill: red; */
 }
 
+.expandButton.show{
+    transition: max-height 0.3s ease-out,
+    opacity 0.3s ease-out; 
+}
 
+.submit {
+    align-items: center;
+    display: flex;
+    left: 1px;
+    justify-content: center;
+    width: calc(100% - 6px);
+    margin: 5px;
+    /* padding: 10px 20px; */
+    position: relative;
+    z-index: 1000;
+    bottom: 0;
+    /* margin-right: 3px;
+    margin-left: 3px; */
+    border-radius: 5px;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    color: var(--tg-theme-button-text-color);
+    height: 2.4rem;
+    background: var(--tg-theme-button-color);
 
-
-
-
+}

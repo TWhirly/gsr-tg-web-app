@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import styles from './CafeRems.module.css';
 import { localUrl } from '../../localSettings.js'
-import 'animate.css';
+import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
 import expandLogo from '../../icons/angle-small-down.svg'
@@ -32,6 +32,7 @@ const CafeRems = () => {
 
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState([]);
+    const [recievedFormData, setRecievedFormData] = useState({});
     let [formDataInputs, setFormDataInputs] = useState({});
     // const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
@@ -52,12 +53,14 @@ const CafeRems = () => {
             setFields(fetchedFields);
             // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
-                acc[field.id] = field.cnt;
+                // acc[field.id] = field.cnt;
+                acc[field.id] = {'остаток': field.cnt == null ? 0 : field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0};
 
                 return acc;
             }, {});
             setFormData(initialFormData);
-            console.log('CafeFormData ', fields)
+            setRecievedFormData(initialFormData);
+            console.log('CafeFormData ', initialFormData)
         };
         loadFields();
     }, []);
@@ -66,41 +69,34 @@ const CafeRems = () => {
         setShowAdditionalFields(showAdditionalFields)
     }, [showAdditionalFields, toggleState])
 
-    const handleChange = (value, id) => {
-
-
+    const handleChange = (value, id, field) => {
+        console.log('onChange ', value, id, field)
         setFormData((prevData) => ({
             ...prevData,
-            [id]: value,
+           ...{[id]: {[field]: value}}
+          
         }));
+        recievedFormData[id][field] = value;
+        //  setRecievedFormData((prevData1) => ({
+        //    prevData1[id][field] = value
+          
+        // }));
         formDataInputs = formData;
+        console.log('rr', recievedFormData[id][field])
+        console.log(recievedFormData)
     };
-    
+
 
     const toggleAdditionalFields = (fieldID) => {
-        setToggleState(toggleState == true ? false : true) 
-        console.log('1', showAdditionalFields)
-        if(showAdditionalFields.get(fieldID) === true){
+        setToggleState(toggleState == true ? false : true)
+        if (showAdditionalFields.get(fieldID) === true) {
             showAdditionalFields.set(fieldID, false)
         }
-        else{
+        else {
             showAdditionalFields.set(fieldID, true)
         }
         setShowAdditionalFields(showAdditionalFields)
-
-        console.log(showAdditionalFields)
-
     }
-
-    // const toggleAdditionalFields = () => {
-    //     const showAdditionalFields1 = showAdditionalFields ? false : true
-    //     setShowAdditionalFields(showAdditionalFields1)
-
-    //     console.log(showAdditionalFields)
-
-    // }
-
-
 
     const handleSubmit = () => {
         var date = new Date();
@@ -115,96 +111,96 @@ const CafeRems = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
+            body: JSON.stringify({ ...recievedFormData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
         })
         navigate('/', {
             replace: true,
             state: { sent: true }
         });
-
-
     }
 
-
-    console.log('init: ', window.Telegram.WebApp.initData)
     return (
-        <div >
+        <div>
             <h4 className={styles.header}>Отчёт по кафе</h4>
-            <Group className={styles.container}>{fields.map((field) => {
-                return (
-                    <div key={field.id}>
-                        
-                        <productField className={styles.productField} id={field.id} value={formData[field.id]} aria-label="e"
-                            minValue={0}
-                        // description={field.name}
-                        // isRequired={true}
-                        // onInput={handleInput}
-                        >
-                              
-                            <Label className={styles.productName} >{field.id}
-                           
-
-
-                                <div className={styles.inputLine}>{amtsData.filter((item) => (item.id) == 'остаток' || item.id == 'продажа').map((amtsData) => {
-                                    return (
-
-                                        <><NumberField key={amtsData.id}
-                                            className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
-                                            minValue={0} defaultValue={amtsData.id == 'продажа' ? 0 : field.cnt}
-                                            onChange={(v) => handleChange(v, field.id)} aria-label="i">
-                                            <Label className={styles.inputtype}>{amtsData.id} </Label>
-                                            <div className={styles.inputAndIncDec}>
-                                                <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                                <Input className={styles.input} />
-                                                <Button className={styles.reactAriaButton} slot="increment">+</Button>
-                                            </div>
-
-                                        </NumberField>
-                                        </>
-                                    )
-                                })}
-
+            <Group className={styles.container}>
+                {fields.map((field) => {
+                    return (
+                        <div key={field.id}>
+                            <productField
+                                className={styles.productField}
+                                id={field.id}
+                                value={formData[field.id]}
+                                aria-label="e"
+                                minValue={0}
+                            >
+                                <Label className={styles.productName}>{field.id}</Label>
+                                <div className={styles.inputLine}>
+                                    {amtsData.filter(item => item.id === 'остаток' || item.id === 'продажа').map(amtsData => {
+                                        return (
+                                            <NumberField
+                                                key={amtsData.id}
+                                                className={styles.numberField}
+                                                id={amtsData.id}
+                                                value={amtsData[field.id]}
+                                                minValue={0}
+                                                defaultValue={amtsData.id === 'продажа' ? 0 : field.cnt}
+                                                onChange={(v) => handleChange(v, field.id, amtsData.id)}
+                                                aria-label="i"
+                                            >
+                                                <Label className={styles.inputtype}>{amtsData.id}</Label>
+                                                <div className={styles.inputAndIncDec}>
+                                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                                    <Input className={styles.input} />
+                                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                                </div>
+                                            </NumberField>
+                                        );
+                                    })}
                                 </div>
 
-                                {(showAdditionalFields.get(field.id) && <div className={styles.inputLine2}>{amtsData.filter((item) => (item.id) == 'списание' || item.id == 'заказ').map((amtsData) => {
-                                    return (
-                                           
-                                        <><NumberField key={amtsData.id}
-                                            className={styles.numberField} id={amtsData.id} value={amtsData[field.id]}
-                                            minValue={0} defaultValue={0}
-                                            onChange={(v) => handleChange(v, field.id)} aria-label="i">
-                                            <Label className={styles.inputtype}>{amtsData.id} </Label>
-                                            <div className={styles.inputAndIncDec}>
-                                                <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                                <Input className={styles.input} />
-                                                <Button className={styles.reactAriaButton} slot="increment">+</Button>
-                                            </div>
-
-                                        </NumberField>
-                                        </>
-                                    )
-                                })}
-
-                                </div>)}
-                              
-                            </Label>
-                          
-                           {(!showAdditionalFields.get(field.id) && <img src={expandLogo} className={styles.expandButton} type="button" onClick={(v) => toggleAdditionalFields(field.id)} >
-                            </img>)}
-                            {(showAdditionalFields.get(field.id) && <img src={decreaseLogo} className={styles.expandButton} type="button" onClick={(v) => toggleAdditionalFields(field.id)} >
-                            </img>)}
-                        </productField>
-
-                    </div>
-
-                )
-
-            })}
-                <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
+                                <div className={`${styles.additionalField} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}>
+                                    {amtsData.filter(item => item.id === 'списание' || item.id === 'заказ').map(amtsData => {
+                                        return (
+                                            (showAdditionalFields.get(field.id) &&
+                                                <NumberField
+                                                    key={amtsData.id}
+                                                    className={styles.numberField}
+                                                    id={amtsData.id}
+                                                    value={amtsData[field.id]}
+                                                    minValue={0}
+                                                    defaultValue={0}
+                                                    onChange={(v) => handleChange(v, field.id, amtsData.id)}
+                                                    aria-label="i"
+                                                >
+                                                    <Label className={styles.inputtype}>{amtsData.id}</Label>
+                                                    <div className={styles.inputAndIncDec}>
+                                                        <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                                        <Input className={styles.input} />
+                                                        <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                                    </div>
+                                                </NumberField>)
+                                        );
+                                    })}</div>
+                                {(!showAdditionalFields.get(field.id) && <img src={expandLogo}
+                                    className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}
+                                    type="button"
+                                    onClick={(v) => toggleAdditionalFields(field.id)} >
+                                </img>)}
+                                {(showAdditionalFields.get(field.id) && <img src={decreaseLogo}
+                                    className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}
+                                    type="button"
+                                    onClick={(v) => toggleAdditionalFields(field.id)} >
+                                </img>)}
+                            </productField>
+                        </div>
+                    );
+                })}
+                 <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
             </Group>
-
+           
         </div>
-    )
+        
+    );
 
 }
 
