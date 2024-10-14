@@ -4,8 +4,9 @@ import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
-import expandLogo from '../../icons/angle-small-down.svg'
+// import expandLogo from '../../icons/angle-small-down.svg'
 import decreaseLogo from '../../icons/angle-small-up.svg'
+import {AngleDown, AngleUp} from '../../icons/SVG.js'
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram.js";
 import { type } from '@testing-library/user-event/dist/type/index.js';
@@ -77,17 +78,12 @@ const CafeRems = () => {
           
         }));
         recievedFormData[id][field] = value;
-        //  setRecievedFormData((prevData1) => ({
-        //    prevData1[id][field] = value
-          
-        // }));
         formDataInputs = formData;
-        console.log('rr', recievedFormData[id][field])
-        console.log(recievedFormData)
     };
 
 
     const toggleAdditionalFields = (fieldID) => {
+        console.log('we are here!')
         setToggleState(toggleState == true ? false : true)
         if (showAdditionalFields.get(fieldID) === true) {
             showAdditionalFields.set(fieldID, false)
@@ -122,7 +118,9 @@ const CafeRems = () => {
     return (
         <div>
             <h4 className={styles.header}>Отчёт по кафе</h4>
+            
             <Group className={styles.container}>
+           
                 {fields.map((field) => {
                     return (
                         <div key={field.id}>
@@ -164,7 +162,7 @@ const CafeRems = () => {
                                             (showAdditionalFields.get(field.id) &&
                                                 <NumberField
                                                     key={amtsData.id}
-                                                    className={styles.numberField}
+                                                    className={`${styles.numberField} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}
                                                     id={amtsData.id}
                                                     value={amtsData[field.id]}
                                                     minValue={0}
@@ -181,21 +179,21 @@ const CafeRems = () => {
                                                 </NumberField>)
                                         );
                                     })}</div>
-                                {(!showAdditionalFields.get(field.id) && <img src={expandLogo}
+                                {(!showAdditionalFields.get(field.id) && <div onClick={(v) => toggleAdditionalFields(field.id)}>
+                                {(<AngleDown
+                                    className={`${styles.expandButton} ${!showAdditionalFields.get(field.id) ? styles.show : ''}`}
+                                     >
+                                </AngleDown>)}</div>)}   
+                                {(showAdditionalFields.get(field.id) && <div onClick={(v) => toggleAdditionalFields(field.id)}>
+                                {(<AngleUp
                                     className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}
-                                    type="button"
-                                    onClick={(v) => toggleAdditionalFields(field.id)} >
-                                </img>)}
-                                {(showAdditionalFields.get(field.id) && <img src={decreaseLogo}
-                                    className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}
-                                    type="button"
-                                    onClick={(v) => toggleAdditionalFields(field.id)} >
-                                </img>)}
+                                     >
+                                </AngleUp>)}</div>)}   
                             </productField>
                         </div>
                     );
                 })}
-                 <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
+                 <Button className={styles.submit} onPress={handleSubmit} >Отправить</Button>
             </Group>
            
         </div>
