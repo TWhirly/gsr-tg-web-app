@@ -19,8 +19,6 @@
     background-color: var(--bgColor);
     z-index: 1000;
     text-align: center;
-    animation: ease-in-out;
-    animation-duration: 3s;
 }
 
 .container {
@@ -36,10 +34,10 @@
     flex-direction: column;
     align-items: center;
     padding: 0%;
-    transition: all 3s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
-.productField {
+.productField.default {
     position: relative;
     justify-content: center;
     flex-direction: column;
@@ -47,35 +45,52 @@
     box-sizing: content-box;
     max-height: auto;
     background-color: var(--tg-theme-secondary-bg-color);
-    /* width: 100vw; */
     min-width: calc(100% - 6px);
     margin: 5px;
     border-radius: 5px;
     /* border: transparent; */
     z-index: 100;
     overflow: hidden;
-    transition: max-height 2s ease-out,
-     opacity 2s ease-out;
-   
+    transition: all 0.5s ease-out,
+        opacity 0.5s ease-out;
+
+}
+
+.productField.show {
+    position: relative;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    box-sizing: content-box;
+    max-height: fit-content;
+    background-color: var(--tg-theme-secondary-bg-color);
+    min-width: calc(100% - 6px);
+    margin: 5px;
+    border-radius: 5px;
+    z-index: 100;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out,
+        opacity 0.5s ease-out;
+
 }
 
 .additionalField {
-    max-height: 0; /* Начальное состояние скрыто */
-    opacity: 0; /* Начальная прозрачность */
-    /* position: relative; */
+    max-height: 0;
+    max-width: 0;
+    opacity: 0;
     display: flex;
-    /* transition: all 3s ease-in-out, */
-    /* transition: max-height 3s ease-out,
-    opacity 3s ease-out;  */
+    transition: max-height 0.3s ease-out,
+        opacity 0s ease-out;
 }
 
 .additionalField.show {
-    max-height: 200px; /* Установите максимальную высоту, чтобы показать содержимое */
-    opacity: 1; /* Полная непрозрачность */
+    display: flex;
+    max-height: 200px;
+    min-width: calc(100% - 6px);
+    opacity: 1;
     z-index: 100;
-    /* transition: max-height 3s ease-out,
-    opacity 3s ease-in-out;  */
-    transition: all 0.5s ease-in-out,
+    transition: max-height 0.7s ease-out,
+        opacity 0.7s ease-out;
 }
 
 .numberField {
@@ -85,17 +100,10 @@
     /* border-radius: 5px; */
     border: none;
     z-index: 100;
-    /* transition: all 3s ease-in-out, */
+    transition: all 0.5s ease-in-out,
 }
 
-.numberField.show {
 
-    display: flex;
-    flex-direction: column;
-    /* border-radius: 5px; */
-    border: none;
-    z-index: 100;
-}
 
 .productName {
     box-sizing: content-box;
@@ -106,13 +114,28 @@
 }
 
 
-.inputLine {
+.inputLine.default {
     position: relative;
     display: flex;
+    max-height: fit-content;
     flex-direction: row;
     margin: auto;
     padding: auto;
-z-index: inherit;
+    z-index: inherit;
+    transition: max-height 150s ease-out,
+        opacity 0.5s ease-out;
+
+}
+
+.inputLine.show {
+    position: relative;
+    display: flex;
+    max-height: fit-content;
+    flex-direction: row;
+    margin: auto;
+    padding: auto;
+    z-index: inherit;
+
 }
 
 
@@ -135,12 +158,6 @@ z-index: inherit;
     flex-direction: row;
     margin: auto;
     padding: auto;
-    /* overflow: hidden; */
-    transition: all 3s ease;
-    /* animation: slideInDown; */
-    /* animation: fadeIn; referring directly to the animation's @keyframe declaration */
-    animation-duration: 2s; 
-
 }
 
 .reactAriaButton {
@@ -167,7 +184,7 @@ z-index: inherit;
     font-size: 1rem;
     text-align: center;
     outline: none;
-   
+
 }
 
 
@@ -207,25 +224,35 @@ z-index: inherit;
     font-size: 1rem;
 }
 
-.expandButton {
+.expandButton.down {
     background-color: var(--tg-theme-secondary-bg-color);
     fill: var(--tg-theme-section-header-text-color);
     border: none;
     display: content-box;
     flex-direction: column;
     position: relative;
-    transition: all 3s ease;
+    transition: all 0.7s ease-in-out;
     height: 5rem;
     left: 50%;
     transform: translateX(-50%);
     width: 30px;
     height: 30px;
-    opacity: 0.3s ease-out; 
+
 }
 
-.expandButton.show{
-    /* fill: blue; */
-    transition: all 0.5s ease-in-out,
+.expandButton.up {
+    background-color: var(--tg-theme-secondary-bg-color);
+    fill: var(--tg-theme-section-header-text-color);
+    border: none;
+    display: content-box;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.7s ease-in-out;
+    height: 5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
 }
 
 .submit {

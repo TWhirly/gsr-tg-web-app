@@ -5,7 +5,7 @@ import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
 // import expandLogo from '../../icons/angle-small-down.svg'
-import decreaseLogo from '../../icons/angle-small-up.svg'
+// import decreaseLogo from '../../icons/angle-small-up.svg'
 import {AngleDown, AngleUp} from '../../icons/SVG.js'
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram.js";
@@ -34,8 +34,6 @@ const CafeRems = () => {
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState([]);
     const [recievedFormData, setRecievedFormData] = useState({});
-    let [formDataInputs, setFormDataInputs] = useState({});
-    // const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [toggleState, setToggleState] = useState(false);
     console.log('Form Data', formData)
@@ -78,7 +76,6 @@ const CafeRems = () => {
           
         }));
         recievedFormData[id][field] = value;
-        formDataInputs = formData;
     };
 
 
@@ -125,14 +122,14 @@ const CafeRems = () => {
                     return (
                         <div key={field.id}>
                             <productField
-                                className={styles.productField}
+                                className={`${styles.productField} ${!showAdditionalFields.get(field.id) ? styles.default : styles.show}`}
                                 id={field.id}
                                 value={formData[field.id]}
                                 aria-label="e"
                                 minValue={0}
                             >
                                 <Label className={styles.productName}>{field.id}</Label>
-                                <div className={styles.inputLine}>
+                                <div className={`${styles.inputLine} ${!showAdditionalFields.get(field.id) ? styles.default : styles.show}`}>
                                     {amtsData.filter(item => item.id === 'остаток' || item.id === 'продажа').map(amtsData => {
                                         return (
                                             <NumberField
@@ -159,10 +156,10 @@ const CafeRems = () => {
                                 <div className={`${styles.additionalField} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}>
                                     {amtsData.filter(item => item.id === 'списание' || item.id === 'заказ').map(amtsData => {
                                         return (
-                                            (showAdditionalFields.get(field.id) &&
+                                            
                                                 <NumberField
                                                     key={amtsData.id}
-                                                    className={`${styles.numberField} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}
+                                                    className={`${styles.numberField} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}
                                                     id={amtsData.id}
                                                     value={amtsData[field.id]}
                                                     minValue={0}
@@ -176,17 +173,17 @@ const CafeRems = () => {
                                                         <Input className={styles.input} />
                                                         <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                                     </div>
-                                                </NumberField>)
+                                                </NumberField>
                                         );
                                     })}</div>
                                 {(!showAdditionalFields.get(field.id) && <div onClick={(v) => toggleAdditionalFields(field.id)}>
                                 {(<AngleDown
-                                    className={`${styles.expandButton} ${!showAdditionalFields.get(field.id) ? styles.show : ''}`}
+                                    className={`${styles.expandButton} ${!showAdditionalFields.get(field.id) ? styles.down : ''}`}
                                      >
                                 </AngleDown>)}</div>)}   
                                 {(showAdditionalFields.get(field.id) && <div onClick={(v) => toggleAdditionalFields(field.id)}>
                                 {(<AngleUp
-                                    className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}
+                                    className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.up : ''}`}
                                      >
                                 </AngleUp>)}</div>)}   
                             </productField>
