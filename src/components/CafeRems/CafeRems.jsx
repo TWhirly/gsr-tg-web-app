@@ -6,7 +6,7 @@ import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
 // import expandLogo from '../../icons/angle-small-down.svg'
 // import decreaseLogo from '../../icons/angle-small-up.svg'
-import {AngleDown, AngleUp} from '../../icons/SVG.js'
+import { AngleDown, AngleUp, AngleDoubleDown, AngleDoubleUp } from '../../icons/SVG.js'
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram.js";
 import { type } from '@testing-library/user-event/dist/type/index.js';
@@ -53,7 +53,7 @@ const CafeRems = () => {
             // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
                 // acc[field.id] = field.cnt;
-                acc[field.id] = {'остаток': field.cnt == null ? 0 : field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0};
+                acc[field.id] = { 'остаток': field.cnt == null ? 0 : field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0 };
 
                 return acc;
             }, {});
@@ -72,8 +72,8 @@ const CafeRems = () => {
         console.log('onChange ', value, id, field)
         setFormData((prevData) => ({
             ...prevData,
-           ...{[id]: {[field]: value}}
-          
+            ...{ [id]: { [field]: value } }
+
         }));
         recievedFormData[id][field] = value;
     };
@@ -90,10 +90,23 @@ const CafeRems = () => {
         }
         setShowAdditionalFields(showAdditionalFields)
     }
-    
-    const toggleAllAdditionalFields = () => {
 
+    const toggleAllAdditionalFields = () => {
+        // if (
+        //     !Array.from(showAdditionalFields.values()).includes(true)) {
+        //     [...showAdditionalFields.keys()].forEach((key) => {
+        //         showAdditionalFields.set(key, true);
+        //     })
+        // }
+        // else {
+        //     [...showAdditionalFields.keys()].forEach((key) => {
+        //         showAdditionalFields.set(key, false);
+        //     })
+        // }
     }
+
+
+
     const handleSubmit = () => {
         var date = new Date();
         const updDateTime = date.getFullYear() + '-' +
@@ -118,20 +131,22 @@ const CafeRems = () => {
     return (
         <div>
             <h4 className={styles.header}>Отчёт по кафе
-            <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields()}>
-                                {(<AngleDown
-                                    className={styles.mainExpandButtonDown}
-                                     >
-                                </AngleDown>)}
-                                {(<AngleDown
-                                    className={styles.mainExpandButtonDown}
-                                     >
-                                </AngleDown>)}</div>
+                {(Array.from(showAdditionalFields.values()).includes(true) &&
+                    <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields()}>
+                        <AngleDoubleUp
+                            className={styles.mainExpandButtonDown}
+                        >
+                        </AngleDoubleUp></div>)}
+                {(!Array.from(showAdditionalFields.values()).includes(true) &&
+                    <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields()}>
+                        <AngleDoubleDown
+                            className={styles.mainExpandButtonDown}
+                        >
+                        </AngleDoubleDown></div>)}
+
             </h4>
-            
-            
             <Group className={styles.container}>
-           
+
                 {fields.map((field) => {
                     return (
                         <div key={field.id}>
@@ -170,45 +185,47 @@ const CafeRems = () => {
                                 <div className={`${styles.additionalField} ${showAdditionalFields.get(field.id) ? styles.show : ''}`}>
                                     {amtsData.filter(item => item.id === 'списание' || item.id === 'заказ').map(amtsData => {
                                         return (
-                                            
-                                                <NumberField
-                                                    key={amtsData.id}
-                                                    className={`${styles.numberField} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}
-                                                    id={amtsData.id}
-                                                    value={amtsData[field.id]}
-                                                    minValue={0}
-                                                    defaultValue={0}
-                                                    onChange={(v) => handleChange(v, field.id, amtsData.id)}
-                                                    aria-label="i"
-                                                >
-                                                    <Label className={styles.inputtype}>{amtsData.id}</Label>
-                                                    <div className={styles.inputAndIncDec}>
-                                                        <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                                        <Input className={styles.input} />
-                                                        <Button className={styles.reactAriaButton} slot="increment">+</Button>
-                                                    </div>
-                                                </NumberField>
+
+                                            <NumberField
+                                                key={amtsData.id}
+                                                className={`${styles.numberField} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}
+                                                id={amtsData.id}
+                                                value={amtsData[field.id]}
+                                                minValue={0}
+                                                defaultValue={0}
+                                                isReadOnly={!showAdditionalFields.get(field.id)}
+                                                onChange={(v) => handleChange(v, field.id, amtsData.id)}
+                                                aria-label="i"
+                                            >
+                                                <Label className={styles.inputtype}>
+                                                    {amtsData.id}</Label>
+                                                <div className={styles.inputAndIncDec}>
+                                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                                    <Input className={styles.input} />
+                                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                                </div>
+                                            </NumberField>
                                         );
                                     })}</div>
                                 {(!showAdditionalFields.get(field.id) && <div onClick={(v) => toggleAdditionalFields(field.id)}>
-                                {(<AngleDown
-                                    className={`${styles.expandButton} ${!showAdditionalFields.get(field.id) ? styles.down : ''}`}
-                                     >
-                                </AngleDown>)}</div>)}   
+                                    {(<AngleDown
+                                        className={`${styles.expandButton} ${!showAdditionalFields.get(field.id) ? styles.down : ''}`}
+                                    >
+                                    </AngleDown>)}</div>)}
                                 {(showAdditionalFields.get(field.id) && <div onClick={(v) => toggleAdditionalFields(field.id)}>
-                                {(<AngleUp
-                                    className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.up : ''}`}
-                                     >
-                                </AngleUp>)}</div>)}   
+                                    {(<AngleUp
+                                        className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.up : ''}`}
+                                    >
+                                    </AngleUp>)}</div>)}
                             </productField>
                         </div>
                     );
                 })}
-                 <Button className={styles.submit} onPress={handleSubmit} >Отправить</Button>
+                <Button className={styles.submit} onPress={handleSubmit} >Отправить</Button>
             </Group>
-           
+
         </div>
-        
+
     );
 
 }
