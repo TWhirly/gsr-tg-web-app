@@ -90,7 +90,10 @@ const CafeRems = () => {
         }
         setShowAdditionalFields(showAdditionalFields)
     }
+    
+    const toggleAllAdditionalFields = () => {
 
+    }
     const handleSubmit = () => {
         var date = new Date();
         const updDateTime = date.getFullYear() + '-' +
@@ -114,7 +117,18 @@ const CafeRems = () => {
 
     return (
         <div>
-            <h4 className={styles.header}>Отчёт по кафе</h4>
+            <h4 className={styles.header}>Отчёт по кафе
+            <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields()}>
+                                {(<AngleDown
+                                    className={styles.mainExpandButtonDown}
+                                     >
+                                </AngleDown>)}
+                                {(<AngleDown
+                                    className={styles.mainExpandButtonDown}
+                                     >
+                                </AngleDown>)}</div>
+            </h4>
+            
             
             <Group className={styles.container}>
            

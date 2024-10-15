@@ -3,7 +3,7 @@
 
 .header {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     font-size: 1rem;
     height: 2rem;
     width: 100%;
@@ -275,5 +275,30 @@
     color: var(--tg-theme-button-text-color);
     height: 2.4rem;
     background: var(--tg-theme-button-color);
+
+}
+
+.mainExpButtContainer{
+    position: absolute;
+        right: 10px;
+    max-width: 10px;
+    height: 70px;
+    padding-bottom: 0px;
+    margin: 0;
+    /* z-index: 0; */
+}
+
+.mainExpandButtonDown{
+    background-color: var(--bgColor);
+    fill: var(--tg-theme-section-header-text-color);
+    border: none;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.7s ease-in-out;
+    margin-bottom: -10px;
+    height: 30px;
+    
+    
 
 }
