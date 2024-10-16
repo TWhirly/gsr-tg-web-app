@@ -48,9 +48,16 @@ const CafeRems = () => {
     useEffect(() => {
         const loadFields = async () => {
             const fetchedFields = await fetchFormFields();
-            console.log('fetched', fetchedFields)
+            console.log('fetched', fetchedFields, typeof(fetchedFields))
             setFields(fetchedFields);
             // Инициализируем состояние formData с пустыми значениями
+
+            const show = new Map();
+            fetchedFields.forEach((key) => {
+                show.set(key.id, false)
+            })
+            setShowAdditionalFields(show);
+
             const initialFormData = fetchedFields.reduce((acc, field) => {
                 // acc[field.id] = field.cnt;
                 acc[field.id] = { 'остаток': field.cnt == null ? 0 : field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0 };
@@ -59,7 +66,9 @@ const CafeRems = () => {
             }, {});
             setFormData(initialFormData);
             setRecievedFormData(initialFormData);
-            console.log('CafeFormData ', initialFormData)
+            
+          
+            console.log('CafeFormData ', showAdditionalFields, typeof(showAdditionalFields))
         };
         loadFields();
     }, []);
@@ -92,17 +101,19 @@ const CafeRems = () => {
     }
 
     const toggleAllAdditionalFields = () => {
-        // if (
-        //     !Array.from(showAdditionalFields.values()).includes(true)) {
-        //     [...showAdditionalFields.keys()].forEach((key) => {
-        //         showAdditionalFields.set(key, true);
-        //     })
-        // }
-        // else {
-        //     [...showAdditionalFields.keys()].forEach((key) => {
-        //         showAdditionalFields.set(key, false);
-        //     })
-        // }
+        console.log(`toggle!`)
+        setToggleState(toggleState == true ? false : true)
+        if (
+            Array.from(showAdditionalFields.values()).includes(false)) {
+            [...showAdditionalFields.keys()].forEach((key) => {
+                showAdditionalFields.set(key, true);
+            })
+        }
+        else {
+            [...showAdditionalFields.keys()].forEach((key) => {
+                showAdditionalFields.set(key, false);
+            })
+        }
     }
 
 
@@ -132,13 +143,13 @@ const CafeRems = () => {
         <div>
             <h4 className={styles.header}>Отчёт по кафе
                 {(Array.from(showAdditionalFields.values()).includes(true) &&
-                    <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields()}>
+                    <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields}>
                         <AngleDoubleUp
                             className={styles.mainExpandButtonDown}
                         >
                         </AngleDoubleUp></div>)}
-                {(!Array.from(showAdditionalFields.values()).includes(true) &&
-                    <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields()}>
+                {(Array.from(showAdditionalFields.values()).includes(false) &&
+                    <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields}>
                         <AngleDoubleDown
                             className={styles.mainExpandButtonDown}
                         >
