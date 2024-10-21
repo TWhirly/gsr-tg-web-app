@@ -79,7 +79,7 @@ const ResForm = () => {
         // Проверяем, заполнены ли все поля формы
         const allFieldsFilled = fields.every(field => (formDataInputs[field.id])) && Object.keys(formData).length > 0;
        
-        setIsFormComplete(allFieldsFilled);
+        allFieldsFilled && setIsFormComplete(allFieldsFilled);
     }, [formDataInputs, fields]);
 
     const handleSubmit = () => {
@@ -100,6 +100,9 @@ const ResForm = () => {
           
 
     }
+
+    console.log('render');
+    
     return(
         <div className={styles.container}>
             

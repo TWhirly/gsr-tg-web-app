@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from'./ButtonList.module.css';
+import styles from './ButtonList.module.css';
 import { useTelegram } from "../../hooks/useTelegram";
 import { useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -14,76 +14,16 @@ const ButtonList = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    
-
-    // const [location.state.sent, setSent] = useState(false);
-  const [sentVisible, setSentVisible] = useState(false);
-
-  console.log('navi:', location.state)
-
-  useEffect(() => {
-    // if (navigate.state && navigate.state.sent == true) {
-        if (location.state && location.state.sent == true) {
-      
-      setSentVisible(true);
-      
-      const timer = setTimeout(() => {
-        setSentVisible(false);
-        navigate('/', {replace: true,
-            state: {sent: false}
-         })
-        console.log('navi2:', location.state)
-      }, 3000); // 3 секунды
-      
-      return () => clearTimeout(timer); // Очистка таймера при размонтировании
-      
-    }
-  }, [location]);
 
     const [data, setData] = useState([]);
     useEffect(() => {
         buttons();
     }, []);
 
-    
-
-        const [Plandata, setPlanData] = useState('');
-        useEffect(() => {
-            planMessage();
-        }, '');
-
-       
-
-        const buttons = async () => {
-        const response = await fetch(APIURL + '/menu', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({initData: window.Telegram.WebApp.initData })
-        }); // Генерируем объект Response
-        const jVal = await response.json(); // Парсим тело ответа
-        setData(jVal);
-        console.log(jVal)
-    };
-
-    const planMessage = async () => {
-        const response = await fetch(APIURL + '/planMenu', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({initData: window.Telegram.WebApp.initData })
-        }); // Генерируем объект Response
-        // const jVal = await response.json(); 
-        // Парсим тело ответа
-        const plan = await response.json()
-        console.log('plan string is ', response)
-        setPlanData(plan);
-        console.log('plan is ',plan)
-    };
-
-    
+    const [Plandata, setPlanData] = useState('');
+    useEffect(() => {
+        planMessage();
+    }, '');
 
     const routes = {
         'Отчёт 0 часов': "/0hrep",
@@ -92,9 +32,88 @@ const ButtonList = () => {
         "Газовые баллоны": "/GasForm",
         "Остатки кафе": "/CafeRems"
     }
-  
-   
+
     const { tg, queryId } = useTelegram();
+
+    const [sentVisible, setSentVisible] = useState(false);
+
+    const buttons = async () => {
+        try {
+            const response = await fetch(APIURL + '/menu', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ initData: window.Telegram.WebApp.initData })
+            }); // Генерируем объект Response
+            if (response.ok) {
+                const jVal = await response.json(); // Парсим тело ответа
+                setData(jVal);
+                console.log(jVal)
+            }
+            else {
+                console.error('Promise resolved but HTTP status failed')
+            }
+        }
+        catch (error) {
+            console.log('buttons Promise rejected')
+            setData([])
+        }
+        // return
+    };
+
+    const planMessage = async () => {
+        try {
+            console.log('try to fetch plan message')
+            const response = await fetch(APIURL + '/planMenu', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ initData: window.Telegram.WebApp.initData })
+            }); // Генерируем объект Response
+            // const jVal = await response.json(); 
+            // Парсим тело ответа
+            if (response.ok) {
+                console.log('resp ok')
+                const plan = await response.json()
+                setPlanData(plan);
+            }
+            else {
+                console.log('resp not ok')
+                setPlanData('Ошибка на сервере')
+            }
+        }
+        catch (error) {
+            console.log('planMessage Promise rejected')
+            setPlanData('Пользователь не найден, напишите боту "Привет!" для регистрации')
+        }
+        // return
+    };
+
+    console.log('navi:', location.state)
+
+    useEffect(() => {
+        // if (navigate.state && navigate.state.sent == true) {
+        if (location.state && location.state.sent == true) {
+
+            setSentVisible(true);
+
+            const timer = setTimeout(() => {
+                setSentVisible(false);
+                navigate('/', {
+                    replace: true,
+                    state: { sent: false }
+                })
+                console.log('navi2:', location.state)
+            }, 3000); // 3 секунды
+
+            return () => clearTimeout(timer); // Очистка таймера при размонтировании
+
+        }
+    }, [location]);
+
+
 
     const handleClick = (path) => {
         navigate(routes[path]);
@@ -103,8 +122,8 @@ const ButtonList = () => {
 
     return (
         <div className={'list'} >
-           {sentVisible && <h2 className={styles.sent}>{'Отправлено'}</h2>}
-            {(Plandata && <legend  className={styles.plan}>{Plandata}</legend>)}
+            {sentVisible && <h2 className={styles.sent}>{'Отправлено'}</h2>}
+            {(Plandata && <div className={styles.plan}>{Plandata}</div>)}
             {data.map(item => (<button className={styles.btn} onClick={(v) => handleClick(item.action)}  >  {item.action} </button>))}
         </div>
     );

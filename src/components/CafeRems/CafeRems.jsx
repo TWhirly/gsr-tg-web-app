@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef, Component } from 'react';
 import styles from './CafeRems.module.css';
 import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
@@ -13,6 +13,8 @@ import { type } from '@testing-library/user-event/dist/type/index.js';
 
 
 const APIURL = localUrl.APIURL;
+
+
 
 const CafeRems = () => {
     const navigate = useNavigate();
@@ -37,6 +39,7 @@ const CafeRems = () => {
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [toggleState, setToggleState] = useState(false);
     console.log('Form Data', formData)
+    // localStorage.removeItem('tempFormData')
 
     const amtsData = [
         { id: 'остаток' },
@@ -46,31 +49,39 @@ const CafeRems = () => {
     ]
 
     useEffect(() => {
-        const loadFields = async () => {
-            const fetchedFields = await fetchFormFields();
-            console.log('fetched', fetchedFields, typeof(fetchedFields))
-            setFields(fetchedFields);
-            // Инициализируем состояние formData с пустыми значениями
+        const storedData = localStorage.getItem('tempFormData');
+        if (storedData) {
+            console.log('local stored data', JSON.parse(storedData))
+            setFormData(JSON.parse(storedData));
+            setRecievedFormData(JSON.parse(storedData));
+        }
+        else {
+            const loadFields = async () => {
+                const fetchedFields = await fetchFormFields();
+                console.log('fetched', fetchedFields, typeof (fetchedFields))
+                setFields(fetchedFields);
+                // Инициализируем состояние formData с пустыми значениями
 
-            const show = new Map();
-            fetchedFields.forEach((key) => {
-                show.set(key.id, false)
-            })
-            setShowAdditionalFields(show);
+                const show = new Map();
+                fetchedFields.forEach((key) => {
+                    show.set(key.id, false)
+                })
+                setShowAdditionalFields(show);
 
-            const initialFormData = fetchedFields.reduce((acc, field) => {
-                // acc[field.id] = field.cnt;
-                acc[field.id] = { 'остаток': field.cnt == null ? 0 : field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0 };
+                const initialFormData = fetchedFields.reduce((acc, field) => {
+                    // acc[field.id] = field.cnt;
+                    acc[field.id] = { 'остаток': field.cnt == null ? 0 : field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0 };
 
-                return acc;
-            }, {});
-            setFormData(initialFormData);
-            setRecievedFormData(initialFormData);
-            
-          
-            console.log('CafeFormData ', showAdditionalFields, typeof(showAdditionalFields))
-        };
-        loadFields();
+                    return acc;
+                }, {});
+                setFormData(initialFormData);
+                setRecievedFormData(initialFormData);
+
+
+                console.log('CafeFormData ', FormData, typeof (FormData))
+            };
+            loadFields();
+        }
     }, []);
 
     useEffect(() => {
@@ -81,10 +92,11 @@ const CafeRems = () => {
         console.log('onChange ', value, id, field)
         setFormData((prevData) => ({
             ...prevData,
-            ...{ [id]: { [field]: value } }
+            [id]: { [field]: value }
 
         }));
         recievedFormData[id][field] = value;
+        localStorage.setItem('tempFormData', JSON.stringify(recievedFormData))
     };
 
 
@@ -133,6 +145,7 @@ const CafeRems = () => {
             },
             body: JSON.stringify({ ...recievedFormData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
         })
+        localStorage.removeItem('tempFormData')
         navigate('/', {
             replace: true,
             state: { sent: true }
