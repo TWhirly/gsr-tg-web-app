@@ -17,6 +17,7 @@ const APIURL = localUrl.APIURL;
 
 
 const CafeRems = () => {
+    // localStorage.removeItem('tempFormData')
     const navigate = useNavigate();
 
     const fetchFormFields = async () => {
@@ -39,7 +40,7 @@ const CafeRems = () => {
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [toggleState, setToggleState] = useState(false);
     console.log('Form Data', formData)
-    // localStorage.removeItem('tempFormData')
+    
 
     const amtsData = [
         { id: 'остаток' },
@@ -51,7 +52,14 @@ const CafeRems = () => {
     useEffect(() => {
         const storedData = localStorage.getItem('tempFormData');
         if (storedData) {
-            console.log('local stored data', JSON.parse(storedData))
+            console.log('local stored data', JSON.parse(storedData));
+            const storedDataObj = JSON.parse(storedData);
+            const fetchedFields = [];
+            Object.keys(storedDataObj).forEach((key) => {
+            fetchedFields.push({id: key, 'остаток': key['остаток'], 'продажа': key['продажа'],
+            'списание': key['списание'], 'заказ': key['заказ']})
+           })
+            setFields(fetchedFields);
             setFormData(JSON.parse(storedData));
             setRecievedFormData(JSON.parse(storedData));
         }
@@ -71,14 +79,16 @@ const CafeRems = () => {
                 const initialFormData = fetchedFields.reduce((acc, field) => {
                     // acc[field.id] = field.cnt;
                     acc[field.id] = { 'остаток': field.cnt == null ? 0 : field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0 };
-
+                    
                     return acc;
                 }, {});
+                console.log('initial', initialFormData)
+                // setFields(initialFormData);
                 setFormData(initialFormData);
                 setRecievedFormData(initialFormData);
 
 
-                console.log('CafeFormData ', FormData, typeof (FormData))
+                console.log('CafeFormData ', formData, typeof (formData))
             };
             loadFields();
         }
@@ -96,6 +106,7 @@ const CafeRems = () => {
 
         }));
         recievedFormData[id][field] = value;
+        console.log('recieved', recievedFormData)
         localStorage.setItem('tempFormData', JSON.stringify(recievedFormData))
     };
 
@@ -189,7 +200,8 @@ const CafeRems = () => {
                                                 key={amtsData.id}
                                                 className={styles.numberField}
                                                 id={amtsData.id}
-                                                value={amtsData[field.id]}
+                                                // value={amtsData[field.id]}
+                                                value={formData[field.id][amtsData[field.id]]}
                                                 minValue={0}
                                                 defaultValue={amtsData.id === 'продажа' ? 0 : field.cnt}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
