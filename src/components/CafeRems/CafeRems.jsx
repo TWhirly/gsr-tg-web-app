@@ -107,7 +107,7 @@ const CafeRems = () => {
         }));
         recievedFormData[id][field] = value;
         console.log('recieved', recievedFormData)
-        localStorage.setItem('tempFormData', JSON.stringify(recievedFormData))
+        localStorage.setItem('tempFormData', JSON.stringify({...recievedFormData}))
     };
 
 
@@ -201,9 +201,10 @@ const CafeRems = () => {
                                                 className={styles.numberField}
                                                 id={amtsData.id}
                                                 // value={amtsData[field.id]}
-                                                value={formData[field.id][amtsData[field.id]]}
+                                                // value={formData[field.id][amtsData[field.id]]}
                                                 minValue={0}
-                                                defaultValue={amtsData.id === 'продажа' ? 0 : field.cnt}
+                                                // defaultValue={amtsData.id === 'продажа' ? 0 : field.cnt}
+                                                defaultValue={formData[field.id][amtsData.id]}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
                                                 aria-label="i"
                                             >
@@ -226,9 +227,9 @@ const CafeRems = () => {
                                                 key={amtsData.id}
                                                 className={`${styles.numberField} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}
                                                 id={amtsData.id}
-                                                value={amtsData[field.id]}
+                                                // value={amtsData[field.id]}
                                                 minValue={0}
-                                                defaultValue={0}
+                                                defaultValue={formData[field.id][amtsData.id]}
                                                 isReadOnly={!showAdditionalFields.get(field.id)}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
                                                 aria-label="i"
