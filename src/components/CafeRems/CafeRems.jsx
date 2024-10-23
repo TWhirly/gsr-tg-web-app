@@ -6,7 +6,7 @@ import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
 // import expandLogo from '../../icons/angle-small-down.svg'
 // import decreaseLogo from '../../icons/angle-small-up.svg'
-import { AngleDown, AngleUp, AngleDoubleDown, AngleDoubleUp } from '../../icons/SVG.js'
+import { AngleDown, AngleUp, AngleDoubleDown, AngleDoubleUp, Broom } from '../../icons/SVG.js'
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram.js";
 import { type } from '@testing-library/user-event/dist/type/index.js';
@@ -35,12 +35,14 @@ const CafeRems = () => {
     };
 
     const [fields, setFields] = useState([]);
-    const [formData, setFormData] = useState([]);
+    const [formData, setFormData] = useState({});
     const [recievedFormData, setRecievedFormData] = useState({});
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [toggleState, setToggleState] = useState(false);
+    const [toggleClear, setToggleClear] = useState(false);
+
     console.log('Form Data', formData)
-    
+
 
     const amtsData = [
         { id: 'остаток' },
@@ -51,14 +53,23 @@ const CafeRems = () => {
 
     useEffect(() => {
         const storedData = localStorage.getItem('tempFormData');
+        // if (storedData && storedData.date == (new Date()).toLocaleDateString()) {
         if (storedData) {
+
             console.log('local stored data', JSON.parse(storedData));
             const storedDataObj = JSON.parse(storedData);
+            if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
+                localStorage.removeItem('tempFormData');
+                return
+            }
+            delete storedDataObj.date
             const fetchedFields = [];
             Object.keys(storedDataObj).forEach((key) => {
-            fetchedFields.push({id: key, 'остаток': key['остаток'], 'продажа': key['продажа'],
-            'списание': key['списание'], 'заказ': key['заказ']})
-           })
+                fetchedFields.push({
+                    id: key, 'остаток': key['остаток'], 'продажа': key['продажа'],
+                    'списание': key['списание'], 'заказ': key['заказ']
+                })
+            })
             setFields(fetchedFields);
             setFormData(JSON.parse(storedData));
             setRecievedFormData(JSON.parse(storedData));
@@ -78,8 +89,8 @@ const CafeRems = () => {
 
                 const initialFormData = fetchedFields.reduce((acc, field) => {
                     // acc[field.id] = field.cnt;
-                    acc[field.id] = { 'остаток': field.cnt == null ? 0 : field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0 };
-                    
+                    acc[field.id] = { 'остаток': field.cnt == null || field.cnt == 0 ? NaN : field.cnt, 'продажа': NaN, 'списание': NaN, 'заказ': NaN };
+
                     return acc;
                 }, {});
                 console.log('initial', initialFormData)
@@ -107,9 +118,33 @@ const CafeRems = () => {
         }));
         recievedFormData[id][field] = value;
         console.log('recieved', recievedFormData)
-        localStorage.setItem('tempFormData', JSON.stringify({...recievedFormData}))
+        const date = (new Date()).toLocaleDateString();
+        localStorage.setItem('tempFormData', JSON.stringify({ ...recievedFormData, date: date }))
     };
 
+    useEffect(() => {
+        setToggleClear(toggleClear)
+        
+    }), [toggleClear]
+
+
+    const clearForm = () => {
+        const clearData = {};
+        Object.keys(formData).forEach((key) => {
+            clearData[key] = {
+                 'остаток': NaN, 'продажа': NaN,
+                'списание': NaN, 'заказ': NaN
+            }
+        })
+        
+        console.log(clearData)
+        setFormData(clearData);
+        setToggleClear(toggleClear == true ? false : true)
+        console.log('reset', fields)
+        
+    }
+
+  
 
     const toggleAdditionalFields = (fieldID) => {
         console.log('we are here!')
@@ -162,7 +197,7 @@ const CafeRems = () => {
             state: { sent: true }
         });
     }
-
+    console.log('render')
     return (
         <div>
             <h4 className={styles.header}>Отчёт по кафе
@@ -178,6 +213,12 @@ const CafeRems = () => {
                             className={styles.mainExpandButtonDown}
                         >
                         </AngleDoubleDown></div>)}
+                <div onClick={clearForm}>
+
+                    <Broom
+                        className={styles.broom}
+                    >
+                    </Broom></div>
 
             </h4>
             <Group className={styles.container}>
@@ -188,7 +229,7 @@ const CafeRems = () => {
                             <productField
                                 className={`${styles.productField} ${!showAdditionalFields.get(field.id) ? styles.default : styles.show}`}
                                 id={field.id}
-                                value={formData[field.id]}
+                                // value={formData[field.id]}
                                 aria-label="e"
                                 minValue={0}
                             >
