@@ -77,11 +77,8 @@ const CafeRems = () => {
             setFields(fetchedFields);
             
             fetchedFields.forEach((key) => {
-                
+                showAdditionalFields.set(key.id, false)
             });
-           
-            setShowAdditionalFields(show);
-            console.log('show stored ', show)
             setFormData(JSON.parse(storedData));
             setRecievedFormData(JSON.parse(storedData));
             setToggleState(toggleState == true ? false : true)
@@ -93,7 +90,6 @@ const CafeRems = () => {
                 console.log('fetched', fetchedFields, typeof (fetchedFields))
                 setFields(fetchedFields);
                 // Инициализируем состояние formData с пустыми значениями
-
                 const show = new Map();
                 fetchedFields.forEach((key) => {
                     show.set(key.id, false)
@@ -101,16 +97,12 @@ const CafeRems = () => {
                 setShowAdditionalFields(show);
 
                 const initialFormData = fetchedFields.reduce((acc, field) => {
-                    // acc[field.id] = field.cnt;
                     acc[field.id] = { 'остаток': field.cnt, 'продажа': 0, 'списание': 0, 'заказ': 0 };
 
                     return acc;
                 }, {});
-                console.log('initial', initialFormData)
-                // setFields(initialFormData);
                 setFormData(initialFormData);
                 setRecievedFormData(initialFormData);
-                console.log('CafeFormData ', formData, typeof (formData))
 
             };
 
@@ -119,20 +111,19 @@ const CafeRems = () => {
         }
     }, []);
 
+
     useEffect(() => {
         setShowAdditionalFields(showAdditionalFields)
     }, [showAdditionalFields, toggleState])
 
     const handleChange = (value, id, field) => {
         setToggleClear(false);
-        console.log('onChange ', value, id, field, formData)
         setFormData((prevData) => ({
             ...prevData,
             [id]: { [field]: value }
 
         }));
         recievedFormData[id][field] = value;
-        console.log('recieved', recievedFormData)
         const date = (new Date()).toLocaleDateString();
         localStorage.setItem('tempFormData', JSON.stringify({ ...recievedFormData, date: date }))
     };
@@ -157,8 +148,7 @@ const CafeRems = () => {
     }
 
     const clearOnFocus = (v, id, field) => {
-        console.log('focus', recievedFormData[id][field], v)
-        if (recievedFormData[id][field] == 0) { recievedFormData[id][field] = NaN }
+        recievedFormData[id][field] = NaN 
         setToggleState(toggleState == true ? false : true)
 
     }
@@ -194,6 +184,7 @@ const CafeRems = () => {
 
 
     const handleSubmit = () => {
+        delete recievedFormData.date;
         var date = new Date();
         const updDateTime = date.getFullYear() + '-' +
             ('00' + (date.getMonth() + 1)).slice(-2) + '-' +
@@ -214,12 +205,10 @@ const CafeRems = () => {
             state: { sent: true }
         });
     }
-    console.log('render', showAdditionalFields)
-    console.log('Form Data', formData)
+
     return (
         <div>
             <h4 className={styles.header}>Отчёт по кафе
-            <h6>77{showAdditionalFields.get("Панини с салями")}</h6>
                 {(Array.from(showAdditionalFields.values()).includes(true) &&
                     <div className={styles.mainExpButtContainer} onClick={toggleAllAdditionalFields}>
                         <AngleDoubleUp
@@ -232,23 +221,15 @@ const CafeRems = () => {
                             className={styles.mainExpandButtonDown}
                         >
                         </AngleDoubleDown></div>)}
-                <div onClick={clearForm}>
-
-                    <Broom
-                        className={styles.broom}
-                    >
-                    </Broom></div>
-
             </h4>
             <Group className={styles.container}>
 
                 {fields.map((field) => {
                     return (
                         <div key={field.id}>
-                            <productField
+                            <div
                                 className={`${styles.productField} ${!showAdditionalFields.get(field.id) ? styles.default : styles.show}`}
                                 id={field.id}
-                                // value={formData[field.id]}
                                 aria-label="e"
                                 minValue={0}
                             >
@@ -260,14 +241,9 @@ const CafeRems = () => {
                                                 key={amtsData.id}
                                                 className={styles.numberField}
                                                 id={amtsData.id}
-                                                // value={toggleClear == false ? formData[field.id][amtsData.id] : recievedFormData[field.id][amtsData.id]}
                                                 value={recievedFormData[field.id][amtsData.id]}
-                                                // value={toggleClear == false ? formData[field.id][amtsData.id] : 0}
                                                 minValue={0}
                                                 onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
-                                                // defaultValue={amtsData.id === 'продажа' ? 0 : field.cnt}
-                                                // defaultValue={toggleClear == false ? formData[field.id][amtsData.id] : 0}
-                                                // defaultValue={toggleClear == false ? 1 : 0}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
                                                 aria-label="i"
                                             >
@@ -292,18 +268,17 @@ const CafeRems = () => {
                                                 id={amtsData.id}
                                                 value={recievedFormData[field.id][amtsData.id]}
                                                 minValue={0}
-                                                // defaultValue={formData[field.id][amtsData.id]}
                                                 isReadOnly={!showAdditionalFields.get(field.id)}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
                                                 onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
                                                 aria-label="i"
                                             >
-                                                <Label className={styles.inputtype}>
+                                                <Label className={`${styles.inputtype} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}>
                                                     {amtsData.id}</Label>
-                                                <div className={styles.inputAndIncDec}>
-                                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                                    <Input className={styles.input} />
-                                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                                <div className={`${styles.inputAndIncDec} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}>
+                                                    <Button className={`${styles.reactAriaButton} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`} slot="decrement">&minus;</Button>
+                                                    <Input className={`${styles.input} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`} />
+                                                    <Button className={`${styles.reactAriaButton} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`} slot="increment">+</Button>
                                                 </div>
                                             </NumberField>
                                         );
@@ -318,7 +293,7 @@ const CafeRems = () => {
                                         className={`${styles.expandButton} ${showAdditionalFields.get(field.id) ? styles.up : ''}`}
                                     >
                                     </AngleUp>)}</div>)}
-                            </productField>
+                            </div>
                         </div>
                     );
                 })}
