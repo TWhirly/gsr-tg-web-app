@@ -11,7 +11,7 @@ const APIURL = localUrl.APIURL;
 
 
 const HotDog = () => {
-    // localStorage.removeItem('tempFormData')
+    localStorage.removeItem('tempHotDogFormData');
     const navigate = useNavigate();
 
     const fetchFormFields = async () => {
@@ -38,12 +38,7 @@ const HotDog = () => {
 
 
 
-    const amtsData = [
-        { id: 'остаток' },
-        { id: 'продажа' },
-        { id: 'списание' },
-        { id: 'заказ' }
-    ]
+    
 
     useEffect(() => {
         const storedData = localStorage.getItem('tempHotDogFormData');
@@ -62,9 +57,7 @@ const HotDog = () => {
 
             Object.keys(storedDataObj).forEach((key) => {
                 fetchedFields.push({
-                    id: key, 'остаток': key['остаток'], 'продажа': key['продажа'],
-                    'списание': key['списание'], 'заказ': key['заказ']
-                });
+                    id: key});
                 show.set(key, false);
             });
 
@@ -85,7 +78,7 @@ const HotDog = () => {
                
 
                 const initialFormData = fetchedFields.reduce((acc, field) => {
-                    acc[field.id] = { 'остаток': field.cnt};
+                    acc[field.id] = field.cnt;
 
                     return acc;
                 }, {});
@@ -104,20 +97,20 @@ const HotDog = () => {
         setShowAdditionalFields(showAdditionalFields)
     }, [showAdditionalFields, toggleState])
 
-    const handleChange = (value, id, field) => {
+    const handleChange = (value, id) => {
         setToggleClear(false);
         setFormData((prevData) => ({
             ...prevData,
-            [id]: { [field]: value }
-
+            [id]: value,
         }));
-        recievedFormData[id][field] = value;
+        recievedFormData[id] = value;
         const date = (new Date()).toLocaleDateString();
         localStorage.setItem('tempHotDogFormData', JSON.stringify({ ...recievedFormData, date: date }))
     };
 
-    const clearOnFocus = (v, id, field) => {
-        recievedFormData[id][field] = NaN 
+    const clearOnFocus = (value, id) => {
+        console.log(v, field)
+        recievedFormData[id] = NaN 
         setToggleState(toggleState == true ? false : true)
 
     }
@@ -144,7 +137,7 @@ const HotDog = () => {
             state: { sent: true }
         });
     }
-
+    console.log('rec', recievedFormData)
     return (
         <div>
             <h4 className={styles.header}>Ингредиенты для хот-догов
@@ -156,7 +149,7 @@ const HotDog = () => {
                     return (
                         <div key={field.id}>
                             <div
-                                className={`${styles.productField} ${!showAdditionalFields.get(field.id) ? styles.default : styles.show}`}
+                                className={styles.productField}
                                 id={field.id}
                                 aria-label="e"
                                 minValue={0}
@@ -165,16 +158,16 @@ const HotDog = () => {
                                 <div className={styles.inputLine}>
                                     
                                             <NumberField
-                                                key={amtsData.id}
+                                                key={field.id}
                                                 className={styles.numberField}
-                                                id={amtsData.id}
-                                                value={recievedFormData[field.id][amtsData.id]}
+                                                id={field.id}
+                                                value={recievedFormData[id]}
                                                 minValue={0}
                                                 onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
                                                 aria-label="i"
                                             >
-                                                <Label className={styles.inputtype}>{amtsData.id}</Label>
+                                                <Label className={styles.inputtype}>{field.id}</Label>
                                                 <div className={styles.inputAndIncDec}>
                                                     <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
                                                     <Input className={styles.input} />

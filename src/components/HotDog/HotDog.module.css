@@ -24,17 +24,18 @@
 .container {
     position: absolute;
     top: 2rem;
-    left: 0;
-    right: inherit;
-    width: 100%;
+    
+    min-width: calc(100% - 6px);
     height: 100%;
     display: flex;
     height: fit-content;
-    background: var(--bgColor);
+    background: var(--tg-theme-secondary-bg-color);
     flex-direction: column;
     align-items: center;
     padding: 0%;
     transition: all 0.5s ease-in-out;
+    margin: 5px;
+    border-radius: 5px;
 }
 
 .productField.default {
@@ -112,10 +113,14 @@
 
 
 .productName {
+    position: relative;
+    display: flex;
     box-sizing: content-box;
     width: 100%;
     color: var(--tg-theme-section-header-text-color);
-    text-align: center;
+  
+    justify-content: center;
+    margin-bottom: 0.5rem;
     border: none;
 }
 
