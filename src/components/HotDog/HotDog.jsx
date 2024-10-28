@@ -78,7 +78,7 @@ const HotDog = () => {
                
 
                 const initialFormData = fetchedFields.reduce((acc, field) => {
-                    acc[field.id] = field.cnt;
+                    acc[field.id] = {'cnt': field.cnt, 'unit': field.unit};
 
                     return acc;
                 }, {});
@@ -103,14 +103,14 @@ const HotDog = () => {
             ...prevData,
             [id]: value,
         }));
-        recievedFormData[id] = value;
+        recievedFormData[id]['cnt'] = value;
         const date = (new Date()).toLocaleDateString();
         localStorage.setItem('tempHotDogFormData', JSON.stringify({ ...recievedFormData, date: date }))
     };
 
-    const clearOnFocus = (value, id) => {
-        console.log(v, field)
-        recievedFormData[id] = NaN 
+    const clearOnFocus = (id) => {
+        // console.log(v, field)
+        recievedFormData[id]['cnt'] = NaN 
         setToggleState(toggleState == true ? false : true)
 
     }
@@ -154,20 +154,20 @@ const HotDog = () => {
                                 aria-label="e"
                                 minValue={0}
                             >
-                                <Label className={styles.productName}>{field.id}</Label>
+                                <Label className={styles.productName}>{field.id}, {field.unit}</Label>
                                 <div className={styles.inputLine}>
                                     
                                             <NumberField
                                                 key={field.id}
                                                 className={styles.numberField}
                                                 id={field.id}
-                                                value={recievedFormData[id]}
+                                                value={recievedFormData[field.id]['cnt']}
                                                 minValue={0}
-                                                onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
-                                                onChange={(v) => handleChange(v, field.id, amtsData.id)}
+                                                onFocus={(v) => clearOnFocus(field.id)}
+                                                onChange={(v) => handleChange(v, field.id)}
                                                 aria-label="i"
                                             >
-                                                <Label className={styles.inputtype}>{field.id}</Label>
+                                                {/* <Label className={styles.inputtype}>{field.id}</Label> */}
                                                 <div className={styles.inputAndIncDec}>
                                                     <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
                                                     <Input className={styles.input} />

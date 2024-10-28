@@ -38,7 +38,7 @@
     border-radius: 5px;
 }
 
-.productField.default {
+.productField{
     position: relative;
     justify-content: center;
     flex-direction: column;
@@ -91,7 +91,7 @@
 }
 
 .numberField {
-
+    min-width: calc(100% - 6px);
     display: flex;
     flex-direction: column;
     /* border-radius: 5px; */
@@ -120,7 +120,8 @@
     color: var(--tg-theme-section-header-text-color);
   
     justify-content: center;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.1rem;
     border: none;
 }
 
@@ -128,6 +129,7 @@
 .inputLine.default {
     position: relative;
     display: flex;
+    width: calc(100% - 6px);
     max-height: fit-content;
     flex-direction: row;
     margin: auto;
@@ -137,7 +139,8 @@
 
 }
 
-.inputLine.show {
+.inputLine {
+    /* min-width: calc(100% - 6px); */
     position: relative;
     display: flex;
     max-height: fit-content;
