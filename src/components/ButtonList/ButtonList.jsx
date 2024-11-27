@@ -31,7 +31,8 @@ const ButtonList = () => {
         'Счётчики КМ': "/CoffeCounts",
         "Газовые баллоны": "/GasForm",
         "Остатки кафе": "/CafeRems",
-        "Ингредиенты для хот-догов": "/HotDog"
+        "Ингредиенты для хот-догов": "/HotDog",
+        "Заявки по магазину": "/ShopOrders"
     }
 
     const { tg, queryId } = useTelegram();

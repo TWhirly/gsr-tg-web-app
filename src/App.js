@@ -10,6 +10,7 @@ import GasForm from './components/gas/GasForm';
 import CoffeCounts from './components/coffeCounts/CoffeCounts';
 import CafeRems from './components/CafeRems/CafeRems';
 import HotDog from './components/HotDog/HotDog';
+import ShopOrders from './components/ShopOrders/shopOredrs.jsx'
 import FormComponent from './components/ResForm/form_try';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
                 <Route path="/GasForm" element={<GasForm />} />
                 <Route path="/CafeRems" element={<CafeRems />} />
                 <Route path="/HotDog" element={<HotDog />} />
+                <Route path="/ShopOrders" element={<ShopOrders />} />
             </Routes>
         </div>
     );
