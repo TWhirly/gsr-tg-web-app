@@ -48,31 +48,21 @@ const ShopOrders = () => {
                 // Инициализируем состояние formData с пустыми значениями
                
 
-                const result = fetchedFields.reduce((acc, { date, ca, station, nomenclature, amt }) => {
-                    // Если дата еще не добавлена в аккумулятор, создаем объект для нее
-                    if (!acc[date]) {
-                        acc[date] = {};
+                const initialFormData = fetchedFields.reduce((acc, item) => {
+                    if (!acc[item.date]) {
+                        acc[item.date] = {};
                     }
-                
-                    // Если ca еще не добавлен для данной даты, создаем массив для него
-                    if (!acc[date][ca]) {
-                        acc[date][ca] = [];
+                    if (!acc[item.date][item.ca]) {
+                        acc[item.date][item.ca] = [];
                     }
-                
-                    // Добавляем объект с остальными данными в массив для данного ca
-                    acc[date][ca].push({ station, nomenclature, amt });
-                
+                    if (!acc[item.date][item.ca][item.nomenclature]) {
+                        acc[item.date][item.ca][item.nomenclature] = [];
+                    }
+                   
+                   
+                    acc[item.date][item.ca][item.nomenclature].push(item.amt);
                     return acc;
                 }, {});
-                
-                // Преобразуем объект в массив
-                const initialFormData = Object.entries(result).map(([date, caData]) => ({
-                    date,
-                    ca: Object.entries(caData).map(([ca, values]) => ({
-                        ca,
-                        data: values
-                    }))
-                }));
 
                 setFormData(initialFormData);
                 setRecievedFormData(initialFormData);
@@ -98,32 +88,27 @@ const ShopOrders = () => {
     };
 
     
-    console.log('rec', fields)
-    console.log('form ', (formData[0]["date"]), 'type ', typeof(formData[0]))
+    console.log('rec', formData)
+    // console.log('form ', formData[date][ca][nomenclature], 'type ', typeof(formData[date][ca][nomenclature]))
+    // console.log(Object.values(t))
     return (
         <div>
-            <h4 className={styles.header}>Заявки по магазину
-              
-            </h4>
-            <Group className={styles.container}>
-
-                {formData.map((field) => {
-                    return (
-                        <div key={field.date}>{field.date}
-                        {typeof(field['ca'])}
-                        {/* {field['ca'].map((ca) => {
-                            return (
-                                <div>{field.ca}</div>
-                            )
-                        })} */}
-                           
+            {Object.keys(formData).map(date => (
+                <div key={date}>
+                    <h2>{date}</h2>
+                    {Object.keys(formData[date]).map(ca => (
+                        <div key={ca}>
+                            <h3>{ca}</h3>
+                            {Object.keys(formData[date][ca]).map((nomenclature) => (
+                                <div key = {ca.nomenclature}>
+                                    {nomenclature} - {formData[date][ca][nomenclature]}
+                                </div>
+                            ))}
                         </div>
-                    );
-                })}
-            </Group>
-
+                    ))}
+                </div>
+            ))}
         </div>
-
     );
 
 }
