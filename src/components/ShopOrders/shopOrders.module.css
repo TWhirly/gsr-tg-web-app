@@ -1,0 +1,17 @@
+.container {
+    flex-direction: column;
+}
+
+.dateBlock {
+    display: block;
+    border: 1px solid;
+}
+
+.nomenclatureBlock {
+    background-color: red;
+}
+
+.hide {
+    height: 0;
+}
+

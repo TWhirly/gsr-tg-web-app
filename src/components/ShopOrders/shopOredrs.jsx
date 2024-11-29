@@ -44,8 +44,12 @@ const ShopOrders = () => {
                 const fetchedFields = await fetchFormFields();
                 console.log('fetched', fetchedFields, typeof (fetchedFields))
                 setFields(fetchedFields);
-                const uniqueDates = new Map();
-                // Инициализируем состояние formData с пустыми значениями
+                
+                fetchedFields.forEach((key) => {
+                    showAdditionalFields.set(key.ID, false)
+                });
+
+                console.log('additional', showAdditionalFields)
                
 
                 const initialFormData = fetchedFields.reduce((acc, item) => {
@@ -58,9 +62,12 @@ const ShopOrders = () => {
                     if (!acc[item.date][item.ca][item.nomenclature]) {
                         acc[item.date][item.ca][item.nomenclature] = [];
                     }
+                    if (!acc[item.date][item.ca][item.nomenclature][item.amt]) {
+                        acc[item.date][item.ca][item.nomenclature][item.amt] = [];
+                    }
                    
                    
-                    acc[item.date][item.ca][item.nomenclature].push(item.amt);
+                    acc[item.date][item.ca][item.nomenclature][item.amt].push(item.ID);
                     return acc;
                 }, {});
 
@@ -92,16 +99,27 @@ const ShopOrders = () => {
     // console.log('form ', formData[date][ca][nomenclature], 'type ', typeof(formData[date][ca][nomenclature]))
     // console.log(Object.values(t))
     return (
-        <div>
+        <div className={styles.container}>
             {Object.keys(formData).map(date => (
-                <div key={date}>
+                <div className={styles.dateBlock} key={date}>
                     <h2>{date}</h2>
                     {Object.keys(formData[date]).map(ca => (
-                        <div key={ca}>
+                        <div className={styles.caBlock} key={ca}>
+                            <h3>{ca}</h3>
+                            {Object.keys(formData[date][ca]).filter((nomenclature) => Object.keys(formData[date][ca]).indexOf(nomenclature) < 3).map((nomenclature) => (
+                                <div className={`${!showAdditionalFields.get(formData[date][ca][nomenclature]) ? styles.nomenclatureBlock : styles.hide}`} key = {ca.nomenclature}>
+                                    {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {(Object.keys(formData[date][ca][nomenclature])[0])}
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                       {Object.keys(formData[date]).map(ca => (
+                        <div  key={ca}>
                             <h3>{ca}</h3>
                             {Object.keys(formData[date][ca]).map((nomenclature) => (
-                                <div key = {ca.nomenclature}>
-                                    {nomenclature} - {formData[date][ca][nomenclature]}
+                                <div className={`${!showAdditionalFields.get(formData[date][ca][nomenclature]) ? styles.hide : styles.nomenclatureBlock}`} key = {ca.nomenclature}>
+                                    {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {(Object.keys(formData[date][ca][nomenclature])[0])}
+                                    {formData[date][ca][nomenclature]}
                                 </div>
                             ))}
                         </div>
