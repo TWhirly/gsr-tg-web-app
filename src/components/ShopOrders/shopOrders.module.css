@@ -11,11 +11,20 @@
     background-color: red;
     height: auto;
     font-size: 1rem;
+    transition: all 0.2s ease-in-out, opacity 0.9s;
 }
 
 .nomenclatureBlock.hide {
     background-color: green;
     height: 0;
     font-size: 0;
+  white-space: nowrap; 
+    opacity: 1;
+}
+
+.expand {
+    color: blue;
+    text-decoration: underline;
+    text-align: right;
 }
 

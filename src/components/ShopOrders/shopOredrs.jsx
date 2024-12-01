@@ -3,7 +3,7 @@ import styles from './shopOrders.module.css';
 import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
-import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
+import { Link, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
 
 
 const APIURL = localUrl.APIURL;
@@ -114,20 +114,20 @@ const ShopOrders = () => {
                             <h3>{ca}</h3>
                             <div>
                             {Object.keys(formData[date][ca]).filter((nomenclature) => Object.keys(formData[date][ca]).indexOf(nomenclature) < 3).map((nomenclature) => (
-                                <div className={`${styles.nomenclatureBlock} ${!showAdditionalFields.get(ca + nomenclature) ? '' : styles.hide}`} key={ca.nomenclature}>
+                                <div className={`${styles.nomenclatureBlock} ${!showAdditionalFields.get(date + ca) ? '' : styles.hide}`} key={ca.nomenclature}>
                                     {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {formData[date][ca][nomenclature]}
                                     {showAdditionalFields.get(ca + nomenclature) ? 'show' : 'hide'}
                                 </div>
                             ))}
-                            <div 
-                            name={date + ca}
+                            <div
+                            className={styles.expand}                            name={date + ca}
                             onClick={(e) => showAll(e, date+ca)}
                             >
                             {Object.keys(formData[date][ca]).length > 3 ? 'Показать все (' + Object.keys(formData[date][ca]).length +')' : ''}
                             </div>
                             </div>
                             {Object.keys(formData[date][ca]).map((nomenclature) => (
-                                <div className={`${styles.nomenclatureBlock} ${showAdditionalFields.get(ca + nomenclature) ? '' : styles.hide}`} key={ca.nomenclature}>
+                                <div className={`${styles.nomenclatureBlock} ${showAdditionalFields.get(date + ca) ? '' : styles.hide}`} key={ca.nomenclature}>
                                     {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {formData[date][ca][nomenclature]}
                                 </div>
                             ))}
