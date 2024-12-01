@@ -9,9 +9,13 @@
 
 .nomenclatureBlock {
     background-color: red;
+    height: auto;
+    font-size: 1rem;
 }
 
-.hide {
+.nomenclatureBlock.hide {
+    background-color: green;
     height: 0;
+    font-size: 0;
 }
 

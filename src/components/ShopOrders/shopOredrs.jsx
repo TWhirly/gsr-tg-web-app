@@ -28,7 +28,7 @@ const ShopOrders = () => {
     };
 
     const [fields, setFields] = useState([]);
-    const [formData, setFormData] = useState([]);
+    const [formData, setFormData] = useState({});
     const [recievedFormData, setRecievedFormData] = useState({});
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [toggleState, setToggleState] = useState(false);
@@ -37,52 +37,57 @@ const ShopOrders = () => {
 
 
 
-    
+
 
     useEffect(() => {
-            const loadFields = async () => {
-                const fetchedFields = await fetchFormFields();
-                console.log('fetched', fetchedFields, typeof (fetchedFields))
-                setFields(fetchedFields);
-                
-                fetchedFields.forEach((key) => {
-                    showAdditionalFields.set(key.ID, false)
-                });
+        const loadFields = async () => {
+            const fetchedFields = await fetchFormFields();
+            console.log('fetched', fetchedFields, typeof (fetchedFields))
+            setFields(fetchedFields);
 
-                console.log('additional', showAdditionalFields)
-               
+            fetchedFields.forEach((key) => {
+                showAdditionalFields.set(key.date + key.ca, false)
+            });
 
-                const initialFormData = fetchedFields.reduce((acc, item) => {
-                    if (!acc[item.date]) {
-                        acc[item.date] = {};
-                    }
-                    if (!acc[item.date][item.ca]) {
-                        acc[item.date][item.ca] = [];
-                    }
-                    if (!acc[item.date][item.ca][item.nomenclature]) {
-                        acc[item.date][item.ca][item.nomenclature] = [];
-                    }
-                    if (!acc[item.date][item.ca][item.nomenclature][item.amt]) {
-                        acc[item.date][item.ca][item.nomenclature][item.amt] = [];
-                    }
-                   
-                   
-                    acc[item.date][item.ca][item.nomenclature][item.amt].push(item.ID);
-                    return acc;
-                }, {});
+            console.log('additional', showAdditionalFields)
 
-                setFormData(initialFormData);
-                setRecievedFormData(initialFormData);
 
-            };
+            const initialFormData = fetchedFields.reduce((acc, item) => {
+                if (!acc[item.date]) {
+                    acc[item.date] = {};
+                }
+                if (!acc[item.date][item.ca]) {
+                    acc[item.date][item.ca] = {};
+                }
+                acc[item.date][item.ca][item.nomenclature] = item.amt;
+            
+                return acc;
+            }, {});
 
-            loadFields();
+            setFormData(initialFormData);
+            setRecievedFormData(initialFormData);
+
+        };
+
+        loadFields();
     }, []);
 
 
     useEffect(() => {
         setShowAdditionalFields(showAdditionalFields)
     }, [showAdditionalFields, toggleState])
+
+    const showAll = (e, name) => {
+        console.log('e.target', name)
+        setToggleState(toggleState == true ? false : true)
+        if (showAdditionalFields.get(name) === true) {
+            showAdditionalFields.set(name, false)
+        }
+        else {
+            showAdditionalFields.set(name, true)
+        }
+        setShowAdditionalFields(showAdditionalFields)
+    }
 
     const handleChange = (value, id) => {
         setToggleClear(false);
@@ -94,10 +99,11 @@ const ShopOrders = () => {
         const date = (new Date()).toLocaleDateString();
     };
 
-    
+
     console.log('rec', formData)
     // console.log('form ', formData[date][ca][nomenclature], 'type ', typeof(formData[date][ca][nomenclature]))
-    // console.log(Object.values(t))
+    // console.log('keys ',Object.keys(formData['18.11.2024']['Юринат БТД']))
+    console.log(showAdditionalFields.get('29.11.2024Трейд'))
     return (
         <div className={styles.container}>
             {Object.keys(formData).map(date => (
@@ -106,24 +112,28 @@ const ShopOrders = () => {
                     {Object.keys(formData[date]).map(ca => (
                         <div className={styles.caBlock} key={ca}>
                             <h3>{ca}</h3>
+                            <div>
                             {Object.keys(formData[date][ca]).filter((nomenclature) => Object.keys(formData[date][ca]).indexOf(nomenclature) < 3).map((nomenclature) => (
-                                <div className={`${!showAdditionalFields.get(formData[date][ca][nomenclature]) ? styles.nomenclatureBlock : styles.hide}`} key = {ca.nomenclature}>
-                                    {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {(Object.keys(formData[date][ca][nomenclature])[0])}
+                                <div className={`${styles.nomenclatureBlock} ${!showAdditionalFields.get(ca + nomenclature) ? '' : styles.hide}`} key={ca.nomenclature}>
+                                    {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {formData[date][ca][nomenclature]}
+                                    {showAdditionalFields.get(ca + nomenclature) ? 'show' : 'hide'}
                                 </div>
                             ))}
-                        </div>
-                    ))}
-                       {Object.keys(formData[date]).map(ca => (
-                        <div  key={ca}>
-                            <h3>{ca}</h3>
+                            <div 
+                            name={date + ca}
+                            onClick={(e) => showAll(e, date+ca)}
+                            >
+                            {Object.keys(formData[date][ca]).length > 3 ? 'Показать все (' + Object.keys(formData[date][ca]).length +')' : ''}
+                            </div>
+                            </div>
                             {Object.keys(formData[date][ca]).map((nomenclature) => (
-                                <div className={`${!showAdditionalFields.get(formData[date][ca][nomenclature]) ? styles.hide : styles.nomenclatureBlock}`} key = {ca.nomenclature}>
-                                    {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {(Object.keys(formData[date][ca][nomenclature])[0])}
-                                    {formData[date][ca][nomenclature]}
+                                <div className={`${styles.nomenclatureBlock} ${showAdditionalFields.get(ca + nomenclature) ? '' : styles.hide}`} key={ca.nomenclature}>
+                                    {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {formData[date][ca][nomenclature]}
                                 </div>
                             ))}
                         </div>
                     ))}
+              
                 </div>
             ))}
         </div>
