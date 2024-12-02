@@ -1,25 +1,77 @@
+
 .container {
+    top: 0;
+    background: var(--bgColor);
+    display: flex;
     flex-direction: column;
+    
 }
 
-.dateBlock {
-    display: block;
+
+
+.date{
+    margin-top: 5px;
+    text-align: center;
+}
+
+.caBlock{
     border: 1px solid;
+    background-color: var(--tg-theme-secondary-bg-color);
+    margin-bottom: 5px;
+    flex-direction: row;
+
+}
+
+.ca{
+    text-align: center;
 }
 
 .nomenclatureBlock {
+    
     background-color: red;
-    height: auto;
+    height: fit-content;
     font-size: 1rem;
-    transition: all 0.2s ease-in-out, opacity 0.9s;
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0.2s ease;
+}
+
+.nomenclatureRow{
+    display: inline-flex;
+    width: 100%;
+   border: 1px solid;
+    background-color: green;
+    --row-height: 100%;
+    height: var(--row-height)
+    
+}
+
+.no{
+    
+    align-self: auto;
+    border-right: 1px solid;
+    text-align: center;
+  width: 1rem;
+  margin: auto;
+}
+
+.amt{
+    border-left: 1px solid;
+    width: 1.5rem;
+   text-align: center;
+    margin: auto;
+    background-color: gray;
+}
+
+.nomenclature {
+    width: calc(100% - 2.5rem);
 }
 
 .nomenclatureBlock.hide {
-    background-color: green;
+    opacity: 0;
+    visibility: hidden;
     height: 0;
-    font-size: 0;
-  white-space: nowrap; 
-    opacity: 1;
+    transition:  visibility 0.2s ease;
 }
 
 .expand {
