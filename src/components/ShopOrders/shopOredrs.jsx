@@ -136,9 +136,17 @@ const ShopOrders = () => {
                             </div >
                             <div className={`${styles.nomenclatureBlock} ${showAdditionalFields.get(date + ca) ? '' : styles.hide}`}>
                                 {Object.keys(formData[date][ca]).map((nomenclature) => (
-                                    <div key={ca.nomenclature}>
-                                        {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1} {nomenclature} - {formData[date][ca][nomenclature]}
+                                    <div className={styles.nomenclatureRow} >
+                                    <div className={styles.no}>
+                                        {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1}
                                     </div>
+                                    <div className={styles.nomenclature}>
+                                        {nomenclature}
+                                    </div>
+                                    <div className={styles.amt}>
+                                        {formData[date][ca][nomenclature]}
+                                    </div>
+                                </div>
                                 ))}
                                 <div
                                     className={styles.expand}
