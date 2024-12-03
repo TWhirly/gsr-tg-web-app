@@ -56,11 +56,18 @@ const ShopOrders = () => {
                 if (!acc[item.date]) {
                     acc[item.date] = {};
                 }
+
+               
+
+                   
                 if (!acc[item.date][item.ca]) {
                     acc[item.date][item.ca] = {};
+                    if(!acc[item.date][item.ca]['manager']){
+                        acc[item.date][item.ca] = {manager: item.manager}
+                       }
                 }
                 acc[item.date][item.ca][item.nomenclature] = item.amt;
-
+              
                 return acc;
             }, {});
 
@@ -112,11 +119,12 @@ const ShopOrders = () => {
                     {Object.keys(formData[date]).map(ca => (
                         <div className={styles.caBlock} key={ca}>
                             <h3 className={styles.ca}>{ca}</h3>
+                            <div className={styles.manager}>{formData[date][ca]['manager']}</div>
                             <div className={`${styles.nomenclatureBlock} ${!showAdditionalFields.get(date + ca) ? '' : styles.hide}`}>
-                                {Object.keys(formData[date][ca]).filter((nomenclature) => Object.keys(formData[date][ca]).indexOf(nomenclature) < 3).map((nomenclature) => (
+                                {Object.keys(formData[date][ca]).filter((nomenclature) => Object.keys(formData[date][ca]).indexOf(nomenclature) < 4 && nomenclature != 'manager').map((nomenclature) => (
                                     <div className={styles.nomenclatureRow} >
                                         <div className={styles.no}>
-                                            {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1}
+                                            {Object.keys(formData[date][ca]).indexOf(nomenclature)}
                                         </div>
                                         <div className={styles.nomenclature}>
                                             {nomenclature}
@@ -131,14 +139,15 @@ const ShopOrders = () => {
                                     className={styles.expand}
                                     onClick={(e) => showAll(e, date + ca)}
                                 >
-                                    {Object.keys(formData[date][ca]).length > 3 ? 'Показать все (' + Object.keys(formData[date][ca]).length + ')' : ''}
+                                    {Object.keys(formData[date][ca]).length > 4 ? 'Показать все (' + (Object.keys(formData[date][ca]).length - 1)+ ')' : ''}
                                 </div>
                             </div >
                             <div className={`${styles.nomenclatureBlock} ${showAdditionalFields.get(date + ca) ? '' : styles.hide}`}>
-                                {Object.keys(formData[date][ca]).map((nomenclature) => (
+                               
+                                {Object.keys(formData[date][ca]).filter((nomenclature) => nomenclature != 'manager').map((nomenclature) => (
                                     <div className={styles.nomenclatureRow} >
                                     <div className={styles.no}>
-                                        {Object.keys(formData[date][ca]).indexOf(nomenclature) + 1}
+                                        {Object.keys(formData[date][ca]).indexOf(nomenclature)}
                                     </div>
                                     <div className={styles.nomenclature}>
                                         {nomenclature}
