@@ -3,7 +3,8 @@ import styles from './shopOrders.module.css';
 import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
-import { Link, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
+import { Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
+import { Link, Element, Events, animateScroll as scroll } from 'react-scroll';
 
 
 const APIURL = localUrl.APIURL;
@@ -112,12 +113,12 @@ const ShopOrders = () => {
     // console.log('keys ',Object.keys(formData['18.11.2024']['Юринат БТД']))
     console.log(showAdditionalFields.get('29.11.2024Трейд'))
     return (
-        <div className={styles.container}>
+        <div className={styles.container} name='main'>
             {Object.keys(formData).map(date => (
                 <div className={styles.dateBlock} key={date}>
                     <h2 className={styles.date}> {date}</h2>
                     {Object.keys(formData[date]).map(ca => (
-                        <div className={styles.caBlock} key={ca}>
+                        <div className={styles.caBlock} key={ca} name={date+ca}>
                             <h3 className={styles.ca}>{ca}</h3>
                             <div className={styles.manager}>{formData[date][ca]['manager']}</div>
                             <div className={`${styles.nomenclatureBlock} ${!showAdditionalFields.get(date + ca) ? '' : styles.hide}`}>
@@ -135,12 +136,12 @@ const ShopOrders = () => {
                                     </div>
 
                                 ))}
-                                <div
+                                <Link to={date+ca} smooth={true} duration={500} 
                                     className={styles.expand}
                                     onClick={(e) => showAll(e, date + ca)}
                                 >
                                     {Object.keys(formData[date][ca]).length > 4 ? 'Показать все (' + (Object.keys(formData[date][ca]).length - 1)+ ')' : ''}
-                                </div>
+                                </Link>
                             </div >
                             <div className={`${styles.nomenclatureBlock} ${showAdditionalFields.get(date + ca) ? '' : styles.hide}`}>
                                
@@ -157,12 +158,11 @@ const ShopOrders = () => {
                                     </div>
                                 </div>
                                 ))}
-                                <div
-                                    className={styles.expand}
+                                <Link to={date+ca} smooth={true} duration={500} className={styles.expand}
                                     onClick={(e) => showAll(e, date + ca)}
                                 >
                                     {Object.keys(formData[date][ca]).length > 3 ? 'Свернуть' : ''}
-                                </div>
+                                </Link>
                             </div>
                         </div>
                     ))}
