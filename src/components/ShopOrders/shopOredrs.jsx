@@ -158,7 +158,7 @@ const ShopOrders = () => {
                                     </div>
                                 </div>
                                 ))}
-                                <Link to={date+ca} smooth={true} duration={500} className={styles.expand}
+                                <Link to={date+ca}  className={styles.expand}
                                     onClick={(e) => showAll(e, date + ca)}
                                 >
                                     {Object.keys(formData[date][ca]).length > 3 ? 'Свернуть' : ''}
