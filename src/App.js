@@ -12,6 +12,7 @@ import CafeRems from './components/CafeRems/CafeRems';
 import HotDog from './components/HotDog/HotDog';
 import ShopOrders from './components/ShopOrders/shopOredrs.jsx'
 import CoffeIngs from './components/CoffeIngs/CoffeIngs.jsx';
+import FuelIntake from './components/fuelIntake/FuelIntake.jsx';
 import FormComponent from './components/ResForm/form_try';
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
                 <Route path="/HotDog" element={<HotDog />} />
                 <Route path="/ShopOrders" element={<ShopOrders />} />
                 <Route path="/CoffeIngs" element={<CoffeIngs />} />
+                <Route path="/FuelIntake" element={<FuelIntake />} />
             </Routes>
         </div>
     );

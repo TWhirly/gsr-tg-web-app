@@ -161,7 +161,8 @@ const CoffeIngs = () => {
                                         <NumberField
                                             key={field}
                                             className={styles.numberField}
-                                            value={recievedFormData[cat[field.amt]]}
+                                            defaultValue={recievedFormData[cat][field]['amt']}
+                                            value={recievedFormData[cat[field['amt']]]}
                                             onChange={(v) => handleChange(v, cat, field)}
                                            
                                         >

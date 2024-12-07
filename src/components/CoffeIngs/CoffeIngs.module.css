@@ -26,7 +26,10 @@
 }
 
 .catContainer{
+    width: 100%;
     margin-top: 2rem;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 
@@ -37,6 +40,7 @@
     z-index: 100;
     border-radius: 5px;
     text-align: center;
+    width: 100%;
 }
 
 
@@ -47,6 +51,7 @@
 
     display: flex;
     flex-direction: column;
+    width: 100%;
     /* border-radius: 5px; */
     border: none;
     z-index: 100;
@@ -78,28 +83,20 @@
 }
 
 
-.inputLine.default {
-    position: relative;
+.inputLine {
+    /* position: relative; */
     display: flex;
     max-height: fit-content;
+    width: 100%;
     flex-direction: row;
     margin: auto;
-    padding: auto;
+    /* padding: auto; */
     z-index: inherit;
     /* transition: all 0.5s ease-in-out; */
 
 }
 
-.inputLine.show {
-    position: relative;
-    display: flex;
-    max-height: fit-content;
-    flex-direction: row;
-    margin: auto;
-    padding: auto;
-    z-index: inherit;
 
-}
 
 
 
@@ -118,7 +115,7 @@
     display: flex;
     flex-direction: row;
     border: 1px solid DimGray;
-    margin: 5px;
+    /* margin: 5px; */
     /* transition: all 0.2s ease-in-out; */
 }
 
@@ -284,8 +281,8 @@
     display: flex;
     left: 1px;
     justify-content: center;
-    width: calc(100% - 6px);
-    margin: 5px;
+    width: 100%;
+    /* margin: 5px; */
     /* padding: 10px 20px; */
     position: relative;
     z-index: 1000;
