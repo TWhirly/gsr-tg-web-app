@@ -86,7 +86,7 @@ const CoffeIngs = () => {
                         acc[field.cat][field.id] = {}
                     }
 
-                    acc[field.cat][field.id] = {amt: field.cnt, unit: field.unit}
+                    acc[field.cat][field.id] = {amt: field.cnt, unit: field.unit, order: NaN}
 
                     return acc;
                 }, {});
@@ -105,13 +105,11 @@ const CoffeIngs = () => {
         setShowAdditionalFields(showAdditionalFields)
     }, [showAdditionalFields, toggleState])
 
-    const handleChange = (value, id) => {
+    const handleChange = (v, cat, field) => {
+        console.log('recieved f data', cat, field, v)
         setToggleClear(false);
-        setFormData((prevData) => ({
-            ...prevData,
-            [id]: value,
-        }));
-        recievedFormData[id] = value;
+        console.log('rec2', recievedFormData)
+        recievedFormData[cat][field]['amt'] = v;
         const date = (new Date()).toLocaleDateString();
         localStorage.setItem('CoffeIngsData', JSON.stringify({ ...recievedFormData, date: date }))
     };
@@ -149,51 +147,48 @@ const CoffeIngs = () => {
     console.log('rec', recievedFormData)
     return (
         <div className={styles.container}>
-            <h4 className={styles.header}>Ингредиенты КМ </h4>
-            {Object.keys(formData).map(cat => (
-               
-            <div > {cat}
+            <div className={styles.header}>Ингредиенты КМ </div>
+            <div className={styles.catContainer}>
+                {Object.keys(formData).map(cat => (
 
-                {Object.keys(formData[cat]).map((field) => {
-                    return (
-                        <div key={field.id}>
-                            <div
-                                className={styles.productField}
-                                id={field.id}
-                                aria-label="e"
-                                minValue={0}
-                            >
-                                <div className={styles.inputLine}>
-                                    
-                                            <NumberField
-                                                key={field.id}
-                                                className={styles.numberField}
-                                                id={field.id}
-                                                value={recievedFormData[field.id]}
-                                                name={field.id}
-                                                minValue={0}
-                                                onFocus={clearOnFocus}
-                                                onChange={(v) => handleChange(v, field, field.unit)}
-                                                aria-label="i"
-                                            >
-                                                <Label className={styles.inputtype}>{field}, {formData[cat][field]['unit']}</Label>
-                                                <div className={styles.inputAndIncDec}>
-                                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                                    <Input className={styles.input} />
-                                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
-                                                </div>
-                                            </NumberField>
-                                  
+                    <div className={styles.catBlock}> {cat}
+
+                        {Object.keys(formData[cat]).map((field) => {
+                            return (
+                                <div key={field.id}>
+
+                                    <div className={styles.inputLine}>
+                                        <NumberField
+                                            key={field}
+                                            className={styles.numberField}
+                                            value={recievedFormData[cat[field.amt]]}
+                                            onChange={(v) => handleChange(v, cat, field)}
+                                           
+                                        >
+                                            <Label className={styles.inputtype}>{field}, {formData[cat][field]['unit']}</Label>
+                                            <div className={styles.inputAndIncDec}>
+                                                <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                                <Input
+                                                className={styles.input}
+                                               
+                                                
+                                                />
+                                                <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                            </div>
+                                        </NumberField>
+
+                                    </div>
+
                                 </div>
-                            </div>
-                        </div>
-                    );
-                })}
-                
-              
+                            );
+                        })}
+
+
+                    </div>
+                ))}
+                 <Button className={styles.submit} onPress={handleSubmit}>Отправить</Button>
             </div>
-    ))}
-      <Button className={styles.submit} onPress={handleSubmit} >Отправить</Button>
+           
         </div>
 
     );

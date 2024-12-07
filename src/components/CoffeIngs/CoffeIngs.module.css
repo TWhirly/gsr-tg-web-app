@@ -4,29 +4,40 @@
 
 
 .container {
-    /* position: absolute; */
-    margin-top: 2rem;
-    
     min-width: calc(100% - 6px);
-    height: 100%;
+    height: 100vh;
     display: flex;
-    height: fit-content;
-    background: var(--tg-theme-secondary-bg-color);
     flex-direction: column;
     align-items: center;
     padding: 0%;
     transition: all 0.5s ease-in-out;
-    /* margin: 5px; */
     border-radius: 5px;
 }
 
 .header {
+    text-align: center;
+    width: 100%;
+    height: 2rem;
+    margin-top: 0;
+    position: fixed;
+    z-index: 1000;
+    background-color: var(--bgColor);
     
 }
 
+.catContainer{
+    margin-top: 2rem;
+}
 
 
-
+.catBlock {
+    /* margin-top: 2rem; */
+    margin-bottom: 1rem;
+    background: var(--tg-theme-secondary-bg-color);
+    z-index: 100;
+    border-radius: 5px;
+    text-align: center;
+}
 
 
 
