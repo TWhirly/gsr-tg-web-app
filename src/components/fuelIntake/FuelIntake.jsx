@@ -17,6 +17,8 @@ const APIURL = localUrl.APIURL;
 
 const FuelIntake = () => {
     const navigate = useNavigate();
+
+
     const fetchFormFields = async () => {
         const response = await fetch(APIURL + '/fuelIntake', {
             method: 'POST',
@@ -29,8 +31,23 @@ const FuelIntake = () => {
         return jVal
     };
 
+    const calibration = async () => {
+        const response = await fetch(APIURL + '/calibration', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({initData: window.Telegram.WebApp.initData })
+        }); // Генерируем объект Response
+        const jVal = await response.json(); // Парсим тело ответа
+        return jVal
+    };
+
+
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState({});
+    const [cal, setCal] = useState({});
+    const [recievedFormData, setRecievedFormData] = useState({});
     const [formDataInputs, setFormDataInputs] = useState({});
     const [allFieldsFilled, setIsFormComplete] = useState(false);
 
@@ -38,42 +55,102 @@ const FuelIntake = () => {
         const loadFields = async () => {
             const fetchedFields = await fetchFormFields();
             setFields(fetchedFields);
-            // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
-                acc[field.id] = NaN;
-
+               Object.keys(field).map((key) => {
+                if(!acc[field.id]){
+                    acc[field.id] = {}
+                    acc[field.id]['awaitH'] = 0
+                }
+                    if(key !== 'id'){
+                    acc[field.id][key] = field[key]
+                }
+                
+               })
                 return acc;
-            }, {});
+            }, []);
             setFormData(initialFormData);
+            setRecievedFormData(initialFormData);
             
         };
 
+        const loadCalibration = async () => {
+            const fetchedFields = await calibration();
+            console.log('fetched cal', fetchedFields)
+            const initialCalibration = fetchedFields.reduce((acc, field) => {
+                if(!acc[field.tank]){
+                    acc[field.tank] = {}
+                }
+                acc[field.tank][field.h] = field.v 
+                 return acc;
+             }, {});
+             setCal(initialCalibration)
+        }
+        loadCalibration();
         loadFields();
-    }, []);
+    }, {});
 
-    const handleChange = (value, id) => {
-        setFormData((prevData) => ({
+    const handlePlus = (e) => {
+        console.log('onPlus', e.target)
+        const id = e.target.id
+        const key = e.target.name
+        const value = e.target.value
+        setFormData(prevData => ({
             ...prevData,
-            [id]: value,
+            [id]: {
+                ...prevData[id],
+                [key]: (+value + 0.1).toFixed(1),
+                awaitH: calcAwaitH(value, id)
+            },
+        }));
+    }
+
+    const handleMinus = (e) => {
+        console.log('onPlus', e.target)
+        const id = e.target.id
+        const key = e.target.name
+        const value = e.target.value
+        setFormData(prevData => ({
+            ...prevData,
+            [id]: {
+                ...prevData[id],
+                [key]: (+value - 0.1).toFixed(1),
+                awaitH: calcAwaitH(value, id)
+            },
+        }));
+    }
+
+    const calcAwaitH = (h, id) => {
+        console.log('calc')
+        Math.trunc(h)
+        return (
+        (cal[formData[id]['tank']][Math.trunc(h)] - 
+        (cal[formData[id]['tank']][Math.trunc(h)-1]? cal[formData[id]['tank']][Math.trunc(h)-1] : cal[formData[id]['tank']][Math.trunc(h)] )) * (h - Math.trunc(h)) + 
+        cal[formData[id]['tank']][Math.trunc(h)]
+        // cal[formData[id]['tank']][Math.trunc(h) - 1]
+    
+    )
+
+    }
+
+    const handleChange = (e) => {
+        console.log('onChange', e.target)
+        console.log(formData)
+        const id = e.target.id
+        const key = e.target.name
+        const value = e.target.value
+        setFormData(prevData => ({
+            ...prevData,
+            [id]: {
+                ...prevData[id],
+                [key]: value,
+                awaitH: calcAwaitH(value, id),
+            },
         }));
 
-        setFormDataInputs((prevData) => ({
-            ...prevData,
-            [id]: value,
-        }));
-    };
-
-    const handleInput = (e) => {
-       const id = e.target['id'];
-       const value = e.target['value'].toString().replace(/\s/g,'');
-       console.log(e.target['value'])
-        setFormDataInputs((prevData) => ({
-            ...prevData,
-            [id]: value,
-        }));
-        console.log('input ', formData)
        
     };
+
+    
 
     useEffect(() => {
         // Проверяем, заполнены ли все поля формы
@@ -101,7 +178,8 @@ const FuelIntake = () => {
 
     }
 
-    console.log('render');
+    console.log('render', formData);
+    console.log('calib', cal);
     
     return(
         <div className={styles.container}>
@@ -109,34 +187,40 @@ const FuelIntake = () => {
            
             <group className={styles.group}>
                 <h4 className={styles.subheader}>Поступления НП сегодня, {(new Date).toLocaleDateString()}</h4>
-                <Group className={styles.inputs}>{fields.map((field) => {
+                <div className={styles.inputs}>{fields.map((field) => {
                     return (
-                        <div className={styles.numberField} key={field.id}>
-                            <div>{field.fuel !== 'ДТ'? 'АИ-'+field.fuel : field.fuel}
-                            {field.driver}
-                            {field.plates} 
-                            Секции: {field.sections}
-                            Объем по накладной: {field.waybill}
+                        <div className={styles.intakeBlock} key={field.id}>
+                            <div className={styles.fueltype}>{field.fuel !== 'ДТ'? 'АИ-'+field.fuel : field.fuel} </div>
+                            <div>Резервуар № {field.tank}</div>
+                            <div>{field.driver}</div>
+                            <div>{field.plates} </div>
+                            <div>Секции: {field.sections}</div>
+                            <div>Объем по накладной: {field.waybill}</div>
+                           
+                            <div>
+                               <div>Уровень до слива, см</div> 
+                            <input
+                            id={field.id}
+                            name='hBefore'
+                            value={formData[field.id]['hBefore']}
+                            type='number'
+                            inputMode='numeric'
+                            step={0.1}
+                            onChange={handleChange}
+                            />
+                            <button id={field.id}
+                            name='hBefore'
+                            value={formData[field.id]['hBefore']}onClick={handleMinus}>&minus;</button>
+                            <button id={field.id}
+                            name='hBefore'
+                            value={formData[field.id]['hBefore']} onClick={handlePlus}>+</button>
                             </div>
-                            <NumberField id={field.id} value={formData[field.id]} aria-label="e"
-                                minValue={0}
-                                description={field.name}
-                                // isRequired={true}
-                                onInput={handleInput}
-                                onChange={(v) => handleChange(v, field.id)}>
-                                     <Label className={styles.inputLineWithLabel}>
-                                        <div className={styles.label}> Уровень до слива </div> 
-                                       
-                                <div className={styles.inputLine}>
-                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                    <Input className={styles.input} />
-                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
-                                </div>
-                                </Label>
-                            </NumberField>
+                            <div>{formData[field.id]['awaitH']}</div>
+                              
+                            
                         </div>
                     )
-                })}</Group>
+                })}</div>
             </group>
            
             {(allFieldsFilled && <Button onPress={handleSubmit} className={styles.submit} >Отправить</Button>)}

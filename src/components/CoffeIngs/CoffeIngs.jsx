@@ -98,7 +98,7 @@ const CoffeIngs = () => {
             loadFields();
 
         }
-    }, []);
+    }, {});
 
 
     useEffect(() => {
