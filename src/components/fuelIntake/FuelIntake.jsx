@@ -132,12 +132,12 @@ const FuelIntake = () => {
 
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e, d) => {
         console.log('onChange', e.target)
         console.log(formData)
         const id = e.target.id
         const key = e.target.name
-        const value = e.target.value
+        const value = (+e.target.value + (d? +d : 0)).toFixed(1)
         setFormData(prevData => ({
             ...prevData,
             [id]: {
@@ -210,10 +210,10 @@ const FuelIntake = () => {
                             />
                             <button id={field.id}
                             name='hBefore'
-                            value={formData[field.id]['hBefore']}onClick={handleMinus}>&minus;</button>
+                            value={formData[field.id]['hBefore']}onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
                             <button id={field.id}
                             name='hBefore'
-                            value={formData[field.id]['hBefore']} onClick={handlePlus}>+</button>
+                            value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, 0.1)}>+</button>
                             </div>
                             <div>{formData[field.id]['awaitH']}</div>
                               
