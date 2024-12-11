@@ -67,7 +67,7 @@ const FuelIntake = () => {
                 
                })
                 return acc;
-            }, []);
+            }, {});
             setFormData(initialFormData);
             setRecievedFormData(initialFormData);
             
@@ -78,9 +78,9 @@ const FuelIntake = () => {
             console.log('fetched cal', fetchedFields)
             const initialCalibration = fetchedFields.reduce((acc, field) => {
                 if(!acc[field.tank]){
-                    acc[field.tank] = {}
+                    acc[field.tank] = new Map()
                 }
-                acc[field.tank][field.h] = field.v 
+                acc[field.tank].set(field.h,  field.v) 
                  return acc;
              }, {});
              setCal(initialCalibration)
@@ -121,14 +121,30 @@ const FuelIntake = () => {
 
     const calcAwaitH = (h, id) => {
         console.log('calc')
-        Math.trunc(h)
-        return (
-        (cal[formData[id]['tank']][Math.trunc(h)] - 
-        (cal[formData[id]['tank']][Math.trunc(h)-1]? cal[formData[id]['tank']][Math.trunc(h)-1] : cal[formData[id]['tank']][Math.trunc(h)] )) * (h - Math.trunc(h)) + 
-        cal[formData[id]['tank']][Math.trunc(h)]
+        let volume
+        if(+h > 1){
+        volume = (cal.get([formData[id]['tank']][Math.trunc(h)]) - 
+        (cal.get([formData[id]['tank']][Math.trunc(h)-1])? cal.get([formData[id]['tank']][Math.trunc(h)-1]) : cal.get([formData[id]['tank']][Math.trunc(h)]) ))
+        * (h - Math.trunc(h)) + 
+        cal.get([formData[id]['tank']][Math.trunc(h)]);
+        }
+        else {
+            volume = 0;
+        }
         // cal[formData[id]['tank']][Math.trunc(h) - 1]
+        console.log('vol is ', volume)
+        const awaitVol = +volume + +formData[id]['waybill']
+        console.log('await vol is ', awaitVol)
+        for(let i=0; i < Object.entries(cal[formData[id]['tank']]).length; i++){
+            if(Object.entries(cal[formData[id]['tank']])[i][1] > awaitVol){
+                var height = [Object.entries(cal[formData[id]['tank']])[i-1], Object.entries(cal[formData[id]['tank']])[i]]
+                break
+            }
+        }
+        console.log('calculated height is ', height )
+        return ((Math.ceil((((awaitVol - height[0][1]) / ((height[1][1] - height[0][1]))) + +height[0][0])*10))/10)
     
-    )
+    
 
     }
 
@@ -137,7 +153,13 @@ const FuelIntake = () => {
         console.log(formData)
         const id = e.target.id
         const key = e.target.name
-        const value = (+e.target.value + (d? +d : 0)).toFixed(1)
+        var value
+        if(d){
+         value = (+e.target.value + (d? +d : 0)).toFixed(1)
+        }
+        else{
+             value = e.target.value
+        }
         setFormData(prevData => ({
             ...prevData,
             [id]: {
@@ -177,9 +199,10 @@ const FuelIntake = () => {
           
 
     }
-
-    console.log('render', formData);
-    console.log('calib', cal);
+    // const keys1 = Object.keys(cal[1])
+    // console.log('render', Object.keys(formData));
+    // console.log('calib', (Object.keys(cal['1'])));
+    console.log('calib ', cal['1'].size )
     
     return(
         <div className={styles.container}>
@@ -205,7 +228,9 @@ const FuelIntake = () => {
                             value={formData[field.id]['hBefore']}
                             type='number'
                             inputMode='numeric'
-                            step={0.1}
+                            min={0}
+                            // max={Math.max(...Object.keys(cal[field.tank]))}
+                            // step={0.1}
                             onChange={handleChange}
                             />
                             <button id={field.id}
@@ -215,7 +240,7 @@ const FuelIntake = () => {
                             name='hBefore'
                             value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, 0.1)}>+</button>
                             </div>
-                            <div>{formData[field.id]['awaitH']}</div>
+                            <div>Ожидаемый уровень: {(formData[field.id]['awaitH']).toString().replace('.', ',')}</div>
                               
                             
                         </div>
