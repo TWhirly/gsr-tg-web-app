@@ -47,33 +47,19 @@ const FuelIntake = () => {
     const [fields, setFields] = useState([]);
     const [fieldsCal, setFieldsCal] = useState([]);
     const [formData, setFormData] = useState({});
-    const [cal, setCal] = useState([]);
+    const [cal, setCal] = useState({});
     const [recievedFormData, setRecievedFormData] = useState({});
     const [formDataInputs, setFormDataInputs] = useState({});
     const [allFieldsFilled, setIsFormComplete] = useState(false);
 
-    useEffect(() => {
-        const loadCalibration = async () => {
-            const fetchedCalFields = await calibration();
-            setFieldsCal(fetchedCalFields)
-            console.log('fetched cal', fetchedCalFields)
-            let i
-            const initialCalibration = fetchedCalFields.reduce((acc, field) => {
+    
 
-                if (!acc[field.tank]) {
-                    i = 0
-                    acc[field.tank] = {}
-                }
-                i++
-                acc[field.tank][field.h] = field.v
-                acc[field.tank]['maxH'] = i - 1
-                return acc;
-            }, {});
-            setCal(initialCalibration)
-        }
+    useEffect(() => {
+       
         const loadFields = async () => {
             const fetchedFields = await fetchFormFields();
             setFields(fetchedFields);
+            console.log('fetched intake data is ', fetchedFields)
             const initialFormData = fetchedFields.reduce((acc, field) => {
                 Object.keys(field).map((key) => {
                     if (!acc[field.id]) {
@@ -93,37 +79,64 @@ const FuelIntake = () => {
 
         };
         loadFields();
+        const loadCalibration = async () => {
+            const fetchedCalFields = await calibration();
+            setFieldsCal(fetchedCalFields)
+            console.log('fetched cal', fetchedCalFields)
+            let i
+            const initialCalibration = fetchedCalFields.reduce((acc, field) => {
+    
+                if (!acc[field.tank]) {
+                    i = 0
+                    acc[field.tank] = {}
+                }
+                i++
+                acc[field.tank][field.h] = field.v
+                acc[field.tank]['maxH'] = i - 1
+                return acc;
+            }, {});
+            setCal(initialCalibration)
+        }
         loadCalibration();
-       
+        
+       console.log('exit useEffect')
     }, []);
 
+
+        
         const calcAwaitH = (h, id) => {
         console.log('calc')
         let volume
+        let height
+        const tank = formData[id]['tank'];
         if (+h > 1) {
-            volume = (cal[formData[id]['tank']][Math.trunc(h)] -
-                (cal[formData[id]['tank']][Math.trunc(h) - 1] ? cal[formData[id]['tank']][Math.trunc(h) - 1] : cal[formData[id]['tank']][Math.trunc(h)]))
+            volume = (cal[tank][Math.trunc(h)] -
+                (cal[tank][Math.trunc(h) - 1] ? cal[tank][Math.trunc(h) - 1] : cal[tank][Math.trunc(h)]))
                 * (h - Math.trunc(h)) +
-                cal[formData[id]['tank']][Math.trunc(h)];
+                cal[tank][Math.trunc(h)];
         }
         else {
             volume = 0;
         }
-        // cal[formData[id]['tank']][Math.trunc(h) - 1]
+        // cal[tank][Math.trunc(h) - 1]
         console.log('vol is ', volume)
         const awaitVol = +volume + +formData[id]['waybill']
         console.log('await vol is ', awaitVol)
-        for (let i = 0; i < Object.entries(cal[formData[id]['tank']]).length; i++) {
-            if (Object.entries(cal[formData[id]['tank']])[i][1] > awaitVol) {
-                var height = [Object.entries(cal[formData[id]['tank']])[i - 1], Object.entries(cal[formData[id]['tank']])[i]]
+        console.log('max V is ', Math.max(...Object.values(cal[tank])))
+        if(awaitVol < Math.max(...Object.values(cal[tank]))) {
+        for (let i = 0; i < Object.entries(cal[tank]).length; i++) {
+            if (Object.entries(cal[tank])[i][1] > awaitVol) {
+                height = [Object.entries(cal[tank])[i - 1], Object.entries(cal[tank])[i]]
                 break
             }
         }
         console.log('calculated height is ', height)
         return ((Math.ceil((((awaitVol - height[0][1]) / ((height[1][1] - height[0][1]))) + +height[0][0]) * 10)) / 10)
+    }
 
-
-
+    else{
+        return(NaN)
+    }
     }
 
     const handleChange = (e, d) => {
@@ -181,10 +194,10 @@ const FuelIntake = () => {
     const testobj = {1: {1: 1, 2: 2}, 2: {1: 3, 2: 4}}
     // const keys1 = Object.keys(cal[1])
     console.log('render', Object.keys(formData));
-    console.log('calib', cal[1]);
+    // console.log('calib', cal[1]['1']);
     // console.log('calib ', cal['1']['maxH'], typeof(cal['1']))
     // console.log('calib ', fieldsCal)
-
+    if(cal){
     return (
         <div className={styles.container}>
 
@@ -200,7 +213,6 @@ const FuelIntake = () => {
                             <div>{field.plates} </div>
                             <div>Секции: {field.sections}</div>
                             <div>Объем по накладной: {field.waybill}</div>
-                            {/* {cal[field.tank]['maxH']} */}
                             <div>
                                 <div>Уровень до слива, см</div>
                                 <input
@@ -210,7 +222,7 @@ const FuelIntake = () => {
                                     type='number'
                                     inputMode='numeric'
                                     min={0}
-                                    // max={+cal[field.tank]['maxH']}
+                                    max={cal[field.tank]['maxH']}
                                     // step={0.1}
                                     onChange={handleChange}
                                 />
@@ -233,6 +245,10 @@ const FuelIntake = () => {
         </div>
 
     )
+}
+else {
+    setCal
+}
 
 
 
