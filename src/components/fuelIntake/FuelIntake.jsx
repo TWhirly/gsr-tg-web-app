@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect} from 'react';
+import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react';
 import styles from './fuelIntake.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
@@ -53,13 +53,14 @@ const FuelIntake = () => {
     const [allFieldsFilled, setIsFormComplete] = useState(false);
     const [calibLoad, setCalibLoad] = useState(false)
     const [formLoad, setFormLoad] = useState(false)
+    const [focused, setfocused] = useState('')
 
-    
+
 
     useEffect(() => {
 
-        
-       
+
+
         const loadFields = async () => {
             const fetchedFields = await fetchFormFields();
             setFields(fetchedFields);
@@ -81,17 +82,17 @@ const FuelIntake = () => {
             setRecievedFormData(initialFormData);
             setFields(fetchedFields);
             setFormLoad(true);
-            
+
 
         };
-       
+
         const loadCalibration = async () => {
             const fetchedCalFields = await calibration();
             setFieldsCal(fetchedCalFields)
             console.log('fetched cal', fetchedCalFields)
             let i
             const initialCalibration = fetchedCalFields.reduce((acc, field) => {
-    
+
                 if (!acc[field.tank]) {
                     i = 0
                     acc[field.tank] = {}
@@ -107,39 +108,38 @@ const FuelIntake = () => {
 
         loadCalibration();
         loadFields();
-        
-        
-        
-       console.log('exit useEffect')
+
+
+
+        console.log('exit useEffect')
     }, []);
 
     useEffect(() => {
-       if(calibLoad && formLoad){
-       
-        fields.map((field) => {
-            const id = field.id
-            const value = field.hBefore
-            console.log('id & value', id, value)
-            setFormData(prevData => ({
-                ...prevData,
-                [id]: {
-                    ...prevData[id],
-                    awaitH: calcAwaitH(value, id),
-                },
-            }));
-    })
-    }}, [calibLoad, formLoad, fields])
+        if (calibLoad && formLoad) {
 
+            fields.map((field) => {
+                const id = field.id
+                const value = field.hBefore
+                console.log('id & value', id, value)
+                setFormData(prevData => ({
+                    ...prevData,
+                    [id]: {
+                        ...prevData[id],
+                        awaitH: calcAwaitH(value, id),
+                    },
+                }));
+            })
+        }
+    }, [calibLoad, formLoad, fields])
 
-        
-        const calcAwaitH = (h, id, tank, waybill) => {
+    const calcAwaitH = (h, id, tank, waybill) => {
         console.log('calc')
         let volume
         let height
-        if(!tank){
-        tank = formData[id]['tank'];
+        if (!tank) {
+            tank = formData[id]['tank'];
         }
-        if(!waybill){
+        if (!waybill) {
             waybill = +formData[id]['waybill']
         }
         if (+h > 1) {
@@ -156,23 +156,60 @@ const FuelIntake = () => {
         const awaitVol = +volume + waybill
         console.log('await vol is ', awaitVol)
         console.log('max V is ', Math.max(...Object.values(cal[tank])))
-        if(awaitVol < Math.max(...Object.values(cal[tank]))) {
-        for (let i = 0; i < Object.entries(cal[tank]).length; i++) {
-            if (Object.entries(cal[tank])[i][1] > awaitVol) {
-                height = [Object.entries(cal[tank])[i - 1], Object.entries(cal[tank])[i]]
-                break
+        if (awaitVol < Math.max(...Object.values(cal[tank]))) {
+            for (let i = 0; i < Object.entries(cal[tank]).length; i++) {
+                if (Object.entries(cal[tank])[i][1] > awaitVol) {
+                    height = [Object.entries(cal[tank])[i - 1], Object.entries(cal[tank])[i]]
+                    break
+                }
             }
+            console.log('calculated height is ', height)
+            return ((Math.ceil((((awaitVol - height[0][1]) / ((height[1][1] - height[0][1]))) + +height[0][0]) * 10)) / 10)
         }
-        console.log('calculated height is ', height)
-        return ((Math.ceil((((awaitVol - height[0][1]) / ((height[1][1] - height[0][1]))) + +height[0][0]) * 10)) / 10)
-    }
 
-    else{
-        return(NaN)
-    }
+        else {
+            return (NaN)
+        }
     }
 
     const handleChange = (e, d) => {
+        console.log('onChange', e.target)
+        console.log(formData)
+        setfocused(e.target.id + e.target.name)
+        const id = e.target.id
+        const key = e.target.name
+        var value
+        if (d) {
+            value = (+e.target.value + (d ? +d : 0)).toFixed(1)
+            setTimeout(setfocused, 2000);
+        }
+        else {
+            value = e.target.value
+        }
+        if ([key] == 'hBefore') {
+            setFormData(prevData => ({
+                ...prevData,
+                [id]: {
+                    ...prevData[id],
+                    [key]: value,
+                    awaitH: calcAwaitH(value, id),
+                },
+            }))
+        }
+        else {
+            setFormData(prevData => ({
+                ...prevData,
+                [id]: {
+                    ...prevData[id],
+                    [key]: value,
+                },
+            }))
+        };
+
+
+    };
+
+    const handleChangeTemp = (e, d) => {
         console.log('onChange', e.target)
         console.log(formData)
         const id = e.target.id
@@ -189,12 +226,46 @@ const FuelIntake = () => {
             [id]: {
                 ...prevData[id],
                 [key]: value,
-                awaitH: calcAwaitH(value, id),
             },
         }));
 
 
     };
+
+    const handleChangeDens = (e, d) => {
+        console.log('onChange', e.target)
+        // console.log(formData)
+        console.log('haha', e.target.id + e.target.name)
+        
+        const id = e.target.id
+        const key = e.target.name
+        var value
+        if (d) {
+            value = (+e.target.value + (d ? +d : 0)).toFixed(3)
+        }
+        else {
+            value = e.target.value
+        }
+        setFormData(prevData => ({
+            ...prevData,
+            [id]: {
+                ...prevData[id],
+                [key]: value,
+            },
+        }));
+
+
+    };
+
+    const handleFocus = (e) => {
+       
+        setfocused(e.target.id + e.target.name)
+    
+    }
+
+    const handleBlur = () => {
+        setfocused('')
+    }
 
 
 
@@ -224,33 +295,33 @@ const FuelIntake = () => {
 
 
     }
-    const testobj = {1: {1: 1, 2: 2}, 2: {1: 3, 2: 4}}
+    const testobj = { 1: { 1: 1, 2: 2 }, 2: { 1: 3, 2: 4 } }
     // const keys1 = Object.keys(cal[1])
     console.log('render', Object.keys(formData));
     // console.log('calib', cal[1]['1']);
     // console.log('calib ', cal['1']['maxH'], typeof(cal['1']))
     // console.log('calib ', fieldsCal)
-    if(calibLoad && formLoad){
-       
-
-    return (
-        <div className={styles.container}>
+    if (calibLoad && formLoad) {
 
 
-            <group className={styles.group}>
-                <h4 className={styles.subheader}>Поступления НП сегодня, {(new Date).toLocaleDateString()}</h4>
-                <div className={styles.inputs}>{fields.map((field) => {
+        return (
+            <div className={styles.container}>
+                <div className={styles.subheader}>Поступления НП сегодня, {(new Date).toLocaleDateString()}</div>
+                <div className={styles.intakesContainer}>{fields.map((field) => {
                     return (
                         <div className={styles.intakeBlock} key={field.id}>
                             <div className={styles.fueltype}>{field.fuel !== 'ДТ' ? 'АИ-' + field.fuel : field.fuel} </div>
-                            <div>Резервуар № {field.tank}</div>
-                            <div>{field.driver}</div>
-                            <div>{field.plates} </div>
-                            <div>Секции: {field.sections}</div>
-                            <div>Объем по накладной: {field.waybill}</div>
-                            <div>
-                                <div>Уровень до слива, см</div>
+                            <div className={styles.tank}>Резервуар № {field.tank}</div>
+                            <div className={styles.driver}>Водитель: {field.driver}</div>
+                            <div className={styles.plates}>Г/Н автомобиля/прицепа: {field.plates} </div>
+                            <div className={styles.sections}>Секции: {field.sections}</div>
+                            <div className={styles.waybill}>Объем по накладной: {field.waybill}</div>
+                            <div className={styles.hBefore}>Уровень до слива, см</div>
+                            <div className={focused == field.id + 'hBefore' ? styles.inputlineFocused : styles.inputline}>
+
+                               
                                 <input
+                                    className={focused == field.id + 'hBefore' ? styles.inputFocused : styles.input}
                                     id={field.id}
                                     name='hBefore'
                                     value={formData[field.id]['hBefore']}
@@ -260,26 +331,180 @@ const FuelIntake = () => {
                                     max={cal[field.tank]['maxH']}
                                     // step={0.1}
                                     onChange={handleChange}
+                                    onFocus={handleFocus}
+                                    onBlur={handleBlur}
                                 />
-                                <button id={field.id}
+                                <button className={focused == field.id + 'hBefore' ? styles.buttonFocused : styles.button}
+                                    id={field.id}
                                     name='hBefore'
                                     value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
-                                <button id={field.id}
+                                <button className={focused == field.id + 'hBefore' ? styles.buttonFocused : styles.button}
+                                    id={field.id}
                                     name='hBefore'
                                     value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, 0.1)}>+</button>
                             </div>
-                            <div>Ожидаемый уровень: {(formData[field.id]['awaitH']).toString().replace('.', ',')}</div>
+                            <div>
+                                <div>Уровень после слива, см</div>
+                                <input
+                                    id={field.id}
+                                    name='hAfter'
+                                    value={formData[field.id]['hAfter']}
+                                    type='number'
+                                    inputMode='numeric'
+                                    min={0}
+                                    max={cal[field.tank]['maxH']}
+                                    // step={0.1}
+                                    onChange={handleChange}
+                                />
+                                <button id={field.id}
+                                    name='hAfter'
+                                    value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
+                                <button id={field.id}
+                                    name='hAfter'
+                                    value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, 0.1)}>+</button>
+                            </div>
+                            <div>{formData[field.id]['awaitH'] ? 'Ожидаемый уровень: ' + (formData[field.id]['awaitH']).toFixed(1).replace('.', ',') :
+                                "Превышена вместимость!"}</div>
+                            <div>
+                                <div>
+                                    Плотность и температура
+                                </div>
+                                <div>По данным нефтебазы:</div>
+                                <div>
+                                    {formData[field.id]['dFarm'].toString().replace('.', ',')} {(formData[field.id]['tFarm'] > 0 ? '+' + formData[field.id]['tFarm'] :
+                                        formData[field.id]['tFarm']) + '°'}</div>
+                                <div>
+                                    <div>В АЦ:</div>
+                                    <div>
+                                        <input
+                                            id={field.id}
+                                            name='dTruck'
+                                            value={(+formData[field.id]['dTruck']).toFixed(3)}
+                                            type='number'
+                                            inputMode='numeric'
+                                            min={0}
+                                            max={1}
+                                            step={0.001}
+                                            onChange={handleChange}
+                                        />
+                                        <button id={field.id}
+                                            name='dTruck'
+                                            value={formData[field.id]['dTruck']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
+                                        <button id={field.id}
+                                            name='dTruck'
+                                            value={formData[field.id]['dTruck']} onClick={(e) => handleChangeDens(e, 0.001)}>+</button>
+                                    </div>
+                                    <div>
+                                        <input
+                                            id={field.id}
+                                            name='tTruck'
+                                            value={+formData[field.id]['tTruck']}
+                                            type='number'
+                                            inputMode='numeric'
+                                            min={-40}
+                                            max={40}
+                                            step={1}
+                                            onChange={handleChange}
+                                        />
+                                        <button id={field.id}
+                                            name='tTruck'
+                                            value={formData[field.id]['tTruck']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
+                                        <button id={field.id}
+                                            name='tTruck'
+                                            value={formData[field.id]['tTruck']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>В резервуаре до слива:</div>
+                                    <div>
+                                        <input
+                                            id={field.id}
+                                            name='dBefore'
+                                            value={(+formData[field.id]['dBefore']).toFixed(3)}
+                                            type='number'
+                                            inputMode='numeric'
+                                            min={0}
+                                            max={1}
+                                            step={0.001}
+                                            onChange={handleChange}
+                                        />
+                                        <button id={field.id}
+                                            name='dBefore'
+                                            value={formData[field.id]['dBefore']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
+                                        <button id={field.id}
+                                            name='dBefore'
+                                            value={formData[field.id]['dBefore']} onClick={(e) => handleChangeDens(e, 0.001)}>+</button>
+                                    </div>
+                                    <div>
+                                        <input
+                                            id={field.id}
+                                            name='tBefore'
+                                            value={+formData[field.id]['tBefore']}
+                                            type='number'
+                                            inputMode='numeric'
+                                            min={-40}
+                                            max={40}
+                                            step={1}
+                                            onChange={handleChange}
+                                        />
+                                        <button id={field.id}
+                                            name='tBefore'
+                                            value={formData[field.id]['tBefore']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
+                                        <button id={field.id}
+                                            name='tBefore'
+                                            value={formData[field.id]['tBefore']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>В резервуаре после слива:</div>
+                                    <div>
+                                        <input
+                                            id={field.id}
+                                            name='dAfter'
+                                            value={(+formData[field.id]['dAfter']).toFixed(3)}
+                                            type='number'
+                                            inputMode='numeric'
+                                            min={0}
+                                            max={1}
+                                            step={0.001}
+                                            onChange={handleChange}
+                                        />
+                                        <button id={field.id}
+                                            name='dAfter'
+                                            value={formData[field.id]['dAfter']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
+                                        <button id={field.id}
+                                            name='dAfter'
+                                            value={formData[field.id]['dAfter']} onClick={(e) => handleChangeDens(e, 0.001)}>+</button>
+                                    </div>
+                                    <div>
+                                        <input
+                                            id={field.id}
+                                            name='tAfter'
+                                            value={+formData[field.id]['tAfter']}
+                                            type='number'
+                                            inputMode='numeric'
+                                            min={-40}
+                                            max={40}
+                                            step={1}
+                                            onChange={handleChange}
+                                        />
+                                        <button id={field.id}
+                                            name='tAfter'
+                                            value={formData[field.id]['tAfter']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
+                                        <button id={field.id}
+                                            name='tAfter'
+                                            value={formData[field.id]['tAfter']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                                    </div>
+                                </div>
+                            </div>
 
 
                         </div>
                     )
                 })}</div>
-            </group>
+            </div>
 
-            {(allFieldsFilled && <Button onPress={handleSubmit} className={styles.submit} >Отправить</Button>)}
-        </div>
-
-    )
+        )
     }
 
 

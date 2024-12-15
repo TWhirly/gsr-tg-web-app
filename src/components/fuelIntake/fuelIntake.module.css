@@ -1,0 +1,110 @@
+.container{
+    background: var(--bgColor);
+    width: 100vx;
+    height: 100vh;
+    overflow-y: scroll;
+
+}
+
+.subheader{
+    position: fixed ;
+    height: 3.3rem;
+    font-size: larger;
+    font-weight: bold;
+    text-align: center;
+    background: var(--bgColor);
+    z-index: 100;
+}
+
+.intakesContainer{
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.intakeBlock{
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: var(--tg-theme-secondary-bg-color);
+    margin-top: 20px;
+}
+
+
+
+.fueltype{
+    text-align: center;
+    font-weight: bold;
+}
+
+.tank, .driver, .plates, .sections, .waybill, .hBefore{
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.inputline{
+    background-color: var(--bgColor);
+    height: 2rem;
+    width: 100%;
+    outline: 1px solid;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+   
+}
+
+.inputlineFocused {
+    background-color: var(--bgColor);
+    height: 2rem;
+    width: 100%;
+    outline: 1px solid;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+    color: #007bff;
+}
+
+.input{
+    height: 100%;
+    width: calc(100% - 4rem);
+    border: none;
+    font-size: 2rem;
+    
+}
+
+.inputFocused{
+    height: 100%;
+    width: calc(100% - 4rem);
+    border: none;
+    font-size: 2rem;
+    color: #007bff;
+    outline: none;
+    
+}
+
+
+.button{
+    background-color: var(--bgColor);
+    border: none;
+    display: flex;
+    width: 2rem;
+    height: 100%;
+    font-size: 2rem;
+    align-items: center; 
+    justify-content: center;
+}
+
+.buttonFocused{
+    background-color: var(--bgColor);
+    border: none;
+    display: flex;
+    width: 2rem;
+    height: 100%;
+    font-size: 2rem;
+    align-items: center; 
+    justify-content: center;
+    color: #007bff;
+}
