@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect } from 'react';
+import React, { useCallback, useEffect, useState, useLayoutEffect, useRef } from 'react';
 import styles from './fuelIntake.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
@@ -17,7 +17,8 @@ const APIURL = localUrl.APIURL;
 
 const FuelIntake = () => {
     const navigate = useNavigate();
-
+    const inputRef = useRef(null);
+    const nextInputRef = useRef(null);
 
     const fetchFormFields = async () => {
         const response = await fetch(APIURL + '/fuelIntake', {
@@ -53,7 +54,6 @@ const FuelIntake = () => {
     const [allFieldsFilled, setIsFormComplete] = useState(false);
     const [calibLoad, setCalibLoad] = useState(false)
     const [formLoad, setFormLoad] = useState(false)
-    const [focused, setfocused] = useState('')
 
 
 
@@ -172,16 +172,35 @@ const FuelIntake = () => {
         }
     }
 
+    const clearOnFocus = (e) => {
+        const id = e.target.id
+        const key = e.target.name
+        setFormData(prevData => ({
+            ...prevData,
+            [id]: {
+                ...prevData[id],
+                [key]: "",
+            },
+        }))
+    }
+
+    const handleKeyDown = (e) => {
+        const inputRef = e.target.id + e.target.name
+        if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            inputRef.current.focus(); // Переход к следующему полю
+        }
+    };
+
+
     const handleChange = (e, d) => {
         console.log('onChange', e.target)
         console.log(formData)
-        setfocused(e.target.id + e.target.name)
         const id = e.target.id
         const key = e.target.name
         var value
         if (d) {
             value = (+e.target.value + (d ? +d : 0)).toFixed(1)
-            setTimeout(setfocused, 2000);
         }
         else {
             value = e.target.value
@@ -216,10 +235,8 @@ const FuelIntake = () => {
         const key = e.target.name
         var value
         if (d) {
-            value = (+e.target.value + (d ? +d : 0)).toFixed(1)
-        }
-        else {
-            value = e.target.value
+
+            value = +(+e.target.value + +d)
         }
         setFormData(prevData => ({
             ...prevData,
@@ -233,39 +250,44 @@ const FuelIntake = () => {
     };
 
     const handleChangeDens = (e, d) => {
-        console.log('onChange', e.target)
-        // console.log(formData)
-        console.log('haha', e.target.id + e.target.name)
-        
+        console.log('onChange', e.target.value)
+        console.log('value length id ', (e.target.value).length)
         const id = e.target.id
         const key = e.target.name
         var value
+        console.log(d)
         if (d) {
             value = (+e.target.value + (d ? +d : 0)).toFixed(3)
         }
-        else {
-            value = e.target.value
+
+        else{
+            if((e.target.value).length == 1 && e.target.value == '0'){
+                console.log('true')
+                value = 0
+            }
+            else{
+                value = '0,' + e.target.value
+            }
+
+            if((e.target.value).length == 2 && (e.target.value).substring(0,2) !== '0.' || (e.target.value).substring(0,2) !== '0,'){
+                value = '0,'
+            }
+            else{
+                value = '0,' + (e.target.value).slice((e.target.value).length - 1)
+            }
         }
         setFormData(prevData => ({
             ...prevData,
             [id]: {
                 ...prevData[id],
-                [key]: value,
+                [key]: value
             },
         }));
 
 
     };
 
-    const handleFocus = (e) => {
-       
-        setfocused(e.target.id + e.target.name)
-    
-    }
 
-    const handleBlur = () => {
-        setfocused('')
-    }
 
 
 
@@ -317,11 +339,11 @@ const FuelIntake = () => {
                             <div className={styles.sections}>Секции: {field.sections}</div>
                             <div className={styles.waybill}>Объем по накладной: {field.waybill}</div>
                             <div className={styles.hBefore}>Уровень до слива, см</div>
-                            <div className={focused == field.id + 'hBefore' ? styles.inputlineFocused : styles.inputline}>
+                            <div className={styles.inputline}>
 
-                               
+
                                 <input
-                                    className={focused == field.id + 'hBefore' ? styles.inputFocused : styles.input}
+                                    className={styles.input}
                                     id={field.id}
                                     name='hBefore'
                                     value={formData[field.id]['hBefore']}
@@ -329,44 +351,53 @@ const FuelIntake = () => {
                                     inputMode='numeric'
                                     min={0}
                                     max={cal[field.tank]['maxH']}
-                                    // step={0.1}
                                     onChange={handleChange}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
+                                    onKeyDown={handleKeyDown}
+                                    onFocus={clearOnFocus}
                                 />
-                                <button className={focused == field.id + 'hBefore' ? styles.buttonFocused : styles.button}
+                                <button className={styles.button}
                                     id={field.id}
                                     name='hBefore'
+                                    tabIndex="-1"
                                     value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
-                                <button className={focused == field.id + 'hBefore' ? styles.buttonFocused : styles.button}
+                                <button className={styles.button}
                                     id={field.id}
                                     name='hBefore'
+                                    tabIndex="-1"
                                     value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, 0.1)}>+</button>
                             </div>
-                            <div>
+                            <div >
                                 <div>Уровень после слива, см</div>
-                                <input
-                                    id={field.id}
-                                    name='hAfter'
-                                    value={formData[field.id]['hAfter']}
-                                    type='number'
-                                    inputMode='numeric'
-                                    min={0}
-                                    max={cal[field.tank]['maxH']}
-                                    // step={0.1}
-                                    onChange={handleChange}
-                                />
-                                <button id={field.id}
-                                    name='hAfter'
-                                    value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
-                                <button id={field.id}
-                                    name='hAfter'
-                                    value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, 0.1)}>+</button>
+                                <div className={styles.inputline}>
+                                    <input
+                                        className={styles.input}
+                                        id={field.id}
+                                        name='hAfter'
+                                        value={formData[field.id]['hAfter']}
+                                        type='number'
+                                        inputMode='numeric'
+                                        min={0}
+                                        max={cal[field.tank]['maxH']}
+                                        onChange={handleChange}
+                                    />
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name='hAfter'
+                                        tabIndex="-1"
+                                        value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name='hAfter'
+                                        tabIndex="-1"
+                                        value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, 0.1)}>+</button>
+                                </div>
                             </div>
                             <div>{formData[field.id]['awaitH'] ? 'Ожидаемый уровень: ' + (formData[field.id]['awaitH']).toFixed(1).replace('.', ',') :
                                 "Превышена вместимость!"}</div>
                             <div>
-                                <div>
+                                <div >
                                     Плотность и температура
                                 </div>
                                 <div>По данным нефтебазы:</div>
@@ -375,109 +406,147 @@ const FuelIntake = () => {
                                         formData[field.id]['tFarm']) + '°'}</div>
                                 <div>
                                     <div>В АЦ:</div>
-                                    <div>
+                                    <div className={styles.inputline}>
                                         <input
+                                            className={styles.input}
                                             id={field.id}
                                             name='dTruck'
-                                            value={(+formData[field.id]['dTruck']).toFixed(3)}
-                                            type='number'
+                                            value={(formData[field.id]['dTruck'])}
+                                            type='text'
                                             inputMode='numeric'
-                                            min={0}
-                                            max={1}
-                                            step={0.001}
-                                            onChange={handleChange}
+                                           
+                                            // step={0.001}
+                                            onChange={handleChangeDens}
+                                            onFocus={clearOnFocus}
                                         />
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='dTruck'
+                                            tabIndex="-1"
                                             value={formData[field.id]['dTruck']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='dTruck'
+                                            tabIndex="-1"
                                             value={formData[field.id]['dTruck']} onClick={(e) => handleChangeDens(e, 0.001)}>+</button>
                                     </div>
-                                    <div>
+                                    <div className={styles.inputline}>
                                         <input
+                                            className={styles.input}
                                             id={field.id}
                                             name='tTruck'
-                                            value={+formData[field.id]['tTruck']}
+                                            value={formData[field.id]['tTruck']}
                                             type='number'
                                             inputMode='numeric'
                                             min={-40}
                                             max={40}
-                                            step={1}
-                                            onChange={handleChange}
+                                            onFocus={clearOnFocus}
+                                            onChange={handleChangeTemp}
                                         />
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='tTruck'
+                                            tabIndex="-1"
                                             value={formData[field.id]['tTruck']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='tTruck'
+                                            tabIndex="-1"
                                             value={formData[field.id]['tTruck']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
                                     </div>
                                 </div>
                                 <div>
                                     <div>В резервуаре до слива:</div>
-                                    <div>
+                                    <div className={styles.inputline}>
                                         <input
+                                            className={styles.input}
                                             id={field.id}
                                             name='dBefore'
-                                            value={(+formData[field.id]['dBefore']).toFixed(3)}
+                                            value={(formData[field.id]['dBefore'])}
                                             type='number'
                                             inputMode='numeric'
                                             min={0}
                                             max={1}
-                                            step={0.001}
-                                            onChange={handleChange}
+                                            onChange={handleChangeDens}
+                                            onFocus={clearOnFocus}
                                         />
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='dBefore'
+                                            tabIndex="-1"
                                             value={formData[field.id]['dBefore']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='dBefore'
+                                            tabIndex="-1"
                                             value={formData[field.id]['dBefore']} onClick={(e) => handleChangeDens(e, 0.001)}>+</button>
                                     </div>
-                                    <div>
+                                    <div className={styles.inputline}>
                                         <input
+                                            className={styles.input}
                                             id={field.id}
                                             name='tBefore'
-                                            value={+formData[field.id]['tBefore']}
+                                            value={formData[field.id]['tBefore']}
                                             type='number'
                                             inputMode='numeric'
                                             min={-40}
                                             max={40}
                                             step={1}
-                                            onChange={handleChange}
+                                            onFocus={clearOnFocus}
+                                            onChange={handleChangeTemp}
                                         />
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='tBefore'
+                                            tabIndex="-1"
                                             value={formData[field.id]['tBefore']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='tBefore'
+                                            tabIndex="-1"
                                             value={formData[field.id]['tBefore']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
                                     </div>
                                 </div>
                                 <div>
                                     <div>В резервуаре после слива:</div>
-                                    <div>
+                                    <div className={styles.inputline}>
                                         <input
+                                            className={styles.input}
                                             id={field.id}
                                             name='dAfter'
-                                            value={(+formData[field.id]['dAfter']).toFixed(3)}
+                                            value={(formData[field.id]['dAfter'])}
                                             type='number'
                                             inputMode='numeric'
                                             min={0}
                                             max={1}
                                             step={0.001}
-                                            onChange={handleChange}
+                                            onChange={handleChangeDens}
+                                            onFocus={clearOnFocus}
                                         />
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='dAfter'
+                                            tabIndex="-1"
                                             value={formData[field.id]['dAfter']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='dAfter'
+                                            tabIndex="-1"
                                             value={formData[field.id]['dAfter']} onClick={(e) => handleChangeDens(e, 0.001)}>+</button>
                                     </div>
-                                    <div>
+                                    <div className={styles.inputline}>
                                         <input
+                                            className={styles.input}
                                             id={field.id}
                                             name='tAfter'
                                             value={+formData[field.id]['tAfter']}
@@ -486,13 +555,20 @@ const FuelIntake = () => {
                                             min={-40}
                                             max={40}
                                             step={1}
-                                            onChange={handleChange}
+                                            onFocus={clearOnFocus}
+                                            onChange={handleChangeTemp}
                                         />
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='tAfter'
+                                            tabIndex="-1"
                                             value={formData[field.id]['tAfter']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
-                                        <button id={field.id}
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
                                             name='tAfter'
+                                            tabIndex="-1"
                                             value={formData[field.id]['tAfter']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
                                     </div>
                                 </div>

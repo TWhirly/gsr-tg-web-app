@@ -1,4 +1,4 @@
-.container{
+.container {
     background: var(--bgColor);
     width: 100vx;
     height: 100vh;
@@ -6,8 +6,8 @@
 
 }
 
-.subheader{
-    position: fixed ;
+.subheader {
+    position: fixed;
     height: 3.3rem;
     font-size: larger;
     font-weight: bold;
@@ -16,14 +16,14 @@
     z-index: 100;
 }
 
-.intakesContainer{
+.intakesContainer {
     margin-top: 3rem;
     display: flex;
     flex-direction: column;
-    
+
 }
 
-.intakeBlock{
+.intakeBlock {
     border-radius: 5px;
     margin-left: 5px;
     margin-right: 5px;
@@ -33,26 +33,59 @@
 
 
 
-.fueltype{
+.fueltype {
     text-align: center;
     font-weight: bold;
 }
 
-.tank, .driver, .plates, .sections, .waybill, .hBefore{
+.tank,
+.driver,
+.plates,
+.sections,
+.waybill,
+.hBefore {
     font-size: 0.7rem;
     font-weight: 700;
 }
 
-.inputline{
-    background-color: var(--bgColor);
-    height: 2rem;
-    width: 100%;
-    outline: 1px solid;
+.inputline {
+    margin-left: 3px;
+    margin-right: 3px;
+    height: 1.5rem;
+    font-size: 1rem;
+    width: calc(100% - 6px);
+    border: 1px solid;
     display: flex;
     flex-direction: row;
     /* justify-content: center; */
     align-items: center;
-   
+
+}
+
+.inputline:focus-within {
+    outline: 1px solid;
+    color: #007bff;
+    .button {
+        background-color: var(--tg-theme-secondary-bg-color);
+        border: none;
+        display: flex;
+        width: 2rem;
+        height: 100%;
+        font-size: 1.7rem;
+        align-items: center;
+        justify-content: center;
+        color: #007bff;
+    }
+
+    .input {
+        background-color: var(--tg-theme-secondary-bg-color);
+        height: 100%;
+        width: calc(100% - 4rem);
+        border: none;
+        font-size: 1rem;
+        color: #007bff;
+        outline: none;
+    }
 }
 
 .inputlineFocused {
@@ -67,44 +100,45 @@
     color: #007bff;
 }
 
-.input{
+.input {
+    background-color: var(--tg-theme-secondary-bg-color);
     height: 100%;
     width: calc(100% - 4rem);
     border: none;
-    font-size: 2rem;
-    
+    font-size: 1rem;
+
 }
 
-.inputFocused{
+.inputFocused {
     height: 100%;
     width: calc(100% - 4rem);
     border: none;
     font-size: 2rem;
     color: #007bff;
     outline: none;
-    
+
 }
 
 
-.button{
-    background-color: var(--bgColor);
+.button {
+    background-color: var(--tg-theme-secondary-bg-color);
     border: none;
     display: flex;
     width: 2rem;
     height: 100%;
-    font-size: 2rem;
-    align-items: center; 
+    font-size: 1.7rem;
+    align-items: center;
     justify-content: center;
 }
 
-.buttonFocused{
+.buttonFocused {
     background-color: var(--bgColor);
     border: none;
     display: flex;
     width: 2rem;
     height: 100%;
     font-size: 2rem;
-    align-items: center; 
+    align-items: center;
     justify-content: center;
     color: #007bff;
 }
