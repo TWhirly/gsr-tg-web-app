@@ -250,32 +250,33 @@ const FuelIntake = () => {
     };
 
     const handleChangeDens = (e, d) => {
-        console.log('onChange', e.target.value)
+        console.log('onChange', e.target)
         console.log('value length id ', (e.target.value).length)
         const id = e.target.id
         const key = e.target.name
+        const tValue = e.target.value
         var value
         console.log(d)
         if (d) {
-            value = (+e.target.value + (d ? +d : 0)).toFixed(3)
+            value = (parseFloat(tValue.replace(',', '.')) + (d ? +d : 0)).toFixed(3)
         }
 
-        else{
-            if((e.target.value).length == 1 && e.target.value == '0'){
+        
+            if(tValue.length == 1 && tValue == '0'){
                 console.log('true')
                 value = 0
             }
-            else{
-                value = '0,' + e.target.value
+            if(tValue.length == 1 && tValue != '0'){
+                console.log('true2', tValue)
+                value = '0,' + tValue
             }
 
-            if((e.target.value).length == 2 && (e.target.value).substring(0,2) !== '0.' || (e.target.value).substring(0,2) !== '0,'){
+            if(tValue.length == 2 && (tValue.substring(0,2) !== '0.' || tValue.substring(0,2) !== '0,')){
+                console.log('true3', tValue)
                 value = '0,'
             }
-            else{
-                value = '0,' + (e.target.value).slice((e.target.value).length - 1)
-            }
-        }
+           
+        
         setFormData(prevData => ({
             ...prevData,
             [id]: {
@@ -414,7 +415,7 @@ const FuelIntake = () => {
                                             value={(formData[field.id]['dTruck'])}
                                             type='text'
                                             inputMode='numeric'
-                                           
+                                            maxLength={5}
                                             // step={0.001}
                                             onChange={handleChangeDens}
                                             onFocus={clearOnFocus}
