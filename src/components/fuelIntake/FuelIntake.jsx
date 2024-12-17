@@ -72,7 +72,12 @@ const FuelIntake = () => {
                         acc[field.id]['awaitH'] = 0
                     }
                     if (key !== 'id') {
+                        if(key == 'dTruck' || key == 'dBefore' || key == 'dAfter'){
+                            acc[field.id][key] = field[key].toString().replace('.',',')
+                        }
+                        else{
                         acc[field.id][key] = field[key]
+                        }
                     }
 
                 })
@@ -175,6 +180,17 @@ const FuelIntake = () => {
     const clearOnFocus = (e) => {
         const id = e.target.id
         const key = e.target.name
+        if(key.substring(0,1) == 'd'){
+            console.log('key is d started')
+            setFormData(prevData => ({
+                ...prevData,
+                [id]: {
+                    ...prevData[id],
+                    [key]: "0,",
+                },
+            })) 
+        }
+        else{
         setFormData(prevData => ({
             ...prevData,
             [id]: {
@@ -182,6 +198,7 @@ const FuelIntake = () => {
                 [key]: "",
             },
         }))
+    }
     }
 
     const handleKeyDown = (e) => {
@@ -254,11 +271,12 @@ const FuelIntake = () => {
         console.log('value length id ', (e.target.value).length)
         const id = e.target.id
         const key = e.target.name
-        const tValue = e.target.value
+        const tValue = e.target.value.replace(/[^\d.,]/g, '')
         var value
         console.log(d)
         if (d) {
-            value = (parseFloat(tValue.replace(',', '.')) + (d ? +d : 0)).toFixed(3)
+            // value = (+(tValue.replace(',','.')) + (d ? +d : 0)).toString().replace('.',',')
+            value = (+(tValue.replace(',','.')) + (d ? +d : 0)).toFixed(3).replace('.',',')
         }
 
         
@@ -268,7 +286,7 @@ const FuelIntake = () => {
             }
             if(tValue.length == 1 && tValue != '0'){
                 console.log('true2', tValue)
-                value = '0,' + tValue
+                value = ('0,' + tValue)
             }
 
             if(tValue.length == 2 && (tValue.substring(0,2) !== '0.' || tValue.substring(0,2) !== '0,')){
@@ -320,7 +338,7 @@ const FuelIntake = () => {
     }
     const testobj = { 1: { 1: 1, 2: 2 }, 2: { 1: 3, 2: 4 } }
     // const keys1 = Object.keys(cal[1])
-    console.log('render', Object.keys(formData));
+    console.log('render', formData);
     // console.log('calib', cal[1]['1']);
     // console.log('calib ', cal['1']['maxH'], typeof(cal['1']))
     // console.log('calib ', fieldsCal)
@@ -412,7 +430,7 @@ const FuelIntake = () => {
                                             className={styles.input}
                                             id={field.id}
                                             name='dTruck'
-                                            value={(formData[field.id]['dTruck'])}
+                                            value={formData[field.id]['dTruck']}
                                             type='text'
                                             inputMode='numeric'
                                             maxLength={5}
@@ -468,7 +486,7 @@ const FuelIntake = () => {
                                             id={field.id}
                                             name='dBefore'
                                             value={(formData[field.id]['dBefore'])}
-                                            type='number'
+                                            type='text'
                                             inputMode='numeric'
                                             min={0}
                                             max={1}
@@ -524,7 +542,7 @@ const FuelIntake = () => {
                                             id={field.id}
                                             name='dAfter'
                                             value={(formData[field.id]['dAfter'])}
-                                            type='number'
+                                            type='text'
                                             inputMode='numeric'
                                             min={0}
                                             max={1}
