@@ -138,7 +138,7 @@ const FuelIntake = () => {
     }, [calibLoad, formLoad, fields])
 
     const calcAwaitH = (h, id, tank, waybill) => {
-        console.log('calc')
+        // console.log('calc')
         let volume
         let height
         if (!tank) {
@@ -157,10 +157,10 @@ const FuelIntake = () => {
             volume = 0;
         }
         // cal[tank][Math.trunc(h) - 1]
-        console.log('vol is ', volume)
+        // console.log('vol is ', volume)
         const awaitVol = +volume + waybill
-        console.log('await vol is ', awaitVol)
-        console.log('max V is ', Math.max(...Object.values(cal[tank])))
+        // console.log('await vol is ', awaitVol)
+        // console.log('max V is ', Math.max(...Object.values(cal[tank])))
         if (awaitVol < Math.max(...Object.values(cal[tank]))) {
             for (let i = 0; i < Object.entries(cal[tank]).length; i++) {
                 if (Object.entries(cal[tank])[i][1] > awaitVol) {
@@ -168,7 +168,7 @@ const FuelIntake = () => {
                     break
                 }
             }
-            console.log('calculated height is ', height)
+            // console.log('calculated height is ', height)
             return ((Math.ceil((((awaitVol - height[0][1]) / ((height[1][1] - height[0][1]))) + +height[0][0]) * 10)) / 10)
         }
 
@@ -201,13 +201,53 @@ const FuelIntake = () => {
     }
     }
 
-    const handleKeyDown = (e) => {
-        const inputRef = e.target.id + e.target.name
-        if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            inputRef.current.focus(); // Переход к следующему полю
-        }
-    };
+   const handleBlurD = (e) => {
+    const id = e.target.id
+    const key = e.target.name
+    const tValue = e.target.value
+    let value
+    if(tValue.length == 2){
+        value = ''
+    }
+    if(tValue.length == 3){
+        value = tValue + '00'
+    }
+    if(tValue.length == 4){
+        value = tValue + '0'
+    }
+    if(tValue.length == 5) {
+        value = tValue
+    }
+
+    setFormData(prevData => ({
+        ...prevData,
+        [id]: {
+            ...prevData[id],
+            [key]: value,
+        },
+    }))
+
+   }
+
+   const handleBlurH = (e) => {
+    const id = e.target.id
+    const key = e.target.name
+    const tValue = e.target.value
+    let value
+    if (!tValue.includes(',') && tValue.length > 0){
+        value = tValue + ',0'
+    }
+    else{
+        value = tValue
+    }
+    setFormData(prevData => ({
+        ...prevData,
+        [id]: {
+            ...prevData[id],
+            [key]: value,
+        },
+    }))
+   }
 
 
     const handleChange = (e, d) => {
@@ -215,12 +255,22 @@ const FuelIntake = () => {
         console.log(formData)
         const id = e.target.id
         const key = e.target.name
+        let tValue = e.target.value.replace(/[^\d.,]/g, '').replace(',', '.');
+        tValue.length == 0 ? tValue = '' : tValue
+        if(isNaN(+tValue)){
+            console.log('isNaN', tValue.length)
+            tValue = tValue.substring(0, tValue.length - 1)
+        }
         var value
         if (d) {
-            value = (+e.target.value + (d ? +d : 0)).toFixed(1)
+            value = (parseFloat(+tValue) + (d ? +d : 0)).toFixed(1).replace('.', ',')
         }
         else {
-            value = e.target.value
+            if(tValue.includes('.') && parseFloat(tValue) % 10 != 0)
+           value = tValue.replace('.', ',')
+        else{
+            value = tValue 
+        }
         }
         if ([key] == 'hBefore') {
             setFormData(prevData => ({
@@ -228,7 +278,7 @@ const FuelIntake = () => {
                 [id]: {
                     ...prevData[id],
                     [key]: value,
-                    awaitH: calcAwaitH(value, id),
+                    awaitH: calcAwaitH(tValue, id),
                 },
             }))
         }
@@ -250,10 +300,19 @@ const FuelIntake = () => {
         console.log(formData)
         const id = e.target.id
         const key = e.target.name
+        let tValue = e.target.value.toString().replace(/[^\d]/g, '').replace('.','').replace(',','')
+        if(isNaN(tValue)){
+            tValue = tValue.substring(0, tValue.length - 1)
+        }
         var value
         if (d) {
 
-            value = +(+e.target.value + +d)
+            value = +(+tValue + +d)
+        }
+        else{
+           
+            value = tValue
+            
         }
         setFormData(prevData => ({
             ...prevData,
@@ -268,31 +327,31 @@ const FuelIntake = () => {
 
     const handleChangeDens = (e, d) => {
         console.log('onChange', e.target)
-        console.log('value length id ', (e.target.value).length)
+        console.log('value length is ', (e.target.value).length)
         const id = e.target.id
         const key = e.target.name
-        const tValue = e.target.value.replace(/[^\d.,]/g, '')
-        var value
-        console.log(d)
+        let tValue = e.target.value.replace(/[^\d.,]/g, '').replace('.',',')
+        let value
+        if(isNaN(tValue.replace(',','.')) ){
+            tValue = tValue.substring(0, tValue.length - 1)
+        }
+if (tValue.length == 1 && tValue.substring(0,1) != 0){
+    tValue = '0,' + tValue
+}
+if (tValue.length == 2 && tValue.substring(0,2) != '0,'){
+    tValue = '0,' + tValue.substring(2,1)
+}
+
         if (d) {
-            // value = (+(tValue.replace(',','.')) + (d ? +d : 0)).toString().replace('.',',')
-            value = (+(tValue.replace(',','.')) + (d ? +d : 0)).toFixed(3).replace('.',',')
+            console.log('parse', tValue.replace(',','.'))
+            value = ((parseFloat(tValue.replace(',','.'))) + (d ? +d : 0)).toFixed(3).replace('.',',')
+            // value = (+(e.target.value) + (d ? +d : 0)).toFixed(3)
         }
 
         
-            if(tValue.length == 1 && tValue == '0'){
-                console.log('true')
-                value = 0
-            }
-            if(tValue.length == 1 && tValue != '0'){
-                console.log('true2', tValue)
-                value = ('0,' + tValue)
-            }
-
-            if(tValue.length == 2 && (tValue.substring(0,2) !== '0.' || tValue.substring(0,2) !== '0,')){
-                console.log('true3', tValue)
-                value = '0,'
-            }
+          else{
+            value = tValue
+          }
            
         
         setFormData(prevData => ({
@@ -336,12 +395,7 @@ const FuelIntake = () => {
 
 
     }
-    const testobj = { 1: { 1: 1, 2: 2 }, 2: { 1: 3, 2: 4 } }
-    // const keys1 = Object.keys(cal[1])
     console.log('render', formData);
-    // console.log('calib', cal[1]['1']);
-    // console.log('calib ', cal['1']['maxH'], typeof(cal['1']))
-    // console.log('calib ', fieldsCal)
     if (calibLoad && formLoad) {
 
 
@@ -365,14 +419,15 @@ const FuelIntake = () => {
                                     className={styles.input}
                                     id={field.id}
                                     name='hBefore'
-                                    value={formData[field.id]['hBefore']}
-                                    type='number'
+                                    value={formData[field.id]['hBefore'].replace('.', ',')}
+                                    max={cal[field.tank]['maxH']}
+                                    type='text'
                                     inputMode='numeric'
                                     min={0}
-                                    max={cal[field.tank]['maxH']}
                                     onChange={handleChange}
-                                    onKeyDown={handleKeyDown}
+                                    maxLength={5}
                                     onFocus={clearOnFocus}
+                                    onBlur={handleBlurH}
                                 />
                                 <button className={styles.button}
                                     id={field.id}
@@ -392,12 +447,15 @@ const FuelIntake = () => {
                                         className={styles.input}
                                         id={field.id}
                                         name='hAfter'
-                                        value={formData[field.id]['hAfter']}
-                                        type='number'
+                                        value={formData[field.id]['hAfter'].replace('.', ',')}
+                                        type='text'
                                         inputMode='numeric'
                                         min={0}
                                         max={cal[field.tank]['maxH']}
+                                        maxLength={5}
                                         onChange={handleChange}
+                                        onFocus={clearOnFocus}
+                                        onBlur={handleBlurH}
                                     />
                                     <button
                                         className={styles.button}
@@ -434,9 +492,9 @@ const FuelIntake = () => {
                                             type='text'
                                             inputMode='numeric'
                                             maxLength={5}
-                                            // step={0.001}
                                             onChange={handleChangeDens}
                                             onFocus={clearOnFocus}
+                                            onBlur={handleBlurD}
                                         />
                                         <button
                                             className={styles.button}
@@ -457,10 +515,11 @@ const FuelIntake = () => {
                                             id={field.id}
                                             name='tTruck'
                                             value={formData[field.id]['tTruck']}
-                                            type='number'
+                                            type='text'
                                             inputMode='numeric'
                                             min={-40}
                                             max={40}
+                                            maxLength={2}
                                             onFocus={clearOnFocus}
                                             onChange={handleChangeTemp}
                                         />
@@ -488,10 +547,10 @@ const FuelIntake = () => {
                                             value={(formData[field.id]['dBefore'])}
                                             type='text'
                                             inputMode='numeric'
-                                            min={0}
-                                            max={1}
+                                            maxLength={5}
                                             onChange={handleChangeDens}
                                             onFocus={clearOnFocus}
+                                            onBlur={handleBlurD}
                                         />
                                         <button
                                             className={styles.button}
@@ -512,11 +571,11 @@ const FuelIntake = () => {
                                             id={field.id}
                                             name='tBefore'
                                             value={formData[field.id]['tBefore']}
-                                            type='number'
+                                            type='text'
                                             inputMode='numeric'
                                             min={-40}
                                             max={40}
-                                            step={1}
+                                            maxLength={2}
                                             onFocus={clearOnFocus}
                                             onChange={handleChangeTemp}
                                         />
@@ -544,11 +603,10 @@ const FuelIntake = () => {
                                             value={(formData[field.id]['dAfter'])}
                                             type='text'
                                             inputMode='numeric'
-                                            min={0}
-                                            max={1}
-                                            step={0.001}
+                                            maxLength={5}
                                             onChange={handleChangeDens}
                                             onFocus={clearOnFocus}
+                                            onBlur={handleBlurD}
                                         />
                                         <button
                                             className={styles.button}
@@ -569,11 +627,11 @@ const FuelIntake = () => {
                                             id={field.id}
                                             name='tAfter'
                                             value={+formData[field.id]['tAfter']}
-                                            type='number'
+                                            type='text'
                                             inputMode='numeric'
                                             min={-40}
                                             max={40}
-                                            step={1}
+                                            maxLength={2}
                                             onFocus={clearOnFocus}
                                             onChange={handleChangeTemp}
                                         />
