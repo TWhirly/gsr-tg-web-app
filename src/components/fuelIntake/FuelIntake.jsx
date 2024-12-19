@@ -54,6 +54,8 @@ const FuelIntake = () => {
     const [allFieldsFilled, setIsFormComplete] = useState(false);
     const [calibLoad, setCalibLoad] = useState(false)
     const [formLoad, setFormLoad] = useState(false)
+    const [densTempShow, setDensTempshow] = useState(new Map())
+    const [toggleState, setToggleState] = useState(false);
 
 
 
@@ -66,6 +68,7 @@ const FuelIntake = () => {
             setFields(fetchedFields);
             console.log('fetched intake data is ', fetchedFields)
             const initialFormData = fetchedFields.reduce((acc, field) => {
+                densTempShow.set(field.id, false)
                 Object.keys(field).map((key) => {
                     if (!acc[field.id]) {
                         acc[field.id] = {}
@@ -137,6 +140,10 @@ const FuelIntake = () => {
         }
     }, [calibLoad, formLoad, fields])
 
+    useEffect(() => {
+       setDensTempshow(densTempShow)
+    }, [densTempShow, toggleState])
+
     const calcAwaitH = (h, id, tank, waybill) => {
         // console.log('calc')
         let volume
@@ -174,6 +181,19 @@ const FuelIntake = () => {
 
         else {
             return (NaN)
+        }
+    }
+
+    const hadleClickDensTempShow = (e) => {
+        const id = e.target.id
+        console.log('DTshow', e.target)
+        setToggleState(toggleState == true ? false : true)
+       
+        if(densTempShow.get(id)){
+            densTempShow.set(id, false)
+        }
+        else{
+            densTempShow.set(id, true)
         }
     }
 
@@ -396,6 +416,7 @@ if (tValue.length == 2 && tValue.substring(0,2) != '0,'){
 
     }
     console.log('render', formData);
+    console.log('show', densTempShow)
     if (calibLoad && formLoad) {
 
 
@@ -473,13 +494,20 @@ if (tValue.length == 2 && tValue.substring(0,2) != '0,'){
                             </div>
                             <div>{formData[field.id]['awaitH'] ? 'Ожидаемый уровень: ' + (formData[field.id]['awaitH']).toFixed(1).replace('.', ',') :
                                 "Превышена вместимость!"}</div>
-                            <div>
-                                <div >
+                                 <div
+                                 className={styles.DensTempDataHeader}
+                                 id={field.id}
+                                 onClick={hadleClickDensTempShow} >
                                     Плотность и температура
                                 </div>
-                                <div>По данным нефтебазы:</div>
-                                <div>
-                                    {formData[field.id]['dFarm'].toString().replace('.', ',')} {(formData[field.id]['tFarm'] > 0 ? '+' + formData[field.id]['tFarm'] :
+                            <div 
+                            id={field.id}
+                            className={`${styles.densTempBlock} + ${(!densTempShow.get(field.id) ? styles.Hide : '')}`}>
+                               
+                                <div ></div>
+                                <div className={styles.farmDataHeader}>
+                                
+                                    {'По данным нефтебазы: '+formData[field.id]['dFarm'].toString().replace('.', ',')} {(formData[field.id]['tFarm'] > 0 ? '+' + formData[field.id]['tFarm'] :
                                         formData[field.id]['tFarm']) + '°'}</div>
                                 <div>
                                     <div>В АЦ:</div>

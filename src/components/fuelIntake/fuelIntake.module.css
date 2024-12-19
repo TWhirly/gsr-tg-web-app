@@ -29,6 +29,9 @@
     margin-right: 5px;
     background-color: var(--tg-theme-secondary-bg-color);
     margin-top: 20px;
+    height: auto;
+    overflow: hidden;
+    
 }
 
 
@@ -141,4 +144,25 @@
     align-items: center;
     justify-content: center;
     color: #007bff;
+}
+
+.densTempBlock{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    transition: 1s ease-in-out;
+    margin: auto;
+    
+}
+
+.densTempBlock.Hide{
+    margin: auto;
+    height: 0;
+}
+
+.DensTempDataHeader{
+    font-size: 0.7rem;
+    color: blue;
+    text-decoration: underline;
+    text-align: center;
 }
