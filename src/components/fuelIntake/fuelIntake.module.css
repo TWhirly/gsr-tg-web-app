@@ -13,7 +13,7 @@
     font-weight: bold;
     text-align: center;
     background: var(--bgColor);
-    z-index: 100;
+    z-index: 101;
 }
 
 .intakesContainer {
@@ -24,13 +24,14 @@
 }
 
 .intakeBlock {
+    padding-top: 0.5rem;
     border-radius: 5px;
     margin-left: 5px;
     margin-right: 5px;
     background-color: var(--tg-theme-secondary-bg-color);
     margin-top: 20px;
     height: auto;
-    overflow: hidden;
+    /* overflow: hidden; */
     
 }
 
@@ -41,14 +42,47 @@
     font-weight: bold;
 }
 
+.intakeData, .measuresData{
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+    border: 1px solid;
+    margin: 3px;
+    margin-bottom: 10px;
+}
+
+.intakeDataHeader{
+    display: flex;
+    font-weight: bold;
+    justify-items: center;
+    font-size: 0.6rem;
+    margin-top: -0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2px;
+    padding-right: 2px;
+    opacity: 1;
+    width: fit-content;
+    background-color: var(--tg-theme-secondary-bg-color);
+    z-index: 100;
+}
+
 .tank,
 .driver,
 .plates,
 .sections,
 .waybill,
-.hBefore {
+.hBefore,
+.awaitH,
+.farmDataHeader {
     font-size: 0.7rem;
     font-weight: 700;
+}
+
+.awaitH{
+    margin-top: 0.3rem;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
 }
 
 .inputline {
@@ -103,6 +137,7 @@
     color: #007bff;
 }
 
+
 .input {
     background-color: var(--tg-theme-secondary-bg-color);
     height: 100%;
@@ -149,15 +184,17 @@
 .densTempBlock{
     display: flex;
     flex-direction: column;
+    max-height: 50rem;
     height: fit-content;
-    transition: 1s ease-in-out;
     margin: auto;
+    transition: max-height 1s ;
     
 }
 
 .densTempBlock.Hide{
-    margin: auto;
-    height: 0;
+    overflow: hidden;
+    transition: max-height 1s ;
+    max-height: 0;
 }
 
 .DensTempDataHeader{

@@ -56,6 +56,7 @@ const FuelIntake = () => {
     const [formLoad, setFormLoad] = useState(false)
     const [densTempShow, setDensTempshow] = useState(new Map())
     const [toggleState, setToggleState] = useState(false);
+    const contentRef = useRef(null);
 
 
 
@@ -75,11 +76,11 @@ const FuelIntake = () => {
                         acc[field.id]['awaitH'] = 0
                     }
                     if (key !== 'id') {
-                        if(key == 'dTruck' || key == 'dBefore' || key == 'dAfter'){
-                            acc[field.id][key] = field[key].toString().replace('.',',')
+                        if (key == 'dTruck' || key == 'dBefore' || key == 'dAfter') {
+                            acc[field.id][key] = field[key].toString().replace('.', ',')
                         }
-                        else{
-                        acc[field.id][key] = field[key]
+                        else {
+                            acc[field.id][key] = field[key]
                         }
                     }
 
@@ -141,8 +142,14 @@ const FuelIntake = () => {
     }, [calibLoad, formLoad, fields])
 
     useEffect(() => {
-       setDensTempshow(densTempShow)
+        setDensTempshow(densTempShow)
     }, [densTempShow, toggleState])
+
+    useEffect(() => {
+        if (contentRef.current) {
+            !contentRef.current.style.height == Hide ? `${contentRef.current.scrollHeight}px` : `'0'`;
+        }
+    }, [densTempShow]);
 
     const calcAwaitH = (h, id, tank, waybill) => {
         // console.log('calc')
@@ -188,11 +195,11 @@ const FuelIntake = () => {
         const id = e.target.id
         console.log('DTshow', e.target)
         setToggleState(toggleState == true ? false : true)
-       
-        if(densTempShow.get(id)){
+
+        if (densTempShow.get(id)) {
             densTempShow.set(id, false)
         }
-        else{
+        else {
             densTempShow.set(id, true)
         }
     }
@@ -200,7 +207,7 @@ const FuelIntake = () => {
     const clearOnFocus = (e) => {
         const id = e.target.id
         const key = e.target.name
-        if(key.substring(0,1) == 'd'){
+        if (key.substring(0, 1) == 'd') {
             console.log('key is d started')
             setFormData(prevData => ({
                 ...prevData,
@@ -208,66 +215,66 @@ const FuelIntake = () => {
                     ...prevData[id],
                     [key]: "0,",
                 },
-            })) 
+            }))
         }
-        else{
+        else {
+            setFormData(prevData => ({
+                ...prevData,
+                [id]: {
+                    ...prevData[id],
+                    [key]: "",
+                },
+            }))
+        }
+    }
+
+    const handleBlurD = (e) => {
+        const id = e.target.id
+        const key = e.target.name
+        const tValue = e.target.value
+        let value
+        if (tValue.length == 2) {
+            value = ''
+        }
+        if (tValue.length == 3) {
+            value = tValue + '00'
+        }
+        if (tValue.length == 4) {
+            value = tValue + '0'
+        }
+        if (tValue.length == 5) {
+            value = tValue
+        }
+
         setFormData(prevData => ({
             ...prevData,
             [id]: {
                 ...prevData[id],
-                [key]: "",
+                [key]: value,
+            },
+        }))
+
+    }
+
+    const handleBlurH = (e) => {
+        const id = e.target.id
+        const key = e.target.name
+        const tValue = e.target.value
+        let value
+        if (!tValue.includes(',') && tValue.length > 0) {
+            value = tValue + ',0'
+        }
+        else {
+            value = tValue
+        }
+        setFormData(prevData => ({
+            ...prevData,
+            [id]: {
+                ...prevData[id],
+                [key]: value,
             },
         }))
     }
-    }
-
-   const handleBlurD = (e) => {
-    const id = e.target.id
-    const key = e.target.name
-    const tValue = e.target.value
-    let value
-    if(tValue.length == 2){
-        value = ''
-    }
-    if(tValue.length == 3){
-        value = tValue + '00'
-    }
-    if(tValue.length == 4){
-        value = tValue + '0'
-    }
-    if(tValue.length == 5) {
-        value = tValue
-    }
-
-    setFormData(prevData => ({
-        ...prevData,
-        [id]: {
-            ...prevData[id],
-            [key]: value,
-        },
-    }))
-
-   }
-
-   const handleBlurH = (e) => {
-    const id = e.target.id
-    const key = e.target.name
-    const tValue = e.target.value
-    let value
-    if (!tValue.includes(',') && tValue.length > 0){
-        value = tValue + ',0'
-    }
-    else{
-        value = tValue
-    }
-    setFormData(prevData => ({
-        ...prevData,
-        [id]: {
-            ...prevData[id],
-            [key]: value,
-        },
-    }))
-   }
 
 
     const handleChange = (e, d) => {
@@ -277,7 +284,7 @@ const FuelIntake = () => {
         const key = e.target.name
         let tValue = e.target.value.replace(/[^\d.,]/g, '').replace(',', '.');
         tValue.length == 0 ? tValue = '' : tValue
-        if(isNaN(+tValue)){
+        if (isNaN(+tValue)) {
             console.log('isNaN', tValue.length)
             tValue = tValue.substring(0, tValue.length - 1)
         }
@@ -286,11 +293,11 @@ const FuelIntake = () => {
             value = (parseFloat(+tValue) + (d ? +d : 0)).toFixed(1).replace('.', ',')
         }
         else {
-            if(tValue.includes('.') && parseFloat(tValue) % 10 != 0)
-           value = tValue.replace('.', ',')
-        else{
-            value = tValue 
-        }
+            if (tValue.includes('.') && parseFloat(tValue) % 10 != 0)
+                value = tValue.replace('.', ',')
+            else {
+                value = tValue
+            }
         }
         if ([key] == 'hBefore') {
             setFormData(prevData => ({
@@ -320,8 +327,8 @@ const FuelIntake = () => {
         console.log(formData)
         const id = e.target.id
         const key = e.target.name
-        let tValue = e.target.value.toString().replace(/[^\d]/g, '').replace('.','').replace(',','')
-        if(isNaN(tValue)){
+        let tValue = e.target.value.toString().replace(/[^\d]/g, '').replace('.', '').replace(',', '')
+        if (isNaN(tValue)) {
             tValue = tValue.substring(0, tValue.length - 1)
         }
         var value
@@ -329,10 +336,10 @@ const FuelIntake = () => {
 
             value = +(+tValue + +d)
         }
-        else{
-           
+        else {
+
             value = tValue
-            
+
         }
         setFormData(prevData => ({
             ...prevData,
@@ -350,30 +357,30 @@ const FuelIntake = () => {
         console.log('value length is ', (e.target.value).length)
         const id = e.target.id
         const key = e.target.name
-        let tValue = e.target.value.replace(/[^\d.,]/g, '').replace('.',',')
+        let tValue = e.target.value.replace(/[^\d.,]/g, '').replace('.', ',')
         let value
-        if(isNaN(tValue.replace(',','.')) ){
+        if (isNaN(tValue.replace(',', '.'))) {
             tValue = tValue.substring(0, tValue.length - 1)
         }
-if (tValue.length == 1 && tValue.substring(0,1) != 0){
-    tValue = '0,' + tValue
-}
-if (tValue.length == 2 && tValue.substring(0,2) != '0,'){
-    tValue = '0,' + tValue.substring(2,1)
-}
+        if (tValue.length == 1 && tValue.substring(0, 1) != 0) {
+            tValue = '0,' + tValue
+        }
+        if (tValue.length == 2 && tValue.substring(0, 2) != '0,') {
+            tValue = '0,' + tValue.substring(2, 1)
+        }
 
         if (d) {
-            console.log('parse', tValue.replace(',','.'))
-            value = ((parseFloat(tValue.replace(',','.'))) + (d ? +d : 0)).toFixed(3).replace('.',',')
+            console.log('parse', tValue.replace(',', '.'))
+            value = ((parseFloat(tValue.replace(',', '.'))) + (d ? +d : 0)).toFixed(3).replace('.', ',')
             // value = (+(e.target.value) + (d ? +d : 0)).toFixed(3)
         }
 
-        
-          else{
+
+        else {
             value = tValue
-          }
-           
-        
+        }
+
+
         setFormData(prevData => ({
             ...prevData,
             [id]: {
@@ -426,88 +433,92 @@ if (tValue.length == 2 && tValue.substring(0,2) != '0,'){
                 <div className={styles.intakesContainer}>{fields.map((field) => {
                     return (
                         <div className={styles.intakeBlock} key={field.id}>
-                            <div className={styles.fueltype}>{field.fuel !== 'ДТ' ? 'АИ-' + field.fuel : field.fuel} </div>
-                            <div className={styles.tank}>Резервуар № {field.tank}</div>
-                            <div className={styles.driver}>Водитель: {field.driver}</div>
-                            <div className={styles.plates}>Г/Н автомобиля/прицепа: {field.plates} </div>
-                            <div className={styles.sections}>Секции: {field.sections}</div>
-                            <div className={styles.waybill}>Объем по накладной: {field.waybill}</div>
-                            <div className={styles.hBefore}>Уровень до слива, см</div>
-                            <div className={styles.inputline}>
-
-
-                                <input
-                                    className={styles.input}
-                                    id={field.id}
-                                    name='hBefore'
-                                    value={formData[field.id]['hBefore'].replace('.', ',')}
-                                    max={cal[field.tank]['maxH']}
-                                    type='text'
-                                    inputMode='numeric'
-                                    min={0}
-                                    onChange={handleChange}
-                                    maxLength={5}
-                                    onFocus={clearOnFocus}
-                                    onBlur={handleBlurH}
-                                />
-                                <button className={styles.button}
-                                    id={field.id}
-                                    name='hBefore'
-                                    tabIndex="-1"
-                                    value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
-                                <button className={styles.button}
-                                    id={field.id}
-                                    name='hBefore'
-                                    tabIndex="-1"
-                                    value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, 0.1)}>+</button>
+                            <div className={styles.intakeData}>
+                                <div className={styles.intakeDataHeader}>Данные ТТН/Разнарядки</div>
+                                <div className={styles.fueltype}>{field.fuel !== 'ДТ' ? 'АИ-' + field.fuel : field.fuel} </div>
+                                <div className={styles.tank}>Резервуар № {field.tank}</div>
+                                <div className={styles.driver}>Водитель: {field.driver}</div>
+                                <div className={styles.plates}>Г/Н автомобиля/прицепа: {field.plates} </div>
+                                <div className={styles.sections}>Секции: {field.sections}</div>
+                                <div className={styles.waybill}>Объем по накладной: {field.waybill}</div>
                             </div>
-                            <div >
-                                <div>Уровень после слива, см</div>
+                            <div className={styles.measuresData}>
+                                <div className={styles.hBefore}>Уровень до слива, см</div>
                                 <div className={styles.inputline}>
+
+
                                     <input
                                         className={styles.input}
                                         id={field.id}
-                                        name='hAfter'
-                                        value={formData[field.id]['hAfter'].replace('.', ',')}
+                                        name='hBefore'
+                                        value={formData[field.id]['hBefore'].replace('.', ',')}
+                                        max={cal[field.tank]['maxH']}
                                         type='text'
                                         inputMode='numeric'
                                         min={0}
-                                        max={cal[field.tank]['maxH']}
-                                        maxLength={5}
                                         onChange={handleChange}
+                                        maxLength={5}
                                         onFocus={clearOnFocus}
                                         onBlur={handleBlurH}
                                     />
-                                    <button
-                                        className={styles.button}
+                                    <button className={styles.button}
                                         id={field.id}
-                                        name='hAfter'
+                                        name='hBefore'
                                         tabIndex="-1"
-                                        value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
-                                    <button
-                                        className={styles.button}
+                                        value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
+                                    <button className={styles.button}
                                         id={field.id}
-                                        name='hAfter'
+                                        name='hBefore'
                                         tabIndex="-1"
-                                        value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, 0.1)}>+</button>
+                                        value={formData[field.id]['hBefore']} onClick={(e) => handleChange(e, 0.1)}>+</button>
+                                </div>
+                                <div className={styles.awaitH}>{formData[field.id]['awaitH'] ? 'Ожидаемый уровень: ' + (formData[field.id]['awaitH']).toFixed(1).replace('.', ',') :
+                                    "Превышена вместимость!"}</div>
+                                <div >
+                                    <div className={styles.hBefore}>Уровень после слива, см</div>
+                                    <div className={styles.inputline}>
+                                        <input
+                                            className={styles.input}
+                                            id={field.id}
+                                            name='hAfter'
+                                            value={formData[field.id]['hAfter'].replace('.', ',')}
+                                            type='text'
+                                            inputMode='numeric'
+                                            min={0}
+                                            max={cal[field.tank]['maxH']}
+                                            maxLength={5}
+                                            onChange={handleChange}
+                                            onFocus={clearOnFocus}
+                                            onBlur={handleBlurH}
+                                        />
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
+                                            name='hAfter'
+                                            tabIndex="-1"
+                                            value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
+                                        <button
+                                            className={styles.button}
+                                            id={field.id}
+                                            name='hAfter'
+                                            tabIndex="-1"
+                                            value={formData[field.id]['hAfter']} onClick={(e) => handleChange(e, 0.1)}>+</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div>{formData[field.id]['awaitH'] ? 'Ожидаемый уровень: ' + (formData[field.id]['awaitH']).toFixed(1).replace('.', ',') :
-                                "Превышена вместимость!"}</div>
-                                 <div
-                                 className={styles.DensTempDataHeader}
-                                 id={field.id}
-                                 onClick={hadleClickDensTempShow} >
-                                    Плотность и температура
-                                </div>
-                            <div 
-                            id={field.id}
-                            className={`${styles.densTempBlock} + ${(!densTempShow.get(field.id) ? styles.Hide : '')}`}>
-                               
-                                <div ></div>
+                            <div
+                                className={styles.DensTempDataHeader}
+                                id={field.id}
+                                onClick={hadleClickDensTempShow} >
+                                Плотность и температура
+                            </div>
+                            <div
+                                id={field.id}
+                                className={`${styles.densTempBlock} + ${(!densTempShow.get(field.id) ? styles.Hide : '')}`} ref={contentRef}>
+
                                 <div className={styles.farmDataHeader}>
-                                
-                                    {'По данным нефтебазы: '+formData[field.id]['dFarm'].toString().replace('.', ',')} {(formData[field.id]['tFarm'] > 0 ? '+' + formData[field.id]['tFarm'] :
+
+                                    {'По данным нефтебазы: ' + formData[field.id]['dFarm'].toString().replace('.', ',')} {(formData[field.id]['tFarm'] > 0 ? '+' + formData[field.id]['tFarm'] :
                                         formData[field.id]['tFarm']) + '°'}</div>
                                 <div>
                                     <div>В АЦ:</div>
