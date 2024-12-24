@@ -8,7 +8,6 @@ import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import {  Element, Events, animateScroll as scroll, Link  } from 'react-scroll';
-const deepEqual = require('deep-equal');
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
@@ -157,6 +156,7 @@ const FuelIntake = () => {
         // console.log('calc')
         let volume
         let height
+        let cap = +formData[id]['cap']
         if (!tank) {
             tank = formData[id]['tank'];
         }
@@ -174,7 +174,7 @@ const FuelIntake = () => {
         }
         // cal[tank][Math.trunc(h) - 1]
         // console.log('vol is ', volume)
-        const awaitVol = +volume + waybill
+        const awaitVol = +volume + waybill - cap
         // console.log('await vol is ', awaitVol)
         // console.log('max V is ', Math.max(...Object.values(cal[tank])))
         if (awaitVol < Math.max(...Object.values(cal[tank]))) {
@@ -244,9 +244,11 @@ const FuelIntake = () => {
         const id = e.target.id
         const key = e.target.name
         const tValue = e.target.value
+        const oldValue = recievedFormData[id][key]
+        console.log('old dens ', oldValue)
         let value
         if (tValue.length == 2) {
-            value = ''
+            value = oldValue
         }
         if (tValue.length == 3) {
             value = tValue + '00'
@@ -255,6 +257,29 @@ const FuelIntake = () => {
             value = tValue + '0'
         }
         if (tValue.length == 5) {
+            value = tValue
+        }
+
+        setFormData(prevData => ({
+            ...prevData,
+            [id]: {
+                ...prevData[id],
+                [key]: value,
+            },
+        }))
+
+    }
+
+    const handleBlurT = (e) => {
+        const id = e.target.id
+        const key = e.target.name
+        const tValue = e.target.value
+        const oldValue = recievedFormData[id][key]
+        let value
+        if (tValue.length == 0) {
+            value = oldValue
+        }
+       else  {
             value = tValue
         }
 
@@ -436,10 +461,9 @@ const FuelIntake = () => {
     , [formData, formDataInputs]);
 
     const handleSubmit = () => {
-        console.log(allFieldsFilled);
         console.log(formData)
         console.log("tyring to submit resToSubmit values:", formData);
-        fetch(APIURL + '/send-res', {
+        fetch(APIURL + '/sendFuelIntake', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -539,6 +563,7 @@ const FuelIntake = () => {
                                     </div>
                                 </div>
                             </div>
+                           
                             <Link to={!densTempShow.get(field.id) ? field.id + "dens" : field.id + "start"} smooth={true} duration={500}
                                 id={field.id}
                                 name={field.id + 'dens'}
@@ -546,6 +571,7 @@ const FuelIntake = () => {
                                 onClick={hadleClickDensTempShow}>
                                 Плотность и температура
                             </Link>
+                           
                             <div
                                 id={field.id}
                                 className={`${styles.densTempBlock} + ${(!densTempShow.get(field.id) ? styles.Hide : '')}`}>
@@ -593,7 +619,8 @@ const FuelIntake = () => {
                                             max={40}
                                             maxLength={2}
                                             onFocus={clearOnFocus}
-                                            onChange={handleChangeTemp} />
+                                            onChange={handleChangeTemp}
+                                            onBlur={handleBlurT} />
                                         <button
                                             className={styles.button}
                                             id={field.id}
@@ -647,7 +674,8 @@ const FuelIntake = () => {
                                             max={40}
                                             maxLength={2}
                                             onFocus={clearOnFocus}
-                                            onChange={handleChangeTemp} />
+                                            onChange={handleChangeTemp}
+                                            onBlur={handleBlurT} />
                                         <button
                                             className={styles.button}
                                             id={field.id}
@@ -701,7 +729,8 @@ const FuelIntake = () => {
                                             max={40}
                                             maxLength={2}
                                             onFocus={clearOnFocus}
-                                            onChange={handleChangeTemp} />
+                                            onChange={handleChangeTemp} 
+                                            onBlur={handleBlurT}/>
                                         <button
                                             className={styles.button}
                                             id={field.id}
