@@ -14,6 +14,7 @@ import ShopOrders from './components/ShopOrders/shopOredrs.jsx'
 import CoffeIngs from './components/CoffeIngs/CoffeIngs.jsx';
 import FuelIntake from './components/fuelIntake/FuelIntake.jsx';
 import FormComponent from './components/ResForm/form_try';
+import ShiftRep from './components/0hrep/0hrep.jsx'
 
 function App() {
     // eslint-disable-next-line no-unused-vars
@@ -55,6 +56,7 @@ function App() {
                 <Route path="/ShopOrders" element={<ShopOrders />} />
                 <Route path="/CoffeIngs" element={<CoffeIngs />} />
                 <Route path="/FuelIntake" element={<FuelIntake />} />
+                <Route path="/0hrep" element={<ShiftRep />} />
             </Routes>
         </div>
     );

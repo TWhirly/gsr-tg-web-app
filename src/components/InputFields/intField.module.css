@@ -1,0 +1,58 @@
+.inputline {
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 1.5rem;
+    font-size: 1rem;
+    width: calc(100% - 10px);
+    border: 1px solid;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+
+}
+
+.inputline:focus-within, .inputlineDens:focus-within {
+    outline: 1px solid;
+    color: #007bff;
+    .button {
+        background-color: var(--tg-theme-secondary-bg-color);
+        border: none;
+        display: flex;
+        width: 2rem;
+        height: 100%;
+        font-size: 1.7rem;
+        align-items: center;
+        justify-content: center;
+        color: #007bff;
+    }
+    .input {
+        background-color: var(--tg-theme-secondary-bg-color);
+        height: 100%;
+        width: calc(100% - 4rem);
+        border: none;
+        font-size: 1rem;
+        color: #007bff;
+        outline: none;
+    }
+}
+
+.input {
+    background-color: var(--tg-theme-secondary-bg-color);
+    height: 100%;
+    width: calc(100% - 4rem);
+    border: none;
+    font-size: 1rem;
+
+}
+
+.button {
+    background-color: var(--tg-theme-secondary-bg-color);
+    border: none;
+    display: flex;
+    width: 2rem;
+    height: 100%;
+    font-size: 1.7rem;
+    align-items: center;
+    justify-content: center;
+}
