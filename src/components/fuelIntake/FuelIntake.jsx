@@ -173,10 +173,10 @@ const FuelIntake = () => {
             volume = 0;
         }
         // cal[tank][Math.trunc(h) - 1]
-        // console.log('vol is ', volume)
-        const awaitVol = +volume + waybill - cap
-        // console.log('await vol is ', awaitVol)
-        // console.log('max V is ', Math.max(...Object.values(cal[tank])))
+        console.log('vol is ', volume, 'waybill is ', waybill, 'cap is ', cap )
+        const awaitVol = +volume + waybill - +cap
+        console.log('await vol is ', awaitVol)
+        console.log('max V is ', Math.max(...Object.values(cal[tank])))
         if (awaitVol < Math.max(...Object.values(cal[tank]))) {
             for (let i = 0; i < Object.entries(cal[tank]).length; i++) {
                 if (Object.entries(cal[tank])[i][1] > awaitVol) {
@@ -184,7 +184,7 @@ const FuelIntake = () => {
                     break
                 }
             }
-            // console.log('calculated height is ', height)
+            console.log('calculated height is ', height)
             return ((Math.ceil((((awaitVol - height[0][1]) / ((height[1][1] - height[0][1]))) + +height[0][0]) * 10)) / 10)
         }
 

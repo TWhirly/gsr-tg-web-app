@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styles from './intField.module.css'
+import styles from './NumField.module.css'
 
-const IntField = ({fieldStyle, inputStyle, buttonStyle, id, name, max, val, onChange, maxLength, incStep}) =>{
+const NumField = ({fieldStyle, inputStyle, buttonStyle, id, name, max, val, onChange, maxLength, incStep}) =>{
 
     const [value, setValue] = useState(val)
 
@@ -19,6 +19,16 @@ const IntField = ({fieldStyle, inputStyle, buttonStyle, id, name, max, val, onCh
         setValue(value + d)
     }
 
+    const handleFocus = (e) => {
+        onFocus(e)
+    }
+
+    const handleBlur = (e) => {
+        const id = e.target.id
+        const key = e.target.name
+        const tValue = e.target.value
+        onBlur(id, key, tValue)
+    }
     // console.log(value)
 
     return ( 
@@ -34,8 +44,8 @@ const IntField = ({fieldStyle, inputStyle, buttonStyle, id, name, max, val, onCh
             min={0}
             onChange={handleChange}
             maxLength={maxLength}
-            // onFocus={clearOnFocus}
-            // onBlur={handleBlurH}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
              />
         <button className={styles.button}
             id={id}
@@ -50,4 +60,4 @@ const IntField = ({fieldStyle, inputStyle, buttonStyle, id, name, max, val, onCh
     </div>)
 }
 
-export default IntField
+export default NumField

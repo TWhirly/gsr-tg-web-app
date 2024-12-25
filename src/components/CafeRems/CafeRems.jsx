@@ -10,6 +10,7 @@ import { AngleDown, AngleUp, AngleDoubleDown, AngleDoubleUp, Broom } from '../..
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram.js";
 import { type } from '@testing-library/user-event/dist/type/index.js';
+import IntField from '../InputFields/NumField.jsx';
 
 
 const APIURL = localUrl.APIURL;
@@ -243,7 +244,7 @@ const CafeRems = () => {
                                                 id={amtsData.id}
                                                 value={recievedFormData[field.id][amtsData.id]}
                                                 minValue={0}
-                                                onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
+                                                // onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
                                                 aria-label="i"
                                             >
@@ -254,6 +255,7 @@ const CafeRems = () => {
                                                     <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                                 </div>
                                             </NumberField>
+                                           
                                         );
                                     })}
                                 </div>
@@ -270,7 +272,7 @@ const CafeRems = () => {
                                                 minValue={0}
                                                 isReadOnly={!showAdditionalFields.get(field.id)}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
-                                                onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
+                                                // onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
                                                 aria-label="i"
                                             >
                                                 <Label className={`${styles.inputtype} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}>

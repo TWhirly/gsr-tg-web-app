@@ -1,46 +1,20 @@
-import React, { useState } from 'react';
+// import React, { useState, useEffect } from 'react';
+import react, { useState, useEffect } from 'react';
 import styles from './ButtonList.module.css';
 import { useTelegram } from "../../hooks/useTelegram";
-import { useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { localUrl } from '../../localSettings.js'
 
 
+// const APIURL = localUrl.APIURL;
+
+// console.log(APIURL)
 const APIURL = localUrl.APIURL;
-
-console.log(APIURL)
-
 const ButtonList = () => {
-
-    const navigate = useNavigate();
-    const location = useLocation();
+    const APIURL = localUrl.APIURL;
 
     const [data, setData] = useState([]);
-    useEffect(() => {
-        buttons();
-    }, []);
-
     const [Plandata, setPlanData] = useState('');
-    useEffect(() => {
-        planMessage();
-    }, '');
-
-    const routes = {
-        'Отчёт 0 часов': "/0hrep",
-        'Остатки': "/ResForm",
-        'Счётчики КМ': "/CoffeCounts",
-        "Газовые баллоны": "/GasForm",
-        "Остатки кафе": "/CafeRems",
-        "Ингредиенты для хот-догов": "/HotDog",
-        "Заявки по магазину": "/ShopOrders",
-        "Ингредиенты КМ": "/CoffeIngs",
-        "Приём НП": "/FuelIntake"
-    }
-
-    const { tg, queryId } = useTelegram();
-
-    const [sentVisible, setSentVisible] = useState(false);
-
     const buttons = async () => {
         try {
             const response = await fetch(APIURL + '/menu', {
@@ -63,8 +37,8 @@ const ButtonList = () => {
             console.log('buttons Promise rejected')
             setData([])
         }
-        // return
     };
+
 
     const planMessage = async () => {
         try {
@@ -94,6 +68,38 @@ const ButtonList = () => {
         }
         // return
     };
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    
+
+    useEffect(() => {
+        console.log('buttos useEffect')
+       buttons()
+    }, []);
+
+    
+    useEffect(() => {
+        planMessage();
+    }, []);
+
+    const routes = {
+        'Отчёт 0 часов': "/ShiftRep",
+        'Остатки': "/ResForm",
+        'Счётчики КМ': "/CoffeCounts",
+        "Газовые баллоны": "/GasForm",
+        "Остатки кафе": "/CafeRems",
+        "Ингредиенты для хот-догов": "/HotDog",
+        "Заявки по магазину": "/ShopOrders",
+        "Ингредиенты КМ": "/CoffeIngs",
+        "Приём НП": "/FuelIntake"
+    }
+
+    const { tg, queryId } = useTelegram();
+
+    const [sentVisible, setSentVisible] = useState(false);
+
+   
 
     console.log('navi:', location.state)
 
