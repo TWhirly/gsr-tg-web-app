@@ -5,9 +5,9 @@ const NumField = ({fieldStyle, inputStyle, buttonStyle, id, name, max, val, onCh
 
     const [value, setValue] = useState(val)
 
-    useEffect = (() => {
-        setValue(value)
-    }, [value])
+    // useEffect = (() => {
+    //     setValue(value)
+    // }, [value])
 
     const handleChange = (e) => {
         const id = e.target.id

@@ -63,7 +63,27 @@ const FuelIntake = () => {
 
 
         const loadFields = async () => {
-            const fetchedFields = await fetchFormFields();
+            let fetchedFields
+            const storedData = localStorage.getItem('tempIntakeData');
+            
+            if(storedData){
+                const storedDataObj = JSON.parse(storedData);
+                if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
+                    localStorage.removeItem('tempFormData');
+                    return
+                }
+                delete storedDataObj.date
+                fetchedFields = [];
+                Object.keys(storedDataObj).forEach(key => {
+                    storedDataObj[key]['id'] = key
+                    fetchedFields.push(storedDataObj[key])
+                })
+                setIsChangesExist(true)
+            }
+            else{
+                fetchedFields = await fetchFormFields();
+            }
+           
             setFields(fetchedFields);
             console.log('fetched intake data is ', fetchedFields)
             const initialFormData = fetchedFields.reduce((acc, field) => {
@@ -366,8 +386,6 @@ const FuelIntake = () => {
                 },
             }))
         };
-
-
     };
 
     const handleChangeTemp = (e, d) => {
@@ -396,8 +414,6 @@ const FuelIntake = () => {
                 [key]: value,
             },
         }));
-
-
     };
 
     const handleChangeDens = (e, d) => {
@@ -436,8 +452,6 @@ const FuelIntake = () => {
                 [key]: value
             },
         }));
-
-
     };
 
 
@@ -456,8 +470,13 @@ const FuelIntake = () => {
                 }
             })
         })
-        setIsChangesExist(current.join(' ') !== loaded.join(' '))
+        if(current.join(' ') !== loaded.join(' ')){
+        const date = (new Date()).toLocaleDateString();
+        localStorage.setItem('tempIntakeData', JSON.stringify({ ...formData, date: date }))
+        setIsChangesExist(true)
+        }
     }
+    
     , [formData, formDataInputs]);
 
     const handleSubmit = () => {
@@ -470,7 +489,7 @@ const FuelIntake = () => {
             },
             body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData })
         })
-        //    navigate('/')
+        localStorage.removeItem('tempIntakeData')
         navigate('/', {
             replace: true,
             state: { sent: true }
@@ -480,6 +499,7 @@ const FuelIntake = () => {
     }
     console.log('render', formData, formDataInputs);
     console.log('is changes exist', haveChanges)
+   
     if (calibLoad && formLoad) {
 
 

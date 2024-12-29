@@ -11,6 +11,7 @@ import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram.js";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import IntField from '../InputFields/NumField.jsx';
+import NumField from '../InputFields/NumField.jsx';
 
 
 const APIURL = localUrl.APIURL;
@@ -149,9 +150,14 @@ const CafeRems = () => {
     }
 
     const clearOnFocus = (v, id, field) => {
+        console.log('on focus ', id)
         recievedFormData[id][field] = NaN 
         setToggleState(toggleState == true ? false : true)
 
+    }
+
+    const buttonFocus =() => {
+        console.log('btn fcs')
     }
 
 
@@ -250,7 +256,7 @@ const CafeRems = () => {
                                             >
                                                 <Label className={styles.inputtype}>{amtsData.id}</Label>
                                                 <div className={styles.inputAndIncDec}>
-                                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                                    <Button className={styles.reactAriaButton} slot="decrement" id='button' onPress={buttonFocus}>&minus;</Button>
                                                     <Input className={styles.input} />
                                                     <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                                 </div>
@@ -283,6 +289,7 @@ const CafeRems = () => {
                                                     <Button className={`${styles.reactAriaButton} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`} slot="increment">+</Button>
                                                 </div>
                                             </NumberField>
+                                            
                                         );
                                     })}</div>
                                 {(!showAdditionalFields.get(field.id) && <div onClick={(v) => toggleAdditionalFields(field.id)}>
