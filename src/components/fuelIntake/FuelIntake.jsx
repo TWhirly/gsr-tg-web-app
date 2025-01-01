@@ -69,7 +69,7 @@ const FuelIntake = () => {
             if(storedData){
                 const storedDataObj = JSON.parse(storedData);
                 if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                    localStorage.removeItem('tempFormData');
+                    localStorage.removeItem('tempIntakeData');
                     return
                 }
                 delete storedDataObj.date
