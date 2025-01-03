@@ -42,6 +42,7 @@ const CafeRems = () => {
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [toggleState, setToggleState] = useState(false);
     const [toggleClear, setToggleClear] = useState(false);
+    const [buttonPressed, setButtonPressed] = useState(false);
 
 
 
@@ -149,15 +150,37 @@ const CafeRems = () => {
         localStorage.setItem('tempFormData', JSON.stringify({ ...recievedFormData, date: date }))
     }
 
-    const clearOnFocus = (v, id, field) => {
-        console.log('on focus ', id)
-        recievedFormData[id][field] = NaN 
-        setToggleState(toggleState == true ? false : true)
+    // const clearOnFocus = (v, id, field) => {
+    //     console.log('on focus ', id, field)
+    //     recievedFormData[id][field] = NaN 
+    //     setToggleState(toggleState == true ? false : true)
 
+    // }
+
+    const clearOnFocus = (e) => {
+        if (buttonPressed) {
+            console.log('Курсор установлен с кнопки');
+        } else {
+            console.log('Курсор установлен в поле ввода');
+        }
+        const id = e.target.id
+        const field = e.target.ariaLabel
+        console.log('on focus ', id, field)
+        console.log(typeof(e.target.ariaLabel))
+        console.log(Object.keys(e.target))
+        console.log('title ',(e))
+        // recievedFormData[id][field] = NaN 
+        
+
+    }
+
+    const handleFocus2 = () => {
+        console.log('handle2')
     }
 
     const buttonFocus =() => {
         console.log('btn fcs')
+        setButtonPressed(true);
     }
 
 
@@ -245,18 +268,20 @@ const CafeRems = () => {
                                     {amtsData.filter(item => item.id === 'остаток' || item.id === 'продажа').map(amtsData => {
                                         return (
                                             <NumberField
-                                                key={amtsData.id}
+                                                // key={amtsData.id}
+                                                name={field.id}
                                                 className={styles.numberField}
                                                 id={amtsData.id}
                                                 value={recievedFormData[field.id][amtsData.id]}
                                                 minValue={0}
-                                                // onFocus={(v) => clearOnFocus(v, field.id, amtsData.id)}
+                                                // onBeforeInput={(v) => clearOnFocus(v, field.id, amtsData.id)}
+                                                // onFocus={clearOnFocus}
                                                 onChange={(v) => handleChange(v, field.id, amtsData.id)}
-                                                aria-label="i"
+                                                aria-label={field.id}
                                             >
                                                 <Label className={styles.inputtype}>{amtsData.id}</Label>
                                                 <div className={styles.inputAndIncDec}>
-                                                    <Button className={styles.reactAriaButton} slot="decrement" id='button' onPress={buttonFocus}>&minus;</Button>
+                                                    <Button className={styles.reactAriaButton} slot="decrement" >&minus;</Button>
                                                     <Input className={styles.input} />
                                                     <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                                 </div>
@@ -285,7 +310,7 @@ const CafeRems = () => {
                                                     {amtsData.id}</Label>
                                                 <div className={`${styles.inputAndIncDec} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}>
                                                     <Button className={`${styles.reactAriaButton} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`} slot="decrement">&minus;</Button>
-                                                    <Input className={`${styles.input} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`} />
+                                                    <Input className={`${styles.input} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`}  />
                                                     <Button className={`${styles.reactAriaButton} ${!showAdditionalFields.get(field.id) ? styles.hide : ''}`} slot="increment">+</Button>
                                                 </div>
                                             </NumberField>
