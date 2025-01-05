@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState, useLayoutEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useLayoutEffect, useRef } from 'react';
 import styles from './Measures.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
+import { useNavigate, useHistory } from "react-router-dom";
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
+import { Element, Events, animateScroll as scroll, Link } from 'react-scroll';
 import { Element, Events, animateScroll as scroll, Link } from 'react-scroll';
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
@@ -68,6 +71,8 @@ const Measures = () => {
             const storedData = localStorage.getItem('tempMeasuresData');
 
             if (storedData) {
+
+            if (storedData) {
                 const storedDataObj = JSON.parse(storedData);
                 console.log('stored', storedDataObj)
                 if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
@@ -84,8 +89,10 @@ const Measures = () => {
                 console.log('fetched from stored', fetchedFields)
             }
             else {
+            else {
                 fetchedFields = await fetchFormFields();
             }
+
 
             setFields(fetchedFields);
             console.log('fetched intake data is ', fetchedFields)
@@ -123,6 +130,7 @@ const Measures = () => {
             const fetchedCalFields = await calibration();
             setFieldsCal(fetchedCalFields)
 
+
             let i
             const initialCalibration = fetchedCalFields.reduce((acc, field) => {
 
@@ -137,6 +145,7 @@ const Measures = () => {
             }, {});
             setCal(initialCalibration)
 
+
             setCalibLoad(true)
         }
 
@@ -145,7 +154,6 @@ const Measures = () => {
 
 
 
-        console.log('exit useEffect')
     }, []);
 
     useEffect(() => {
@@ -155,7 +163,6 @@ const Measures = () => {
                 if (field.repRem) {
                     const id = field.id
                     const value = field.repRem
-                    // console.log('id & value', id, value)
                     setFormData(prevData => ({
                         ...prevData,
                         [id]: {
@@ -196,7 +203,6 @@ const Measures = () => {
         }
         return Math.round(volume)
     }
-
 
     const calcAwaitH = (id, repRem) => {
         console.log('calc')
@@ -316,6 +322,7 @@ const Measures = () => {
             value = oldValue
         }
         else {
+        else {
             value = tValue
         }
 
@@ -338,13 +345,16 @@ const Measures = () => {
         const oldValue = recievedFormData[id][key]
         let value
 
+
         if (!tValue.includes(',') && tValue.length > 0) {
             value = tValue + ',0'
         }
         if (tValue.length === 0) {
+        if (tValue.length === 0) {
             console.log('9')
             value = oldValue
         }
+        if (tValue.includes(',') && tValue.length > 0) {
         if (tValue.includes(',') && tValue.length > 0) {
             console.log('hm')
             value = tValue
@@ -413,7 +423,10 @@ const Measures = () => {
         let tValue
         if (key == 't') {
             tValue = e.target.value.toString().replace(/[^\d-]/g, '').replace('.', '').replace(',', '')
+        if (key == 't') {
+            tValue = e.target.value.toString().replace(/[^\d-]/g, '').replace('.', '').replace(',', '')
         }
+        else {
         else {
             tValue = e.target.value.toString().replace(/[^\d]/g, '').replace('.', '').replace(',', '')
         }
@@ -459,7 +472,13 @@ const Measures = () => {
         // console.log('value length is ', (e.target.value).length)
         const id = e.target.id
         const key = e.target.name
-        let tValue = e.target.value.replace(/[^\d.,]/g, '').replace('.', ',')
+        let tValue
+        if (e.target.value == '') {
+            tValue = '0'
+        }
+        else {
+            tValue = e.target.value.replace(/[^\d.,]/g, '').replace('.', ',')
+        }
         let value
         // console.log('tValue', tValue)
         if (isNaN(tValue.replace(',', '.'))) {
@@ -561,7 +580,9 @@ const Measures = () => {
                         <div className={styles.intakeBlock} key={field.id}>
                             <div className={styles.intakeData}>
 
+
                                 <div className={styles.fueltype}>{field.tankFuel} </div>
+
 
                             </div>
                             <div className={styles.measuresData}>
@@ -687,12 +708,15 @@ const Measures = () => {
                             </div>
                         </div>
 
+
                     )
                 })}
+
 
                 </div>
                 {(haveChanges && <Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)}
             </div>
+
 
         )
     }
