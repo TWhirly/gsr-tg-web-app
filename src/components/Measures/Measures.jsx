@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect, useRef} from 'react';
+import React, { useCallback, useEffect, useState, useLayoutEffect, useRef } from 'react';
 import styles from './Measures.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
-import { useNavigate, useHistory} from "react-router-dom";
+import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
-import {  Element, Events, animateScroll as scroll, Link  } from 'react-scroll';
+import { Element, Events, animateScroll as scroll, Link } from 'react-scroll';
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
@@ -66,8 +66,8 @@ const Measures = () => {
         const loadFields = async () => {
             let fetchedFields
             const storedData = localStorage.getItem('tempMeasuresData');
-            
-            if(storedData){
+
+            if (storedData) {
                 const storedDataObj = JSON.parse(storedData);
                 if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
                     localStorage.removeItem('tempMeasuresData');
@@ -81,10 +81,10 @@ const Measures = () => {
                 })
                 setIsChangesExist(true)
             }
-            else{
+            else {
                 fetchedFields = await fetchFormFields();
             }
-           
+
             setFields(fetchedFields);
             console.log('fetched intake data is ', fetchedFields)
             const initialFormData = fetchedFields.reduce((acc, field) => {
@@ -96,7 +96,7 @@ const Measures = () => {
                     }
                     if (key !== 'id') {
                         console.log('key is ', key)
-                        if ((key == 'd'  || key == 'height') && field[key]) {
+                        if ((key == 'd' || key == 'height') && field[key]) {
                             acc[field.id][key] = field[key].toString().replace('.', ',')
                         }
                         else {
@@ -119,7 +119,7 @@ const Measures = () => {
         const loadCalibration = async () => {
             const fetchedCalFields = await calibration();
             setFieldsCal(fetchedCalFields)
-            
+
             let i
             const initialCalibration = fetchedCalFields.reduce((acc, field) => {
 
@@ -133,7 +133,7 @@ const Measures = () => {
                 return acc;
             }, {});
             setCal(initialCalibration)
-            
+
             setCalibLoad(true)
         }
 
@@ -149,24 +149,24 @@ const Measures = () => {
         if (calibLoad && formLoad) {
 
             fields.map((field) => {
-                if(field.height){
-                const id = field.id
-                const value = field.height
-                console.log('id & value', id, value)
-                setFormData(prevData => ({
-                    ...prevData,
-                    [id]: {
-                        ...prevData[id],
-                        awaitH: calcAwaitH(value, id),
-                    },
-                }));
-                setFormDataInputs(prevData => ({
-                    ...prevData,
-                    [id]: {
-                        ...prevData[id],
-                        awaitH: calcAwaitH(value, id),
-                    },
-                }));
+                if (field.height) {
+                    const id = field.id
+                    const value = field.height
+                    console.log('id & value', id, value)
+                    setFormData(prevData => ({
+                        ...prevData,
+                        [id]: {
+                            ...prevData[id],
+                            awaitH: calcAwaitH(value, id),
+                        },
+                    }));
+                    setFormDataInputs(prevData => ({
+                        ...prevData,
+                        [id]: {
+                            ...prevData[id],
+                            awaitH: calcAwaitH(value, id),
+                        },
+                    }));
                 }
             })
         }
@@ -198,7 +198,7 @@ const Measures = () => {
             volume = 0;
         }
         // cal[tank][Math.trunc(h) - 1]
-        console.log('vol is ', volume, 'waybill is ', waybill, 'cap is ', cap )
+        console.log('vol is ', volume, 'waybill is ', waybill, 'cap is ', cap)
         const awaitVol = +volume + waybill - +cap
         console.log('await vol is ', awaitVol)
         console.log('max V is ', Math.max(...Object.values(cal[tank])))
@@ -229,8 +229,8 @@ const Measures = () => {
         else {
             densTempShow.set(id, true)
         }
-        
-        
+
+
     }
 
     const clearOnFocus = (e) => {
@@ -304,7 +304,7 @@ const Measures = () => {
         if (tValue.length == 0) {
             value = oldValue
         }
-       else  {
+        else {
             value = tValue
         }
 
@@ -325,15 +325,15 @@ const Measures = () => {
         console.log('tValue', tValue)
         const oldValue = recievedFormData[id][key]
         let value
-       
+
         if (!tValue.includes(',') && tValue.length > 0) {
             value = tValue + ',0'
         }
-        if(tValue.length === 0){
+        if (tValue.length === 0) {
             console.log('9')
             value = oldValue
         }
-        if(tValue.includes(',') && tValue.length > 0) {
+        if (tValue.includes(',') && tValue.length > 0) {
             console.log('hm')
             value = tValue
         }
@@ -380,7 +380,7 @@ const Measures = () => {
                 },
             }))
 
-           
+
         }
         else {
             setFormData(prevData => ({
@@ -399,10 +399,10 @@ const Measures = () => {
         const id = e.target.id
         const key = e.target.name
         let tValue
-        if (key == 't'){
-        tValue = e.target.value.toString().replace(/[^\d-]/g, '').replace('.', '').replace(',', '')
+        if (key == 't') {
+            tValue = e.target.value.toString().replace(/[^\d-]/g, '').replace('.', '').replace(',', '')
         }
-        else{
+        else {
             tValue = e.target.value.toString().replace(/[^\d]/g, '').replace('.', '').replace(',', '')
         }
         if (isNaN(tValue)) {
@@ -432,7 +432,13 @@ const Measures = () => {
         console.log('value length is ', (e.target.value).length)
         const id = e.target.id
         const key = e.target.name
-        let tValue = e.target.value.replace(/[^\d.,]/g, '').replace('.', ',')
+        let tValue
+        if (e.target.value == '') {
+            tValue = '0'
+        }
+        else {
+            tValue = e.target.value.replace(/[^\d.,]/g, '').replace('.', ',')
+        }
         let value
         if (isNaN(tValue.replace(',', '.'))) {
             tValue = tValue.substring(0, tValue.length - 1)
@@ -474,20 +480,20 @@ const Measures = () => {
         var current = []
         Object.keys(formData).forEach(key => {
             Object.keys(formData[key]).forEach(key2 => {
-                if((key2 == 'd' || key2 == 'height') && formData[key][key2]){
-                    current.push(+(formData[key][key2].toString().replace(',','.')))
-                    loaded.push(+(formDataInputs[key][key2].toString().replace(',','.')))
+                if ((key2 == 'd' || key2 == 'height') && formData[key][key2]) {
+                    current.push(((+formData[key][key2]).toString().replace(',', '.')))
+                    loaded.push(((+formDataInputs[key][key2]).toString().replace(',', '.')))
                 }
             })
         })
-        if(current.join(' ') !== loaded.join(' ')){
-        const date = (new Date()).toLocaleDateString();
-        localStorage.setItem('tempMeasuresData', JSON.stringify({ ...formData, date: date }))
-        setIsChangesExist(true)
+        if (current.join(' ') !== loaded.join(' ')) {
+            const date = (new Date()).toLocaleDateString();
+            localStorage.setItem('tempMeasuresData', JSON.stringify({ ...formData, date: date }))
+            setIsChangesExist(true)
         }
     }
-    
-    , [formData, formDataInputs]);
+
+        , [formData, formDataInputs]);
 
     const handleSubmit = () => {
         console.log(formData)
@@ -510,7 +516,7 @@ const Measures = () => {
     console.log('render', formData, formDataInputs);
     console.log('is changes exist', haveChanges)
     console.log('modiefed cal', cal)
-   
+
     if (calibLoad && formLoad) {
 
 
@@ -521,9 +527,9 @@ const Measures = () => {
                     return (
                         <div className={styles.intakeBlock} key={field.id}>
                             <div className={styles.intakeData}>
-                              
+
                                 <div className={styles.fueltype}>{field.tankFuel} </div>
-                               
+
                             </div>
                             <div className={styles.measuresData}>
                                 <div className={styles.hBefore}>Уровень, см</div>
@@ -554,7 +560,7 @@ const Measures = () => {
                                         tabIndex="-1"
                                         value={formData[field.id]['height']} onClick={(e) => handleChange(e, 0.1)}>+</button>
                                 </div>
-                              
+
                                 <div>
                                     <div className={styles.hBefore}>Расчетный остаток по сменному отчёту</div>
                                     <div className={styles.inputline}>
@@ -567,7 +573,7 @@ const Measures = () => {
                                             inputMode='numeric'
                                             min={0}
                                             maxLength={5}
-                                           onChange={handleChangeTemp}
+                                            onChange={handleChangeTemp}
                                             onFocus={clearOnFocus}
                                             onBlur={handleBlurT} />
                                         <button
@@ -585,75 +591,75 @@ const Measures = () => {
                                     </div>
                                 </div>
                             </div>
-                           
-                           
-                           
-                            
-                                <div>
-                                    <div className={styles.waybill}>Плотность:</div>
-                                    <div className={styles.inputlineDens}>
-                                        <input
-                                            className={styles.input}
-                                            id={field.id}
-                                            name='d'
-                                            value={formData[field.id]['d']}
-                                            type='text'
-                                            inputMode='numeric'
-                                            maxLength={5}
-                                            onChange={handleChangeDens}
-                                            onFocus={clearOnFocus}
-                                            onBlur={handleBlurD} />
-                                        <button
-                                            className={styles.button}
-                                            id={field.id}
-                                            name='d'
-                                            tabIndex="-1"
-                                            value={formData[field.id]['d']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
-                                        <button
-                                            className={styles.button}
-                                            id={field.id}
-                                            name='d'
-                                            tabIndex="-1"
-                                            value={formData[field.id]['d']} onClick={(e) => handleChangeDens(e, 0.001)}>+</button>
-                                    </div>
-                                    <div className={styles.waybill}>Температура:</div>
-                                    <div className={styles.inputlineDens}>
-                                        <input
-                                            className={styles.input}
-                                            id={field.id}
-                                            name='t'
-                                            value={formData[field.id]['t']}
-                                            type='text'
-                                            inputMode='numeric'
-                                            min={-40}
-                                            max={40}
-                                            maxLength={2}
-                                            onFocus={clearOnFocus}
-                                            onChange={handleChangeTemp}
-                                            onBlur={handleBlurT} />
-                                        <button
-                                            className={styles.button}
-                                            id={field.id}
-                                            name='t'
-                                            tabIndex="-1"
-                                            value={formData[field.id]['t']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
-                                        <button
-                                            className={styles.button}
-                                            id={field.id}
-                                            name='t'
-                                            tabIndex="-1"
-                                            value={formData[field.id]['t']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
-                                    </div>
+
+
+
+
+                            <div>
+                                <div className={styles.waybill}>Плотность:</div>
+                                <div className={styles.inputlineDens}>
+                                    <input
+                                        className={styles.input}
+                                        id={field.id}
+                                        name='d'
+                                        value={formData[field.id]['d']}
+                                        type='text'
+                                        inputMode='numeric'
+                                        maxLength={5}
+                                        onChange={handleChangeDens}
+                                        onFocus={clearOnFocus}
+                                        onBlur={handleBlurD} />
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name='d'
+                                        tabIndex="-1"
+                                        value={formData[field.id]['d']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name='d'
+                                        tabIndex="-1"
+                                        value={formData[field.id]['d']} onClick={(e) => handleChangeDens(e, 0.001)}>+</button>
                                 </div>
+                                <div className={styles.waybill}>Температура:</div>
+                                <div className={styles.inputlineDens}>
+                                    <input
+                                        className={styles.input}
+                                        id={field.id}
+                                        name='t'
+                                        value={formData[field.id]['t']}
+                                        type='text'
+                                        inputMode='numeric'
+                                        min={-40}
+                                        max={40}
+                                        maxLength={2}
+                                        onFocus={clearOnFocus}
+                                        onChange={handleChangeTemp}
+                                        onBlur={handleBlurT} />
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name='t'
+                                        tabIndex="-1"
+                                        value={formData[field.id]['t']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name='t'
+                                        tabIndex="-1"
+                                        value={formData[field.id]['t']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                                </div>
+                            </div>
                         </div>
-                       
+
                     )
                 })}
-                
+
                 </div>
                 {(haveChanges && <Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)}
             </div>
-    
+
         )
     }
 
