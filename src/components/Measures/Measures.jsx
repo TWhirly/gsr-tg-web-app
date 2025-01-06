@@ -155,12 +155,13 @@ const Measures = () => {
                 if (field.repRem) {
                     const id = field.id
                     const value = field.repRem
-                    // console.log('id & value', id, value)
+                                        // console.log('id & value', id, value)
                     setFormData(prevData => ({
                         ...prevData,
                         [id]: {
                             ...prevData[id],
                             awaitH: calcAwaitH(id, value),
+                          
                         },
                     }));
                     setFormDataInputs(prevData => ({
@@ -168,6 +169,28 @@ const Measures = () => {
                         [id]: {
                             ...prevData[id],
                             awaitH: calcAwaitH(id, value),
+                           
+                        },
+                    }));
+                }
+                if (field.height) {
+                    const id = field.id
+                    const value = field.height
+                                        // console.log('id & value', id, value)
+                    setFormData(prevData => ({
+                        ...prevData,
+                        [id]: {
+                            ...prevData[id],
+                            vFact: calcVolume(id, value),
+                          
+                        },
+                    }));
+                    setFormDataInputs(prevData => ({
+                        ...prevData,
+                        [id]: {
+                            ...prevData[id],
+                            vFact: calcVolume(id, value),
+                           
                         },
                     }));
                 }
@@ -180,7 +203,8 @@ const Measures = () => {
     }, [densTempShow, toggleState])
 
     const calcVolume = (id, height) => {
-        let h = +height.replace(',','.')
+        console.log('hheigth ', height)
+        let h = +(height.toString().replace(',','.'))
         let tank = formData[id]['Tank'];
         let volume
         console.log('h is ', h, 'tank is ', tank, 'id is ', id)
