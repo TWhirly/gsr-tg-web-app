@@ -111,13 +111,13 @@
 
 .awaitH{
     margin-top: 0.3rem;
-    font-size: 1rem;
+    font-size: 0.7rem;
     margin-bottom: 0.3rem;
 }
 
 .awaitH.Overflow{
     margin-top: 0.3rem;
-    font-size: 1rem;
+    font-size: 0.7rem;
     margin-bottom: 0.3rem;
     color: red
 }
