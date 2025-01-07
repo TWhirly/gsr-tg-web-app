@@ -37,7 +37,7 @@ const NumField = ({fieldStyle, inputStyle, buttonStyle, id, name, max, val, onCh
             className={styles.input}
             id={id}
             name={name}
-            value={value.toString().replace('.', ',')}
+            value={value}
             max={max}
             type='text'
             inputMode='numeric'
@@ -51,12 +51,12 @@ const NumField = ({fieldStyle, inputStyle, buttonStyle, id, name, max, val, onCh
             id={id}
             name={name}
             tabIndex="-1"
-            value={value.toString().replace('.', ',')} onClick={(e) => handleStep(-incStep)}>&minus;</button>
+            value={value} onClick={(e) => handleStep(-incStep)}>&minus;</button>
         <button className={styles.button}
             id={id}
             name={name}
             tabIndex="-1"
-            value={value.toString().replace('.', ',')} onClick={(e) => handleStep(incStep)}>+</button>
+            value={value} onClick={(e) => handleStep(incStep)}>+</button>
     </div>)
 }
 
