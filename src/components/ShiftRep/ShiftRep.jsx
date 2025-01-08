@@ -288,18 +288,12 @@ const Measures = () => {
 
     return (
         <div className={styles.container}>
-            <Element name={"start"} className={styles.subheader} id={'start'}>Отчёт за смену, {(new Date((new Date).getTime() - (24 * 60 * 60 * 1000))).toLocaleDateString()} </Element>
-            <div className={styles.intakesContainer}>{fields.map((field) => {
+            <Element name={"start"} className={styles.subheader} id={'start'}>Отчёт за смену {(new Date((new Date).getTime() - (24 * 60 * 60 * 1000))).toLocaleDateString()} </Element>
+            <div >{fields.filter((field) => field.id != 'cashbox2').map((field) => {
                 return (
-                    <div className={styles.intakeBlock} key={field.id}>
-                        <div className={styles.intakeData}>
-
-
-                            <div className={styles.fueltype}>{field.tankFuel} </div>
-
-
-                        </div>
-                        <div className={styles.measuresData}>
+                    
+                        
+                        <div >
                             <div className={styles.hBefore}>{field.name}</div>
                             <div className={styles.inputline}>
                                 <input
@@ -312,7 +306,7 @@ const Measures = () => {
                                     min={0}
                                     maxLength={5}
                                     onChange={handleChangeTemp}
-                                    onFocus={clearOnFocus}
+                                    // onFocus={clearOnFocus}
                                     onBlur={handleBlurT} />
                                 <button
                                     className={styles.button}
@@ -328,7 +322,7 @@ const Measures = () => {
                                     value={formData[field.id]} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
                             </div>
                         </div>
-                    </div>
+                    
 
 
                 )

@@ -1,0 +1,297 @@
+.container {
+    background-color: var(--bgColor);
+    width: 100vx;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* overflow-y: scroll; */
+    
+
+}
+
+.subheader {
+    /* position: fixed; */
+    height: 1rem;
+    font-size: larger;
+    font-weight: bold;
+    text-align: center;
+    background: var(--bgColor);
+    z-index: 101;
+    margin-bottom: 1rem
+}
+
+.intakesContainer {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    margin-bottom: 30rem;
+   
+    
+
+}
+
+.intakeBlock {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.5rem;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background: var(--tg-theme-secondary-bg-color);
+    margin-bottom: 2.4rem;
+    margin-top: -1.4rem;
+    
+    height: calc(100% + 2.4rem);
+    /* overflow: hidden; */
+    
+}
+
+
+
+.fueltype {
+    text-align: center;
+    font-weight: bold;
+}
+
+.intakeData, .measuresData{
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+    border: 1px solid;
+    margin: 3px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.intakeDataHeader{
+    display: flex;
+    font-weight: bold;
+    justify-items: center;
+    font-size: 0.6rem;
+    margin-top: -0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2px;
+    padding-right: 2px;
+    opacity: 1;
+    width: fit-content;
+    background-color: var(--tg-theme-secondary-bg-color);
+    z-index: 100;
+}
+
+.tank,
+.driver,
+.plates,
+.sections,
+.waybill,
+.hBefore,
+.awaitH,
+.farmDataHeader {
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+.intakeHeader{
+    display: flex;
+    font-weight: bold;
+    justify-items: center;
+    font-size: 0.6rem;
+    margin-top: -0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2px;
+    padding-right: 2px;
+    opacity: 1;
+    width: fit-content;
+    background-color: var(--tg-theme-secondary-bg-color);
+    z-index: 100;
+}
+
+.awaitH{
+    margin-top: 0.3rem;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.awaitH.Overflow{
+    margin-top: 0.3rem;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: red
+}
+
+.inputline {
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 1.5rem;
+    font-size: 1rem;
+    width: calc(100% - 10px);
+    border: 1px solid;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+
+}
+
+.inputlineDens{
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    height: 1.5rem;
+    font-size: 1rem;
+    width: calc(100% - 10px);
+    border: 1px solid;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+
+.inputline:focus-within, .inputlineDens:focus-within {
+    outline: 1px solid;
+    color: #007bff;
+    .button {
+        background-color: var(--tg-theme-secondary-bg-color);
+        border: none;
+        display: flex;
+        width: 2rem;
+        height: 100%;
+        font-size: 1.7rem;
+        align-items: center;
+        justify-content: center;
+        color: #007bff;
+    }
+
+    .input {
+        background-color: var(--tg-theme-secondary-bg-color);
+        height: 100%;
+        width: calc(100% - 4rem);
+        border: none;
+        font-size: 1rem;
+        color: #007bff;
+        outline: none;
+    }
+}
+
+.inputlineFocused {
+    background-color: var(--bgColor);
+    height: 2rem;
+    width: 100%;
+    outline: 1px solid;
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+    color: #007bff;
+}
+
+
+.input {
+    background-color: var(--tg-theme-secondary-bg-color);
+    height: 100%;
+    width: calc(100% - 4rem);
+    border: none;
+    font-size: 1rem;
+
+}
+
+.inputFocused {
+    height: 100%;
+    width: calc(100% - 4rem);
+    border: none;
+    font-size: 2rem;
+    color: #007bff;
+    outline: none;
+    
+
+}
+
+
+.button {
+    background-color: var(--tg-theme-secondary-bg-color);
+    border: none;
+    display: flex;
+    width: 2rem;
+    height: 100%;
+    font-size: 1.7rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.buttonFocused {
+    background-color: var(--bgColor);
+    border: none;
+    display: flex;
+    width: 2rem;
+    height: 100%;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
+    color: #007bff;
+}
+
+.densTempBlock{
+    display: flex;
+    /* margin-left: 5px;
+    margin-right: 5px; */
+    flex-direction: column;
+    /* width: 100%; */
+    height: fit-content;
+    margin: 3px;
+    margin-top: -0.6rem;
+    /* padding: 5px; */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow: hidden;
+    border: 1px solid;
+   
+    
+}
+
+.densTempBlock.Hide{
+    display: none;
+    overflow: hidden;
+    border: none;
+    max-height: 0;
+    font-size: 0;
+}
+
+
+
+.DensTempDataHeader{
+    padding: 3px;
+    width: fit-content;
+    display: flex;
+    font-size: 0.7rem;
+    color: blue;
+    text-decoration: underline;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--tg-theme-secondary-bg-color);
+    z-index: 1000;
+    opacity: 1;
+}
+
+.submit {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 10px);
+    z-index: 1000;
+    bottom: 0;
+    margin-left: 5px;
+    margin-right: auto;
+    /* margin-bottom: 0; */
+    border-radius: 5px;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    color: var(--tg-theme-button-text-color);
+    height: 2.4rem;
+    background: var(--tg-theme-button-color);
+  
+  }
