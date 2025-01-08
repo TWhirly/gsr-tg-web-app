@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState, useLayoutEffect, useRef } from
 import styles from './ShiftRep.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
+import CircularProgress from '@mui/joy/CircularProgress';
+import Box from '@mui/joy/Box';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import { useLinkProps } from '@react-aria/utils';
@@ -31,7 +33,6 @@ const Measures = () => {
         const jVal = await response.json(); // Парсим тело ответа
         return jVal
     };
-
 
 
 
@@ -285,7 +286,7 @@ const Measures = () => {
     console.log('is changes exist', haveChanges)
     console.log('load from local? ', loadedFromLocal)
     // console.log('modiefed cal', cal)
-
+    if(formLoad){
     return (
         <div className={styles.container}>
             <Element name={"start"} className={styles.subheader} id={'start'}>Отчёт за смену {(new Date((new Date).getTime() - (24 * 60 * 60 * 1000))).toLocaleDateString()} </Element>
@@ -335,6 +336,14 @@ const Measures = () => {
 
 
     )
+}
+else{
+    return (
+        <Box className={styles.progress} >
+            <CircularProgress variant="plain" />
+        </Box>
+    )
+}
 
 
 

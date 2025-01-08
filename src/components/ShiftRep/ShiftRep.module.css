@@ -295,3 +295,10 @@
     background: var(--tg-theme-button-color);
   
   }
+
+  .progress{
+    display: flex;
+    justify-content: center;
+    margin-top: 45vh;
+    
+  }

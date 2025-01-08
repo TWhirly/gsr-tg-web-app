@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef, Component } from 'react';
 import styles from './shopOrders.module.css';
+import CircularProgress from '@mui/joy/CircularProgress';
+import Box from '@mui/joy/Box';
 import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
@@ -34,6 +36,7 @@ const ShopOrders = () => {
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [toggleState, setToggleState] = useState(false);
     const [toggleClear, setToggleClear] = useState(false);
+    const [formLoad, setFormLoad] = useState(false)
 
 
 
@@ -74,6 +77,7 @@ const ShopOrders = () => {
 
             setFormData(initialFormData);
             setRecievedFormData(initialFormData);
+            setFormLoad(true)
 
         };
 
@@ -108,10 +112,7 @@ const ShopOrders = () => {
     };
 
 
-    console.log('rec', formData)
-    // console.log('form ', formData[date][ca][nomenclature], 'type ', typeof(formData[date][ca][nomenclature]))
-    // console.log('keys ',Object.keys(formData['18.11.2024']['Юринат БТД']))
-    console.log(showAdditionalFields.get('29.11.2024Трейд'))
+    if(formLoad){
     return (
         <div className={styles.container} name='main'>
             {Object.keys(formData).map(date => (
@@ -171,6 +172,14 @@ const ShopOrders = () => {
             ))}
         </div>
     );
+}
+else{
+    return (
+        <Box className={styles.progress} >
+            <CircularProgress variant="plain" />
+        </Box>
+    )
+}
 
 }
 
