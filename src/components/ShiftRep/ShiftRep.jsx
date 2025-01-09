@@ -17,7 +17,7 @@ const APIURL = localUrl.APIURL;
 
 
 
-const Measures = () => {
+const ShiftRep = () => {
     // localStorage.removeItem('tempMeasuresData')
     const navigate = useNavigate();
     const myRef = useRef();
@@ -49,6 +49,8 @@ const Measures = () => {
     const [toggleState, setToggleState] = useState(false);
     const [isFieldsFilled, setfieldsFilled] = useState(false);
     const [loadedFromLocal, setLoadedFromLocal] = useState(true)
+    const [totFuel, setTotFuel] = useState('')
+    const [totFuelWord, setTotFuelWord] = useState('')
 
 
 
@@ -85,13 +87,22 @@ const Measures = () => {
             }
 
 
+            // fetchedFields.push({id: 'proceeds fuel', name: 'Выручка ГСМ:', category: 'Реализация топлива', cnt: ''})
+
             setFields(fetchedFields);
             console.log('fetched intake data is ', fetchedFields)
             const initialFormData = fetchedFields.reduce((acc, field) => {
-                acc[field.id] = '';
 
-                return acc;
+
+                Object.keys(field).map((key) => {
+                    if (!acc[field.id]) {
+                        acc[field.id] = {}
+                    }
+                    acc[field.id][key] = field[key]
+                })
+                return acc
             }, {});
+            initialFormData['proceeds fuel'] = { cnt: '' }
 
             setFormData(initialFormData);
             setRecievedFormData(initialFormData);
@@ -108,67 +119,49 @@ const Measures = () => {
 
     }, []);
 
+    useEffect(() => {
+        const total = Object.keys(formData).filter((key) => key.slice(0, -1) == 't').reduce((acc, item) => acc + +formData[item]['cnt'], 0)
+        console.log('ob keys', Object.keys(formData).filter((key) => key.slice(0, -1) == 't'))
+        const getTotWord = (total) => {
+            if (total % 10 === 1 && total % 100 !== 11) {
+                return 'литр';
+            } else if (total % 10 >= 2 && total % 10 <= 4 && (total % 100 < 12 || total % 100 > 14)) {
+                return 'литра';
+            } else {
+                return 'литров';
+            }
+        };
+        const getTotalMessage = (total) => {
 
-    const clearOnFocus = (e) => {
-        setRecievedFormData(prevData => ({
-            ...prevData,
-            [id]: {
-                ...prevData[id],
-                [key]: value,
-            },
-        }))
-        const id = e.target.id
-        const key = e.target.name
-        const value = e.target.value
-        if (key.substring(0, 1) == 'd') {
-            console.log('key is d started')
-            setFormData(prevData => ({
-                ...prevData,
-                [id]: {
-                    ...prevData[id],
-                    [key]: "0,",
-                },
-            }))
-            setFormDataInputs(prevData => ({
-                ...prevData,
-                [id]: {
-                    ...prevData[id],
-                    [key]: "0,",
-                },
-            }))
-        }
-        else {
-            setFormData(prevData => ({
-                ...prevData,
-                [id]: {
-                    ...prevData[id],
-                    [key]: "",
-                },
-            }))
-            setFormDataInputs(prevData => ({
-                ...prevData,
-                [id]: {
-                    ...prevData[id],
-                    [key]: "",
-                },
-            }))
-        }
-    }
+            const totWord = getTotWord(total);
+
+            return `Итого ${total.toLocaleString('ru')} ${totWord}`;
+
+        };
+        setTotFuel(getTotalMessage(total));
+    }, [formData])
 
 
 
-    const handleBlurT = (e) => {
+
+
+    const handleChangeTemp = (e, d) => {
+        console.log('onChange', e.target)
+        console.log(formData)
         const id = e.target.id
         const key = e.target.name
         const tValue = e.target.value
-        const oldValue = recievedFormData[id][key]
+        console.log('tValue is ', tValue)
         let value
-        if (tValue.length == 0) {
-            value = oldValue
+
+        if (d) {
+
+            value = +(+tValue + +d)
         }
         else {
 
             value = tValue
+
         }
 
         setFormData(prevData => ({
@@ -180,43 +173,6 @@ const Measures = () => {
         }))
 
 
-    }
-
-
-    const handleChangeTemp = (e, d) => {
-        // console.log('onChange', e.target)
-        // console.log(formData)
-        const id = e.target.id
-        const key = e.target.name
-        let tValue
-        if (key == 't') {
-            tValue = e.target.value.toString().replace(/[^\d-]/g, '').replace('.', '').replace(',', '')
-        }
-        else {
-
-            tValue = e.target.value.toString().replace(/[^\d]/g, '').replace('.', '').replace(',', '')
-        }
-        if (isNaN(tValue)) {
-            tValue = tValue.substring(0, tValue.length - 1)
-        }
-        var value
-        if (d) {
-
-            value = +(+tValue + +d)
-        }
-        else {
-
-            value = tValue
-
-        }
-       
-            setFormData(prevData => ({
-                ...prevData,
-                [id]: value,
-                
-            }))
-
-        
 
     };
 
@@ -236,33 +192,33 @@ const Measures = () => {
         })
     }, [formData, formDataInputs]);
 
-    useEffect(() => {
-        var loaded = []
-        var current = []
-        console.log('formData in check', formData)
-        console.log('formDataInputs in check', formDataInputs)
-        Object.keys(formData).forEach(key => {
-            Object.keys(formData[key]).forEach(key2 => {
-                if ((key2 == 'd' || key2 == 'height' || key2 == 't' || key2 == 'repRem') && formData[key][key2]) {
-                    current.push(formData[key][key2])
-                    loaded.push(formDataInputs[key][key2])
-                }
-            })
-        })
-        if (current.join(' ') !== loaded.join(' ')) {
-            const date = (new Date()).toLocaleDateString();
-            localStorage.setItem('tempMeasuresData', JSON.stringify({ ...formData, date: date }))
-            setIsChangesExist(true)
-            return
-        }
-        else {
-            setIsChangesExist(false)
-        }
-        if (loadedFromLocal) {
-            setIsChangesExist(true)
-        }
+    // useEffect(() => {
+    //     var loaded = []
+    //     var current = []
+    //     console.log('formData in check', formData)
+    //     console.log('formDataInputs in check', formDataInputs)
+    //     Object.keys(formData).forEach(key => {
+    //         Object.keys(formData[key]).forEach(key2 => {
+    //             if ((key2 == 'd' || key2 == 'height' || key2 == 't' || key2 == 'repRem') && formData[key][key2]) {
+    //                 current.push(formData[key][key2])
+    //                 loaded.push(formDataInputs[key][key2])
+    //             }
+    //         })
+    //     })
+    //     if (current.join(' ') !== loaded.join(' ')) {
+    //         const date = (new Date()).toLocaleDateString();
+    //         localStorage.setItem('tempMeasuresData', JSON.stringify({ ...formData, date: date }))
+    //         setIsChangesExist(true)
+    //         return
+    //     }
+    //     else {
+    //         setIsChangesExist(false)
+    //     }
+    //     if (loadedFromLocal) {
+    //         setIsChangesExist(true)
+    //     }
 
-    }, [formData, formDataInputs]);
+    // }, [formData, formDataInputs]);
 
     const handleSubmit = () => {
         console.log(formData)
@@ -282,72 +238,234 @@ const Measures = () => {
 
 
     }
+    const tetstlist = ['d1', 't2', 'y33']
+    const options = [
+        'Option 1',
+        'Option 2',
+        'Option 3',
+    ];
+
     console.log('render', formData);
+    console.log('fields', formData.operator1)
     console.log('is changes exist', haveChanges)
     console.log('load from local? ', loadedFromLocal)
     // console.log('modiefed cal', cal)
-    if(formLoad){
-    return (
-        <div className={styles.container}>
-            <Element name={"start"} className={styles.subheader} id={'start'}>Отчёт за смену {(new Date((new Date).getTime() - (24 * 60 * 60 * 1000))).toLocaleDateString()} </Element>
-            <div >{fields.filter((field) => field.id != 'cashbox2').map((field) => {
-                return (
-                    
-                        
-                        <div >
-                            <div className={styles.hBefore}>{field.name}</div>
-                            <div className={styles.inputline}>
-                                <input
-                                    className={styles.input}
-                                    id={field.id}
-                                    name={field}
-                                    value={formData[field.id]}
-                                    type='text'
-                                    inputMode='numeric'
-                                    min={0}
-                                    maxLength={5}
-                                    onChange={handleChangeTemp}
-                                    // onFocus={clearOnFocus}
-                                    onBlur={handleBlurT} />
-                                <button
-                                    className={styles.button}
-                                    id={field.id}
-                                    name={field}
-                                    tabIndex="-1"
-                                    value={formData[field.id]} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
-                                <button
-                                    className={styles.button}
-                                    id={field.id}
-                                    name={field}
-                                    tabIndex="-1"
-                                    value={formData[field.id]} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+    if (formLoad) {
+        return (
+            <div className={styles.container}>
+                <Element name={"start"} className={styles.subheader} id={'start'}>Отчёт за смену {(new Date((new Date).getTime() - (24 * 60 * 60 * 1000))).toLocaleDateString()} </Element>
+                <div className={styles.intakeData}
+                    name={'start'} >
+
+                    <div className={styles.intakeDataHeader}
+                        name={'header'}
+                    >Реализация ГСМ</div>
+
+                    {fields.filter((field) => field.category == 'Реализация топлива').map((field) => {
+
+
+                        return (
+                            <div>
+
+                                <div className={styles.hBefore}>{field.name}</div>
+                                <div className={styles.inputline}>
+                                    <input
+                                        className={styles.input}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        key={field.id}
+                                        value={formData[field.id]['cnt']}
+                                        type='text'
+                                        inputMode='numeric'
+                                        min={0}
+                                        maxLength={5}
+                                        onChange={handleChangeTemp}
+                                    />
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        tabIndex="-1"
+                                        value={formData[field.id]['cnt']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        tabIndex="-1"
+                                        value={formData[field.id]['cnt']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                                </div>
                             </div>
+                        )
+                    })}
+                    <div className={styles.awaitH}>{totFuel}</div>
+                    <div className={styles.hBefore}>Выручка ГСМ, ₽ </div>
+                    <div className={styles.inputline}>
+                        <input
+                            className={styles.input}
+                            id={'proceeds fuel'}
+                            name={'cnt'}
+                            value={formData['proceeds fuel']['cnt']}
+                            type='text'
+                            inputMode='numeric'
+                            min={0}
+                            onChange={handleChangeTemp}
+                        />
+                        <button
+                            className={styles.button}
+                            id={'proceeds fuel'}
+                            name={'cnt'}
+                            tabIndex="-1"
+                            value={formData['proceeds fuel']['cnt']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
+                        <button
+                            className={styles.button}
+                            id={'proceeds fuel'}
+                            name={'cnt'}
+                            tabIndex="-1"
+                            value={formData['proceeds fuel']['cnt']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                    </div>
+                </div>
+
+                <div className={styles.intakeData}
+                    name={'start'} >
+
+                    <div className={styles.intakeDataHeader}
+                        name={'header'}
+                    >Сопутствующие товары</div>
+
+                    {fields.filter((field) => field.category == 'Сопутствующие товары').map((field) => {
+
+
+                        return (
+                            <div>
+
+                                <div className={styles.hBefore}>{field.name}</div>
+                                <div className={styles.inputline}>
+                                    <input
+                                        className={styles.input}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        value={formData[field.id]['cnt']}
+                                        type='text'
+                                        inputMode='numeric'
+                                        min={0}
+                                        maxLength={5}
+                                        onChange={handleChangeTemp}
+                                    />
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        tabIndex="-1"
+                                        value={formData[field.id]['cnt']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        tabIndex="-1"
+                                        value={formData[field.id]['cnt']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+
+                <div className={styles.intakeData}
+                    name={'start'} >
+
+                    <div className={styles.intakeDataHeader}
+                        name={'header'}
+                    >Данные смены</div>
+
+                    {fields.filter((field) => field.id == 'cashbox1 sevices').map((field) => {
+
+
+                        return (
+                            <div>
+
+                                <div className={styles.hBefore}>{field.name}</div>
+                                <div className={styles.inputline}>
+                                    <input
+                                        className={styles.input}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        value={formData[field.id]['cnt']}
+                                        type='text'
+                                        inputMode='numeric'
+                                        min={0}
+                                        maxLength={5}
+                                        onChange={handleChangeTemp}
+                                    />
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        tabIndex="-1"
+                                        value={formData[field.id]['cnt']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
+                                    <button
+                                        className={styles.button}
+                                        id={field.id}
+                                        name={'cnt'}
+                                        tabIndex="-1"
+                                        value={formData[field.id]['cnt']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                                </div>
+                            </div>
+                        )
+                    })}
+
+
+                    <div>
+
+                        <div className={styles.hBefore}>Оператор 1</div>
+                        <div className={styles.inputline}>
+                            <select
+                                className={styles.input}
+                                id={'options'}
+                                name={'cnt'}
+                                value={formData['operator1']['cnt']}
+                                type='text'
+                                // list="tetstlist"
+                                list="options"
+                                // inputMode='search'
+                                onChange={handleChangeTemp}
+                            >
+                        
+                                {(formData['operator1']['list']).map((option, index) => (
+                              
+                                    <option key={formData['operator1']['list']} value={formData['operator1']['list']} />
+                                ))}
+                            
+                            </select>
+
                         </div>
-                    
+                    </div>
 
 
-                )
-            })}
+                </div>
 
 
+
+
+
+
+
+
+                {(isFieldsFilled && haveChanges && <Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)}
             </div>
-            {(isFieldsFilled && haveChanges && <Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)}
-        </div>
 
 
-    )
-}
-else{
-    return (
-        <Box className={styles.progress} >
-            <CircularProgress variant="plain" />
-        </Box>
-    )
-}
+        )
+    }
+    else {
+        return (
+            <Box className={styles.progress} >
+                <CircularProgress variant="plain" />
+            </Box>
+        )
+    }
 
 
 
 
 };
 
-export default Measures;
+export default ShiftRep;
