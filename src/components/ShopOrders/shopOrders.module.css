@@ -25,9 +25,15 @@
 
 .manager {
     font-size: 0.5rem;
+    margin-left: 2px;
 }
 
 .nomenclatureBlock {
+    border-top: 1px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    margin-left: 2px;
+    margin-right: 2px;
     height: fit-content;
     font-size: 1rem;
     opacity: 1;
@@ -38,8 +44,9 @@
 .nomenclatureRow {
     font-size: 0.7rem;
     display: flex;
+    box-sizing: border-box;
     width: 100%;
-    border: 1px solid;
+    border-bottom: 1px solid;
     --row-height: 100%;
     height: var(--row-height);
 }
@@ -77,6 +84,10 @@
     color: blue;
     text-decoration: underline;
     justify-content: right;
+    margin-top: 3px;
+    z-index: 1000;
+    overflow: hidden;
+    outline: 2px solid var(--tg-theme-secondary-bg-color);
 }
 
 .progress{

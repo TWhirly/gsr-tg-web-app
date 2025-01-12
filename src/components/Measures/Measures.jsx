@@ -514,6 +514,9 @@ const Measures = () => {
         if (tValue.length == 2 && tValue.substring(0, 2) != '0,') {
             tValue = '0,' + tValue.substring(2, 1)
         }
+        if (tValue.length >= 3 && tValue.substring(0, 2) != '0,') {
+            tValue = '0,'
+        }
 
         if (d) {
             // console.log('parse', tValue.replace(',', '.'))

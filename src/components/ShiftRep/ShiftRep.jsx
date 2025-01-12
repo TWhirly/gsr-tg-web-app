@@ -51,6 +51,7 @@ const ShiftRep = () => {
     const [loadedFromLocal, setLoadedFromLocal] = useState(true)
     const [totFuel, setTotFuel] = useState('')
     const [totFuelWord, setTotFuelWord] = useState('')
+    const overdue = useState((new Date).getHours() > 14)
 
 
 
@@ -89,13 +90,13 @@ const ShiftRep = () => {
                         if (!acc[field.id]) {
                             acc[field.id] = {}
                         }
-                       
-                            acc[field.id][key] = field[key]
-                        
+
+                        acc[field.id][key] = field[key]
+
                     })
                     return acc
                 }, {});
-                
+
             }
             else {
                 fetchedFields = await fetchFormFields();
@@ -121,15 +122,15 @@ const ShiftRep = () => {
                     })
                     return acc
                 }, {});
-                
+
 
             }
 
 
 
-            
+
             console.log('fetched intake data is ', fetchedFields)
-            
+
 
             setFormData(initialFormData);
             setRecievedFormData(initialFormData);
@@ -191,7 +192,7 @@ const ShiftRep = () => {
         console.log(formData)
         const id = e.target.id
         const key = e.target.name
-        const tValue = (e.target.value).replace(/[^0-9]/g, '')
+        const tValue = +(e.target.value).replace(/[^0-9]/g, '')
         console.log('tValue is ', tValue)
         let value
         if (d) {
@@ -207,27 +208,27 @@ const ShiftRep = () => {
                 [key]: value,
             },
         }))
-       
+
     };
 
 
 
     useEffect(() => {
-        
+
         setfieldsFilled(() => {
             const date = (new Date()).toLocaleDateString();
             localStorage.setItem('tempShiftData', JSON.stringify({ ...formData, date: date }))
             for (let key of Object.keys(formData).filter(key => key != 'cashbox1 sevices' &&
-                key != 'cashbox2 sevices' && key != 'operator1' && key != 'operator2'
+                key != 'cashbox2 services' && key != 'operator1' && key != 'operator2'
             )) {
-                if (formData[key].cnt == ''
-                ) {
+                if (isNaN(formData[key].cnt) || formData[key].cnt == null) {
+                    console.log('stopped on ', formData[key].name)
                     return false
                 }
             }
             return true
         })
-        
+
     }, [formData, formDataInputs]);
 
     const handleSubmit = () => {
@@ -257,7 +258,15 @@ const ShiftRep = () => {
     console.log('render', formData);
     console.log('is changes exist', isFieldsFilled)
     console.log('load from local? ', loadedFromLocal)
+    console.log('overdue', overdue[0])
     // console.log('modiefed cal', cal)
+    if(!overdue[0]){
+        return (
+            <div className={styles.overdue}>
+                {`Для отправки отчёта за ${(new Date).toLocaleDateString()} дождитесь наступления новых суток`}
+            </div>
+        )
+    }
     if (formLoad) {
         return (
             <div className={styles.container}>
@@ -272,7 +281,7 @@ const ShiftRep = () => {
                         >Реализация ГСМ</div>
 
 
-                        {fields.filter((field) => field.category == 'Реализация топлива' && field.id.substring(0,1) == 't').map((field) => {
+                        {fields.filter((field) => field.category == 'Реализация топлива' && field.id.substring(0, 1) == 't').map((field) => {
                             return (
 
                                 <>
@@ -442,7 +451,7 @@ const ShiftRep = () => {
                             )
                         })}
 
-                        {fields.filter((field) => field.id == 'cashbox2 sevices').map((field) => {
+                        {fields.filter((field) => field.id == 'cashbox2 services').map((field) => {
                             return (
                                 <div>
                                     <div className={styles.hBefore}>{field.name}</div>
