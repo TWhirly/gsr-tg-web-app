@@ -18,6 +18,7 @@ const APIURL = localUrl.APIURL;
 
 
 const ShiftRep = () => {
+    localStorage.removeItem('tempShiftData')
     const navigate = useNavigate();
     const myRef = useRef();
 
