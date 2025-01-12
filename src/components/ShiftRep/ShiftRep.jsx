@@ -10,7 +10,6 @@ import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import { Element, Events, animateScroll as scroll, Link } from 'react-scroll';
-import { default as ReactSelect, components } from "react-select";
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
