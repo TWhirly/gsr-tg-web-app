@@ -12,7 +12,7 @@
 }
 
 .subheader {
-    /* position: fixed; */
+    display: flex;
     height: 1rem;
     font-size: larger;
     font-weight: bold;
