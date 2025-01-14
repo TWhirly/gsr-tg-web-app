@@ -270,7 +270,7 @@ const ShiftRep = () => {
     if (formLoad) {
         return (
             <div className={styles.container}>
-                <div name={"start"} className={styles.subheader} id={'start'}>Отчёт за смену {(new Date((new Date).getTime() - (24 * 60 * 60 * 1000))).toLocaleDateString()} </div>
+                <Element name={"start"} className={styles.subheader} id={'start'}>Отчёт за смену {(new Date((new Date).getTime() - (24 * 60 * 60 * 1000))).toLocaleDateString()} </Element>
                 <div className={styles.dataBlock}>
                     <div className={styles.intakeData}
                         name={'start'} >
