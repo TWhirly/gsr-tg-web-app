@@ -122,29 +122,15 @@ const ShiftRep = () => {
                     })
                     return acc
                 }, {});
-
-
             }
-
-
-
-
             console.log('fetched intake data is ', fetchedFields)
-
-
             setFormData(initialFormData);
             setRecievedFormData(initialFormData);
             setFormDataInputs(initialFormData)
             setFields(fetchedFields);
             setFormLoad(true);
-
-
         };
-
         loadFields();
-
-
-
     }, []);
 
     useEffect(() => {
@@ -160,11 +146,8 @@ const ShiftRep = () => {
             }
         };
         const getTotalMessage = (total) => {
-
             const totWord = getTotWord(total);
-
             return `Итого ${total.toLocaleString('ru')} ${totWord}`;
-
         };
         setTotFuel(getTotalMessage(total));
     }, [formData])
@@ -182,7 +165,6 @@ const ShiftRep = () => {
                 [key]: value,
             },
         }))
-
     }
 
 
@@ -208,7 +190,6 @@ const ShiftRep = () => {
                 [key]: value,
             },
         }))
-
     };
 
 
@@ -221,7 +202,7 @@ const ShiftRep = () => {
             for (let key of Object.keys(formData).filter(key => key != 'cashbox1 sevices' &&
                 key != 'cashbox2 services' && key != 'operator1' && key != 'operator2'
             )) {
-                if (isNaN(formData[key].cnt) || formData[key].cnt == null) {
+                if (formData[key].cnt === '') {
                     console.log('stopped on ', formData[key].name)
                     return false
                 }
@@ -260,7 +241,7 @@ const ShiftRep = () => {
     console.log('load from local? ', loadedFromLocal)
     console.log('overdue', overdue[0])
     // console.log('modiefed cal', cal)
-    if(!overdue[0]){
+    if(overdue[0]){
         return (
             <div className={styles.overdue}>
                 {`Для отправки отчёта за ${(new Date).toLocaleDateString()} дождитесь наступления новых суток`}
