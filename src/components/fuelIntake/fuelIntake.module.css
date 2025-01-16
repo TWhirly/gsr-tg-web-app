@@ -150,30 +150,37 @@
 
 }
 
-.inputline:focus-within, .inputlineDens:focus-within {
-    outline: 1px solid;
-    color: #007bff;
-    .button {
-        background-color: var(--tg-theme-secondary-bg-color);
-        border: none;
-        display: flex;
-        width: 2rem;
-        height: 100%;
-        font-size: 1.7rem;
-        align-items: center;
-        justify-content: center;
-        color: #007bff;
-    }
 
-    .input {
-        background-color: var(--tg-theme-secondary-bg-color);
-        height: 100%;
-        width: calc(100% - 4rem);
-        border: none;
-        font-size: 1rem;
-        color: #007bff;
-        outline: none;
-    }
+
+.inputline:focus-within .input,
+.inputlineDens:focus-within .input {
+    background-color: var(--tg-theme-secondary-bg-color);
+    height: 100%;
+    width: calc(100% - 4rem);
+    border: none;
+    font-size: 1rem;
+    color: #007bff;
+    outline: none;
+}
+
+.inputline:focus-within .button,
+.inputlineDens:focus-within .button {
+    background-color: var(--tg-theme-secondary-bg-color);
+    border: none;
+    display: flex;
+    width: 2rem;
+    /* height: 100%; */
+    font-size: 1.3em;
+    align-items: center;
+    justify-content: center;
+    color: #007bff;
+    margin-right: 0;
+    padding: 0;
+    padding-inline: 0px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
 }
 
 .inputlineFocused {
@@ -190,8 +197,10 @@
 
 
 .input {
+    display: flex;
     background-color: var(--tg-theme-secondary-bg-color);
     height: 100%;
+    padding: 0%;
     width: calc(100% - 4rem);
     border: none;
     font-size: 1rem;
@@ -216,9 +225,14 @@
     display: flex;
     width: 2rem;
     height: 100%;
-    font-size: 1.7rem;
-    align-items: center;
+    font-size: 1.3em;
+    margin-right: 0;
+    padding: 0;
+    padding-inline: 0px;
     justify-content: center;
+    align-items: center;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
 }
 
 .buttonFocused {

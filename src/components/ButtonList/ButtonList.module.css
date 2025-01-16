@@ -13,7 +13,7 @@
 }
 
 .plan {
-    display: block;
+    display: flex;
     font-weight: bold;
     top: 30px;
     margin-bottom: 10px;
@@ -21,7 +21,8 @@
     margin-right: 1px;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    white-space: break-spaces;
+    white-space: pre-line;
+    /* text-indent: 5em hanging each-line; */
     color: var(--tg-theme-section-header-text-color);
     text-align: left;
     justify-content: center;
@@ -32,6 +33,13 @@
     border-radius: 5px;
     border-color: var(--tg-theme-button-color);
     z-index: 0;
+}
+
+.planText{
+    /* color: black; */
+    margin-left: 0%;
+    text-indent: 1px each-line;
+    /* white-space: pre-line; */
 }
 
 .item {

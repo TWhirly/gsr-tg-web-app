@@ -16,7 +16,7 @@ const APIURL = localUrl.APIURL;
 
 
 const Measures = () => {
-    // localStorage.removeItem('tempMeasuresData')
+    localStorage.removeItem('tempMeasuresData')
     const navigate = useNavigate();
     const myRef = useRef();
 

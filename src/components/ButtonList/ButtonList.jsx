@@ -55,6 +55,7 @@ const ButtonList = () => {
             if (response.ok) {
                 console.log('resp ok')
                 const plan = await response.json()
+                console.log(plan)
                 setPlanData(plan);
             }
             else {
@@ -134,7 +135,9 @@ const ButtonList = () => {
     return (
         <div className={'list'} >
             {sentVisible && <h2 className={styles.sent}>{'Отправлено'}</h2>}
+            
             {(Plandata && <div className={styles.plan}>{Plandata}</div>)}
+           
             {data.map(item => (<button className={styles.btn} onClick={(v) => handleClick(item.action)}  >  {item.action} </button>))}
         </div>
     );
