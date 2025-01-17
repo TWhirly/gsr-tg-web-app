@@ -27,7 +27,7 @@ const ButtonList = () => {
             if (response.ok) {
                 const jVal = await response.json(); // Парсим тело ответа
                 setData(jVal);
-                console.log(jVal)
+                console.log('jj', jVal)
             }
             else {
                 console.error('Promise resolved but HTTP status failed')
@@ -128,6 +128,9 @@ const ButtonList = () => {
 
 
     const handleClick = (path) => {
+        if(path == 'КФК'){
+            localStorage.clear()
+        }
         navigate(routes[path]);
     }
 
@@ -138,7 +141,7 @@ const ButtonList = () => {
             
             {(Plandata && <div className={styles.plan}>{Plandata}</div>)}
            
-            {data.map(item => (<button className={styles.btn} onClick={(v) => handleClick(item.action)}  >  {item.action} </button>))}
+            {data.map(item => (<button className={styles.btn} onClick={(v) => handleClick(item.menuRoute)}  >  {item.action} </button>))}
         </div>
     );
 }

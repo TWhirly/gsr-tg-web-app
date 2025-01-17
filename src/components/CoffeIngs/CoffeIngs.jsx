@@ -4,6 +4,7 @@ import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
+const { stationId } = useContext(DataContext);
 
 
 const APIURL = localUrl.APIURL;
@@ -11,7 +12,7 @@ const APIURL = localUrl.APIURL;
 
 
 const CoffeIngs = () => {
-    localStorage.removeItem('tempHotDogFormData');
+    // localStorage.removeItem('tempHotDogFormData');
     const navigate = useNavigate();
 
     const fetchFormFields = async () => {
@@ -41,15 +42,14 @@ const CoffeIngs = () => {
     
 
     useEffect(() => {
-        localStorage.removeItem('CoffeIngsData')
-        const storedData = localStorage.getItem('CoffeIngsData');
+        const storedData = localStorage.getItem(stationId[0][0].ID+'CoffeIngsData');
         // if (storedData && storedData.date == (new Date()).toLocaleDateString()) {
         if (storedData) {
 
             console.log('local stored data', JSON.parse(storedData));
             const storedDataObj = JSON.parse(storedData);
             if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                localStorage.removeItem('CoffeIngsData');
+                localStorage.removeItem(stationId[0][0].ID+'CoffeIngsData');
                 return
             }
             delete storedDataObj.date
@@ -111,7 +111,7 @@ const CoffeIngs = () => {
         console.log('rec2', recievedFormData)
         recievedFormData[cat][field]['amt'] = v;
         const date = (new Date()).toLocaleDateString();
-        localStorage.setItem('CoffeIngsData', JSON.stringify({ ...recievedFormData, date: date }))
+        localStorage.setItem(stationId[0][0].ID+'CoffeIngsData', JSON.stringify({ ...recievedFormData, date: date }))
     };
 
     const clearOnFocus = (e) => {
@@ -138,7 +138,7 @@ const CoffeIngs = () => {
             },
             body: JSON.stringify({ ...recievedFormData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
         })
-        localStorage.removeItem('CoffeIngsData')
+        localStorage.removeItem(stationId[0][0].ID+'CoffeIngsData')
         navigate('/', {
             replace: true,
             state: { sent: true }

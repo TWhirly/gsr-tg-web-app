@@ -16,6 +16,7 @@ import FuelIntake from './components/fuelIntake/FuelIntake.jsx';
 import FormComponent from './components/ResForm/form_try';
 import ShiftRep from './components/ShiftRep/ShiftRep.jsx';
 import Measures from './components/Measures/Measures.jsx'
+import { DataProvider } from './DataContext';
 
 function App() {
     // eslint-disable-next-line no-unused-vars
@@ -45,6 +46,7 @@ function App() {
     
 
     return (
+        <DataProvider>
         <div className={App}>
             <Header />
             <Routes>
@@ -61,6 +63,7 @@ function App() {
                 <Route path="/Measures" element={<Measures />} />
             </Routes>
         </div>
+        </DataProvider>
     );
 }
 

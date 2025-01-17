@@ -12,6 +12,7 @@ import { useTelegram } from "../../hooks/useTelegram.js";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import IntField from '../InputFields/NumField.jsx';
 import NumField from '../InputFields/NumField.jsx';
+import { DataContext } from '../../DataContext';
 
 
 const APIURL = localUrl.APIURL;
@@ -19,7 +20,7 @@ const APIURL = localUrl.APIURL;
 
 
 const CafeRems = () => {
-    // localStorage.removeItem('tempFormData')
+    // localStorage.removeItem(stationId[0][0].ID+'tempCafeData')
     const navigate = useNavigate();
 
     const fetchFormFields = async () => {
@@ -55,14 +56,14 @@ const CafeRems = () => {
     ]
 
     useEffect(() => {
-        const storedData = localStorage.getItem('tempFormData');
+        const storedData = localStorage.getItem(stationId[0][0].ID+stationId[0][0].ID+'tempCafeData');
         // if (storedData && storedData.date == (new Date()).toLocaleDateString()) {
         if (storedData) {
 
             console.log('local stored data', JSON.parse(storedData));
             const storedDataObj = JSON.parse(storedData);
             if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                localStorage.removeItem('tempFormData');
+                localStorage.removeItem(stationId[0][0].ID+'tempCafeData');
                 return
             }
             delete storedDataObj.date
@@ -128,7 +129,7 @@ const CafeRems = () => {
         }));
         recievedFormData[id][field] = value;
         const date = (new Date()).toLocaleDateString();
-        localStorage.setItem('tempFormData', JSON.stringify({ ...recievedFormData, date: date }))
+        localStorage.setItem(stationId[0][0].ID+'tempCafeData', JSON.stringify({ ...recievedFormData, date: date }))
     };
 
     useEffect(() => {
@@ -147,7 +148,7 @@ const CafeRems = () => {
             }
         })
         const date = (new Date()).toLocaleDateString();
-        localStorage.setItem('tempFormData', JSON.stringify({ ...recievedFormData, date: date }))
+        localStorage.setItem(stationId[0][0].ID+'tempCafeData', JSON.stringify({ ...recievedFormData, date: date }))
     }
 
     // const clearOnFocus = (v, id, field) => {
@@ -229,7 +230,7 @@ const CafeRems = () => {
             },
             body: JSON.stringify({ ...recievedFormData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
         })
-        localStorage.removeItem('tempFormData')
+        localStorage.removeItem(stationId[0][0].ID+'tempCafeData')
         navigate('/', {
             replace: true,
             state: { sent: true }

@@ -8,6 +8,8 @@ import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import {  Element, Events, animateScroll as scroll, Link  } from 'react-scroll';
+const { stationId } = useContext(DataContext);
+
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
@@ -64,12 +66,12 @@ const FuelIntake = () => {
 
         const loadFields = async () => {
             let fetchedFields
-            const storedData = localStorage.getItem('tempIntakeData');
+            const storedData = localStorage.getItem(stationId[0][0].ID+stationId[0][0].ID+'tempIntakeData');
             
             if(storedData){
                 const storedDataObj = JSON.parse(storedData);
                 if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                    localStorage.removeItem('tempIntakeData');
+                    localStorage.removeItem(stationId[0][0].ID+'tempIntakeData');
                     return
                 }
                 delete storedDataObj.date
@@ -474,7 +476,7 @@ const FuelIntake = () => {
         })
         if(current.join(' ') !== loaded.join(' ')){
         const date = (new Date()).toLocaleDateString();
-        localStorage.setItem('tempIntakeData', JSON.stringify({ ...formData, date: date }))
+        localStorage.setItem(stationId[0][0].ID+'tempIntakeData', JSON.stringify({ ...formData, date: date }))
         setIsChangesExist(true)
         }
     }
@@ -491,7 +493,7 @@ const FuelIntake = () => {
             },
             body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData })
         })
-        localStorage.removeItem('tempIntakeData')
+        localStorage.removeItem(stationId[0][0].ID+'tempIntakeData')
         navigate('/', {
             replace: true,
             state: { sent: true }

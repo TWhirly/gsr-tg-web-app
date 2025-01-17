@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useContext } from 'react';
 import styles from './ResForm.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
@@ -7,6 +7,7 @@ import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, Tab
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
+import { DataContext } from '../../DataContext';
 
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
@@ -29,6 +30,7 @@ const ResForm = () => {
         return jVal
     };
 
+    const { stationId, loading, error } = useContext(DataContext);
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState({});
     const [formDataInputs, setFormDataInputs] = useState({});
@@ -102,6 +104,7 @@ const ResForm = () => {
     }
 
     console.log('render');
+    console.log('init', stationId[0])
     
     return(
         <div className={styles.container}>

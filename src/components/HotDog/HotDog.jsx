@@ -4,6 +4,8 @@ import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
+const { stationId } = useContext(DataContext);
+
 
 
 const APIURL = localUrl.APIURL;
@@ -11,7 +13,7 @@ const APIURL = localUrl.APIURL;
 
 
 const HotDog = () => {
-    localStorage.removeItem('tempHotDogFormData');
+    // localStorage.removeItem(stationId[0][0].ID+'tempHotDogFormData');
     const navigate = useNavigate();
 
     const fetchFormFields = async () => {
@@ -41,14 +43,14 @@ const HotDog = () => {
     
 
     useEffect(() => {
-        const storedData = localStorage.getItem('tempHotDogFormData');
+        const storedData = localStorage.getItem(stationId[0][0].ID+'tempHotDogFormData');
         // if (storedData && storedData.date == (new Date()).toLocaleDateString()) {
         if (storedData) {
 
             console.log('local stored data', JSON.parse(storedData));
             const storedDataObj = JSON.parse(storedData);
             if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                localStorage.removeItem('tempHotDogFormData');
+                localStorage.removeItem(stationId[0][0].ID+'tempHotDogFormData');
                 return
             }
             delete storedDataObj.date
@@ -105,7 +107,7 @@ const HotDog = () => {
         }));
         recievedFormData[id] = value;
         const date = (new Date()).toLocaleDateString();
-        localStorage.setItem('tempHotDogFormData', JSON.stringify({ ...recievedFormData, date: date }))
+        localStorage.setItem(stationId[0][0].ID+'tempHotDogFormData', JSON.stringify({ ...recievedFormData, date: date }))
     };
 
     const clearOnFocus = (e) => {
@@ -132,7 +134,7 @@ const HotDog = () => {
             },
             body: JSON.stringify({ ...recievedFormData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
         })
-        localStorage.removeItem('tempHotDogFormData')
+        localStorage.removeItem(stationId[0][0].ID+'tempHotDogFormData')
         navigate('/', {
             replace: true,
             state: { sent: true }

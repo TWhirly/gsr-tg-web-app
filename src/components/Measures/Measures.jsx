@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useLayoutEffect, useRef, useContext } from 'react';
 import styles from './Measures.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
@@ -8,6 +8,9 @@ import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import { Element, Events, animateScroll as scroll, Link } from 'react-scroll';
+import { DataContext } from '../../DataContext';
+
+
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
@@ -58,25 +61,27 @@ const Measures = () => {
     const [toggleState, setToggleState] = useState(false);
     const [isFieldsFilled, setfieldsFilled] = useState(false);
     const [loadedFromLocal, setLoadedFromLocal] = useState(true)
+    const { stationId } = useContext(DataContext);
 
 
 
     useEffect(() => {
 
-
+        
+        console.log(localStorage)
 
         const loadFields = async () => {
             let fetchedFields
-            const storedData = localStorage.getItem('tempMeasuresData');
+            const storedData = localStorage.getItem(stationId[0][0].ID+'tempMeasuresData');
 
 
 
             if (storedData) {
                 setLoadedFromLocal(true)
                 const storedDataObj = JSON.parse(storedData);
-                console.log('stored', storedDataObj)
+                // console.log('stored', storedDataObj)
                 if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                    localStorage.removeItem('tempMeasuresData');
+                    localStorage.removeItem(stationId[0][0].ID+'tempMeasuresData');
                     return
                 }
                 delete storedDataObj.date
@@ -86,7 +91,7 @@ const Measures = () => {
                     fetchedFields.push(storedDataObj[key])
                 })
                 setIsChangesExist(true)
-                console.log('fetched from stored', fetchedFields)
+                // console.log('fetched from stored', fetchedFields)
             }
             else {
                 fetchedFields = await fetchFormFields();
@@ -95,7 +100,7 @@ const Measures = () => {
 
 
             setFields(fetchedFields);
-            console.log('fetched intake data is ', fetchedFields)
+            // console.log('fetched intake data is ', fetchedFields)
             const initialFormData = fetchedFields.reduce((acc, field) => {
                 densTempShow.set(field.id, false)
                 Object.keys(field).map((key) => {
@@ -211,13 +216,13 @@ const Measures = () => {
     }, [densTempShow, toggleState])
 
     const calcVolume = (id, height) => {
-        console.log('hheigth ', height)
+        // console.log('hheigth ', height)
         let h = +(height.toString().replace(',', '.'))
         let tank = formData[id]['Tank'];
         let volume
-        console.log('h is ', h, 'tank is ', tank, 'id is ', id)
+        // console.log('h is ', h, 'tank is ', tank, 'id is ', id)
         if (+h > 1) {
-            console.log(cal[tank][Math.trunc(h)])
+            // console.log(cal[tank][Math.trunc(h)])
             volume = (cal[tank][Math.trunc(h)] -
                 (cal[tank][Math.trunc(h) - 1] ? cal[tank][Math.trunc(h) - 1] : cal[tank][Math.trunc(h)]))
                 * (h - Math.trunc(h)) +
@@ -230,7 +235,7 @@ const Measures = () => {
     }
 
     const calcAwaitH = (id, repRem) => {
-        console.log('calc')
+        // console.log('calc')
         let volume
         let height
         let cap = +formData[id]['yesterday_capitalization']
@@ -239,9 +244,9 @@ const Measures = () => {
 
 
         // cal[tank][Math.trunc(h) - 1]
-        console.log('imbalance is ', imbalance, 'cap is ', cap, 'tank is ', tank, 'repRem is ', repRem)
+        // console.log('imbalance is ', imbalance, 'cap is ', cap, 'tank is ', tank, 'repRem is ', repRem)
         const awaitVol = +repRem - +cap + +imbalance
-        console.log('max V is ', Math.max(...Object.values(cal[tank])))
+        // console.log('max V is ', Math.max(...Object.values(cal[tank])))
         if (awaitVol < Math.max(...Object.values(cal[tank]))) {
             for (let i = 0; i < Object.entries(cal[tank]).length; ++i) {
                 if (cal[tank][i] > awaitVol) {
@@ -249,7 +254,7 @@ const Measures = () => {
                     break
                 }
             }
-            console.log('calculated height is ', height)
+            // console.log('calculated height is ', height)
             return ((Math.ceil((((awaitVol - height[0][1]) / ((height[1][1] - height[0][1]))) + +height[0][0]) * 10)) / 10)
         }
 
@@ -272,7 +277,7 @@ const Measures = () => {
         const key = e.target.name
         const value = e.target.value
         if (key.substring(0, 1) == 'd') {
-            console.log('key is d started')
+            // console.log('key is d started')
             setFormData(prevData => ({
                 ...prevData,
                 [id]: {
@@ -311,7 +316,7 @@ const Measures = () => {
         const key = e.target.name
         const tValue = e.target.value
         const oldValue = recievedFormData[id][key]
-        console.log('old dens ', oldValue)
+        // console.log('old dens ', oldValue)
         let value
         if (tValue.length == 2) {
             value = oldValue
@@ -397,7 +402,7 @@ const Measures = () => {
 
 
     const handleChange = (e, d) => {
-        console.log('onChange', e.target)
+        // console.log('onChange', e.target)
         // console.log(formData)
         const id = e.target.id
         const key = e.target.name
@@ -560,8 +565,8 @@ const Measures = () => {
     useEffect(() => {
         var loaded = []
         var current = []
-        console.log('formData in check', formData)
-        console.log('formDataInputs in check', formDataInputs)
+        // console.log('formData in check', formData)
+        // console.log('formDataInputs in check', formDataInputs)
         Object.keys(formData).forEach(key => {
             Object.keys(formData[key]).forEach(key2 => {
                 if ((key2 == 'd' || key2 == 'height' || key2 == 't' || key2 == 'repRem') && formData[key][key2]) {
@@ -572,7 +577,7 @@ const Measures = () => {
         })
         if (current.join(' ') !== loaded.join(' ')) {
             const date = (new Date()).toLocaleDateString();
-            localStorage.setItem('tempMeasuresData', JSON.stringify({ ...formData, date: date }))
+            localStorage.setItem(stationId[0][0].ID+'tempMeasuresData', JSON.stringify({ ...formData, date: date }))
             setIsChangesExist(true)
             return
         }
@@ -595,7 +600,7 @@ const Measures = () => {
             },
             body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData })
         })
-        localStorage.removeItem('tempMeasuresData')
+        localStorage.removeItem(stationId[0][0].ID+'tempMeasuresData')
         navigate('/', {
             replace: true,
             state: { sent: true }
@@ -606,6 +611,7 @@ const Measures = () => {
     console.log('render', formData);
     console.log('is changes exist', haveChanges)
     console.log('load from local? ', loadedFromLocal)
+    console.log('station ID', stationId[0][0].ID)
     // console.log('modiefed cal', cal)
 
     if (calibLoad && formLoad) {

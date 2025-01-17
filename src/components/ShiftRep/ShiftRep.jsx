@@ -10,6 +10,7 @@ import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import { Element, Events, animateScroll as scroll, Link } from 'react-scroll';
+const { stationId } = useContext(DataContext);
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
@@ -18,7 +19,7 @@ const APIURL = localUrl.APIURL;
 
 
 const ShiftRep = () => {
-    localStorage.removeItem('tempShiftData')
+    // localStorage.removeItem('tempShiftData')
     const navigate = useNavigate();
     const myRef = useRef();
 
@@ -62,7 +63,7 @@ const ShiftRep = () => {
         const loadFields = async () => {
             let fetchedFields
             let initialFormData
-            const storedData = localStorage.getItem('tempShiftData');
+            const storedData = localStorage.getItem(stationId[0][0].ID+'tempShiftData');
 
 
 
@@ -198,7 +199,7 @@ const ShiftRep = () => {
 
         setfieldsFilled(() => {
             const date = (new Date()).toLocaleDateString();
-            localStorage.setItem('tempShiftData', JSON.stringify({ ...formData, date: date }))
+            localStorage.setItem(stationId[0][0].ID+'tempShiftData', JSON.stringify({ ...formData, date: date }))
             for (let key of Object.keys(formData).filter(key => key != 'cashbox1 sevices' &&
                 key != 'cashbox2 services' && key != 'operator1' && key != 'operator2'
             )) {
@@ -226,7 +227,7 @@ const ShiftRep = () => {
             },
             body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData, date: updDate })
         })
-        localStorage.removeItem('tempShiftData')
+        localStorage.removeItem(stationId[0][0].ID+'tempShiftData')
         navigate('/', {
             replace: true,
             state: { sent: true }
