@@ -19,7 +19,6 @@ const APIURL = localUrl.APIURL;
 
 
 const Measures = () => {
-    localStorage.removeItem('tempMeasuresData')
     const navigate = useNavigate();
     const myRef = useRef();
 
@@ -676,7 +675,7 @@ const Measures = () => {
                                         value={formData[field.id]['height']}
                                         max={cal[field.Tank]['maxH']}
                                         type='text'
-                                        inputMode='numeric'
+                                        inputMode='decimal'
                                         min={0}
                                         onChange={handleChange}
                                         maxLength={5}

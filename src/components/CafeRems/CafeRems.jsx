@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef, Component } from 'react';
+import React, { useCallback, useEffect, useState, useRef, Component, useContext } from 'react';
 import styles from './CafeRems.module.css';
 import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
@@ -44,6 +44,7 @@ const CafeRems = () => {
     const [toggleState, setToggleState] = useState(false);
     const [toggleClear, setToggleClear] = useState(false);
     const [buttonPressed, setButtonPressed] = useState(false);
+    const { stationId } = useContext(DataContext);
 
 
 

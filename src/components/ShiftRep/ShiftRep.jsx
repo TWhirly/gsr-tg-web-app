@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useLayoutEffect, useRef, useContext } from 'react';
 import styles from './ShiftRep.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
@@ -10,7 +10,8 @@ import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import { Element, Events, animateScroll as scroll, Link } from 'react-scroll';
-const { stationId } = useContext(DataContext);
+// const { stationId } = useContext(DataContext);
+import { DataContext } from '../../DataContext';
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 
@@ -53,6 +54,7 @@ const ShiftRep = () => {
     const [totFuel, setTotFuel] = useState('')
     const [totFuelWord, setTotFuelWord] = useState('')
     const overdue = useState((new Date).getHours() > 14)
+    const { stationId } = useContext(DataContext);
 
 
 
@@ -242,7 +244,7 @@ const ShiftRep = () => {
     console.log('load from local? ', loadedFromLocal)
     console.log('overdue', overdue[0])
     // console.log('modiefed cal', cal)
-    if(overdue[0]){
+    if(!overdue[0]){
         return (
             <div className={styles.overdue}>
                 {`Для отправки отчёта за ${(new Date).toLocaleDateString()} дождитесь наступления новых суток`}

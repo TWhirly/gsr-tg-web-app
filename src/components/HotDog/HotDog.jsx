@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useState, useRef, Component } from 'react';
+import React, { useCallback, useEffect, useState, useRef, Component, useContext } from 'react';
 import styles from './HotDog.module.css';
 import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
-const { stationId } = useContext(DataContext);
+import { DataContext } from '../../DataContext';
+// const { stationId } = useContext(DataContext);
 
 
 
@@ -36,6 +37,7 @@ const HotDog = () => {
     const [showAdditionalFields, setShowAdditionalFields] = useState(new Map());
     const [toggleState, setToggleState] = useState(false);
     const [toggleClear, setToggleClear] = useState(false);
+    const { stationId } = useContext(DataContext);
 
 
 

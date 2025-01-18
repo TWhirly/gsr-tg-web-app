@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useLayoutEffect, useRef} from 'react';
+import React, { useCallback, useEffect, useState, useLayoutEffect, useRef, useContext} from 'react';
 import styles from './fuelIntake.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
@@ -8,7 +8,8 @@ import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
 import {  Element, Events, animateScroll as scroll, Link  } from 'react-scroll';
-const { stationId } = useContext(DataContext);
+// const { stationId } = useContext(DataContext);
+import { DataContext } from '../../DataContext';
 
 
 // import { Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
@@ -57,6 +58,7 @@ const FuelIntake = () => {
     const [formLoad, setFormLoad] = useState(false)
     const [densTempShow, setDensTempshow] = useState(new Map())
     const [toggleState, setToggleState] = useState(false);
+    const { stationId } = useContext(DataContext);
 
 
 
@@ -66,7 +68,7 @@ const FuelIntake = () => {
 
         const loadFields = async () => {
             let fetchedFields
-            const storedData = localStorage.getItem(stationId[0][0].ID+stationId[0][0].ID+'tempIntakeData');
+            const storedData = localStorage.getItem(stationId[0][0].ID+'tempIntakeData');
             
             if(storedData){
                 const storedDataObj = JSON.parse(storedData);
@@ -537,7 +539,7 @@ const FuelIntake = () => {
                                         value={formData[field.id]['hBefore'].replace('.', ',')}
                                         max={cal[field.tank]['maxH']}
                                         type='text'
-                                        inputMode='numeric'
+                                        inputMode='decimal'
                                         min={0}
                                         onChange={handleChange}
                                         maxLength={5}
@@ -565,7 +567,7 @@ const FuelIntake = () => {
                                             name='hAfter'
                                             value={formData[field.id]['hAfter'].replace('.', ',')}
                                             type='text'
-                                            inputMode='numeric'
+                                            inputMode='decimal'
                                             min={0}
                                             max={cal[field.tank]['maxH']}
                                             maxLength={5}
