@@ -244,7 +244,7 @@ const ShiftRep = () => {
     console.log('load from local? ', loadedFromLocal)
     console.log('overdue', overdue[0])
     // console.log('modiefed cal', cal)
-    if(!overdue[0]){
+    if(overdue[0]){
         return (
             <div className={styles.overdue}>
                 {`Для отправки отчёта за ${(new Date).toLocaleDateString()} дождитесь наступления новых суток`}
