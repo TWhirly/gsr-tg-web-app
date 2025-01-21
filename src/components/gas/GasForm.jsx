@@ -44,9 +44,7 @@ const GasForm = () => {
 
     const date = new Date();
 
-    useEffect(() => {
-        setTotCoffe();
-    }, []);
+  
 
     useEffect(() => {
         const loadFields = async () => {
@@ -55,7 +53,7 @@ const GasForm = () => {
             setIsFormReady(true);
             // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
-                acc[field.id] = field.cnt;
+                acc[field.id] = +field.cnt;
                 return acc;
             }, {});
             setFormData(initialFormData);
@@ -63,12 +61,26 @@ const GasForm = () => {
         loadFields();
     }, []);
 
-
+    // useEffect(() => {
+    //     Object.entries(formData).map((item) => {
+    //         console.log('items', item[0], item[1])
+    //         // if(isNaN(item[1]) || item[1] == ''){
+    //         //     setFormData((prevData) => ({
+    //         //         ...prevData,
+    //         //         [item[0]]: 0,
+    //         //     }));
+    //         // }
+    //     })
+    // }, [formData])
 
 
     const handleChange = (value, id) => {
-
-
+        if(value == '' || isNaN(value) || value == null){
+            value = 0
+        }
+        value = +value
+       
+       
         setFormData((prevData) => ({
             ...prevData,
             [id]: value,
@@ -78,7 +90,14 @@ const GasForm = () => {
 
     const handleInput = (e) => {
         const id = e.target['id'];
-        const value = e.target['value'].toString().replace(/\s/g, '');
+        let value = (e.target['value'].toString().replace(/[^\d]/g, ''));
+
+        if(value == '' || isNaN(value) || value == null){
+            value = 0
+        }
+        value = +value
+        
+        console.log('value in input', value)
         console.log('e ', e.target['value'])
 
         setFormData((prevData) => ({
@@ -111,7 +130,9 @@ const GasForm = () => {
         });
 
     }
+    console.log(+(null))
     console.log('type field', fields)
+    console.log('render', formData)
     if (formReady == true) {
         return (
             <div div className={styles.container}>
@@ -125,6 +146,7 @@ const GasForm = () => {
                                     <NumberField id={field.id} defaultValue={0} aria-label="e"
                                         minValue={0}
                                         description={field.name}
+                                        value={formData[field.id]}
                                         // isRequired={true}
                                         onInput={handleInput}
                                         onChange={(v) => handleChange(v, field.id)}>

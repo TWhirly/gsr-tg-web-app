@@ -555,7 +555,11 @@ const Measures = () => {
                 if (formData[key].d == null ||
                     formData[key].t == null ||
                     formData[key].height == null ||
-                    formData[key].repRem == null) {
+                    formData[key].repRem == null ||
+                    formData[key].d == '' ||
+                    formData[key].t == '' ||
+                    formData[key].height == '' ||
+                    formData[key].repRem == '') {
                     return false
                 }
             }
