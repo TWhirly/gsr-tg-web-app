@@ -22,7 +22,7 @@ export const DataProvider = ({ children }) => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                const result = await response.json();
+                const result = (await response.json())[0][0]['ID'];
                 setData(result);
             } catch (err) {
                 setError(err);

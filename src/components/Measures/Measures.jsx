@@ -19,6 +19,8 @@ const APIURL = localUrl.APIURL;
 
 
 const Measures = () => {
+    const { stationId } = useContext(DataContext);
+    console.log('station ID is ', stationId)
     const navigate = useNavigate();
     const myRef = useRef();
 
@@ -60,7 +62,7 @@ const Measures = () => {
     const [toggleState, setToggleState] = useState(false);
     const [isFieldsFilled, setfieldsFilled] = useState(false);
     const [loadedFromLocal, setLoadedFromLocal] = useState(true)
-    const { stationId } = useContext(DataContext);
+    
 
 
 
@@ -71,7 +73,7 @@ const Measures = () => {
 
         const loadFields = async () => {
             let fetchedFields
-            const storedData = localStorage.getItem(stationId[0][0].ID+'tempMeasuresData');
+            const storedData = localStorage.getItem(stationId+'tempMeasuresData');
 
 
 
@@ -80,7 +82,7 @@ const Measures = () => {
                 const storedDataObj = JSON.parse(storedData);
                 // console.log('stored', storedDataObj)
                 if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                    localStorage.removeItem(stationId[0][0].ID+'tempMeasuresData');
+                    localStorage.removeItem(stationId+'tempMeasuresData');
                     return
                 }
                 delete storedDataObj.date
@@ -576,7 +578,7 @@ const Measures = () => {
         })
         if (current.join(' ') !== loaded.join(' ')) {
             const date = (new Date()).toLocaleDateString();
-            localStorage.setItem(stationId[0][0].ID+'tempMeasuresData', JSON.stringify({ ...formData, date: date }))
+            localStorage.setItem(stationId+'tempMeasuresData', JSON.stringify({ ...formData, date: date }))
             setIsChangesExist(true)
             return
         }
@@ -599,7 +601,7 @@ const Measures = () => {
             },
             body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData })
         })
-        localStorage.removeItem(stationId[0][0].ID+'tempMeasuresData')
+        localStorage.removeItem(stationId+'tempMeasuresData')
         navigate('/', {
             replace: true,
             state: { sent: true }
@@ -610,7 +612,8 @@ const Measures = () => {
     console.log('render', formData);
     console.log('is changes exist', haveChanges)
     console.log('load from local? ', loadedFromLocal)
-    console.log('station ID', stationId[0][0].ID)
+    // console.log('station ID', stationId)
+    console.log('date is', (new Date()).getDate)
     // console.log('modiefed cal', cal)
 
     if (calibLoad && formLoad) {
