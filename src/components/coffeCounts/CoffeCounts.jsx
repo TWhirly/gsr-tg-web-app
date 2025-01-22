@@ -151,10 +151,11 @@ const CoffeCounts = () => {
                                     // isRequired={true}
                                     onInput={handleInput}
                                     onChange={(v) => handleChange(v, field.id)}>
+                                        <Label className={styles.inputtype}>{field.id}</Label>
                                     <div className={styles.inputLine}>
                                         <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
                                         <Input className={styles.input} />
-                                        <Text className={styles.description} slot="description">{field.id}</Text>
+                                        {/* <Text className={styles.description} slot="description">{field.id}</Text> */}
                                         <Button className={styles.reactAriaButton} slot="increment">+</Button>
                                     </div>
                                 </NumberField>

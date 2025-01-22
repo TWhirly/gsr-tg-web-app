@@ -14,7 +14,7 @@ const APIURL = localUrl.APIURL;
 
 
 const HotDog = () => {
-    // localStorage.removeItem(stationId[0][0].ID+'tempHotDogFormData');
+    // localStorage.removeItem(stationId+'tempHotDogFormData');
     const navigate = useNavigate();
 
     const fetchFormFields = async () => {
@@ -45,14 +45,14 @@ const HotDog = () => {
     
 
     useEffect(() => {
-        const storedData = localStorage.getItem(stationId[0][0].ID+'tempHotDogFormData');
+        const storedData = localStorage.getItem(stationId+'tempHotDogFormData');
         // if (storedData && storedData.date == (new Date()).toLocaleDateString()) {
         if (storedData) {
 
             console.log('local stored data', JSON.parse(storedData));
             const storedDataObj = JSON.parse(storedData);
             if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                localStorage.removeItem(stationId[0][0].ID+'tempHotDogFormData');
+                localStorage.removeItem(stationId+'tempHotDogFormData');
                 return
             }
             delete storedDataObj.date
@@ -109,7 +109,7 @@ const HotDog = () => {
         }));
         recievedFormData[id] = value;
         const date = (new Date()).toLocaleDateString();
-        localStorage.setItem(stationId[0][0].ID+'tempHotDogFormData', JSON.stringify({ ...recievedFormData, date: date }))
+        localStorage.setItem(stationId+'tempHotDogFormData', JSON.stringify({ ...formData, date: date }))
     };
 
     const clearOnFocus = (e) => {
@@ -136,13 +136,13 @@ const HotDog = () => {
             },
             body: JSON.stringify({ ...recievedFormData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
         })
-        localStorage.removeItem(stationId[0][0].ID+'tempHotDogFormData')
+        localStorage.removeItem(stationId+'tempHotDogFormData')
         navigate('/', {
             replace: true,
             state: { sent: true }
         });
     }
-    console.log('rec', recievedFormData)
+    console.log('rec', fields)
     return (
         <div>
             <h4 className={styles.header}>Ингредиенты для хот-догов

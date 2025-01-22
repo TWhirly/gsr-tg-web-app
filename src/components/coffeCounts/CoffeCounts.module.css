@@ -185,23 +185,23 @@
   z-index: 100;
   color: var(--tg-theme-section-header-text-color);
   position: absolute;
-  font-size: 0.7rem;
+  font-size: 0.5rem;
   text-align: center;
   left: 50%;
   box-sizing: content-box;
   transform: translateX(-50%);
   top: 10px;
   transition: all 0.2s ease;
-  padding: 0 5px;
+  padding: 0 3px;
   pointer-events: none;
 }
 
 .numberField input:focus+.description,
 .numberField input:valid+.description {
-  top: -0.5rem;
+  top: -0.4rem;
   box-sizing: content-box;
   background-color: var(--tg-theme-secondary-bg-color);
-  font-size: 0.7rem;
+  font-size: 0.5rem;
   color: #007bff;
 }
 
@@ -233,6 +233,25 @@
   flex: 1;
   
 
+}
+
+.inputtype {
+  font-size: 0.7rem;
+  color: var(--tg-theme-section-header-text-color);
+  position: relative;
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  background-color: var(--tg-theme-secondary-bg-color);
+  left: 50%;
+  transform: translateX(-50%);
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-top: 1px;
+  padding-bottom: 0px;
+  /* margin-bottom: -0.65rem; */
+  z-index: 100;
+  /* transition: all 0.2s ease-in-out; */
 }
 
 
