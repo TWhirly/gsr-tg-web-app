@@ -44,17 +44,19 @@ const CoffeIngs = () => {
     
 
     useEffect(() => {
-        const storedData = localStorage.getItem(stationId[0][0].ID+'CoffeIngsData');
+        const storedData = localStorage.getItem(stationId+'CoffeIngsData');
         // if (storedData && storedData.date == (new Date()).toLocaleDateString()) {
         if (storedData) {
 
             console.log('local stored data', JSON.parse(storedData));
-            const storedDataObj = JSON.parse(storedData);
+            let storedDataObj = JSON.parse(storedData);
             if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                localStorage.removeItem(stationId[0][0].ID+'CoffeIngsData');
+                localStorage.removeItem(stationId+'CoffeIngsData');
                 return
             }
+            console.log('st d date', storedDataObj.date)
             delete storedDataObj.date
+            console.log('local stored data2', storedDataObj);
             const fetchedFields = [];
             const show = new Map();
 
@@ -67,8 +69,8 @@ const CoffeIngs = () => {
             setFields(fetchedFields);
             
             
-            setFormData(JSON.parse(storedData));
-            setRecievedFormData(JSON.parse(storedData));
+            setFormData(storedDataObj);
+            setRecievedFormData(storedDataObj);
             setToggleState(toggleState == true ? false : true)
         }
         
@@ -100,7 +102,7 @@ const CoffeIngs = () => {
             loadFields();
 
         }
-    }, {});
+    }, []);
 
 
     useEffect(() => {
@@ -113,7 +115,7 @@ const CoffeIngs = () => {
         console.log('rec2', recievedFormData)
         recievedFormData[cat][field]['amt'] = v;
         const date = (new Date()).toLocaleDateString();
-        localStorage.setItem(stationId[0][0].ID+'CoffeIngsData', JSON.stringify({ ...recievedFormData, date: date }))
+        localStorage.setItem(stationId+'CoffeIngsData', JSON.stringify({ ...formData, date: date }))
     };
 
     const clearOnFocus = (e) => {
@@ -140,7 +142,7 @@ const CoffeIngs = () => {
             },
             body: JSON.stringify({ ...recievedFormData, initData: window.Telegram.WebApp.initData, datetime: updDateTime })
         })
-        localStorage.removeItem(stationId[0][0].ID+'CoffeIngsData')
+        localStorage.removeItem(stationId+'CoffeIngsData')
         navigate('/', {
             replace: true,
             state: { sent: true }

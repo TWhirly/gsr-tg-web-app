@@ -68,12 +68,12 @@ const FuelIntake = () => {
 
         const loadFields = async () => {
             let fetchedFields
-            const storedData = localStorage.getItem(stationId[0][0].ID+'tempIntakeData');
+            const storedData = localStorage.getItem(stationId+'tempIntakeData');
             
             if(storedData){
                 const storedDataObj = JSON.parse(storedData);
                 if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
-                    localStorage.removeItem(stationId[0][0].ID+'tempIntakeData');
+                    localStorage.removeItem(stationId+'tempIntakeData');
                     return
                 }
                 delete storedDataObj.date
@@ -478,7 +478,7 @@ const FuelIntake = () => {
         })
         if(current.join(' ') !== loaded.join(' ')){
         const date = (new Date()).toLocaleDateString();
-        localStorage.setItem(stationId[0][0].ID+'tempIntakeData', JSON.stringify({ ...formData, date: date }))
+        localStorage.setItem(stationId+'tempIntakeData', JSON.stringify({ ...formData, date: date }))
         setIsChangesExist(true)
         }
     }
@@ -495,7 +495,7 @@ const FuelIntake = () => {
             },
             body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData })
         })
-        localStorage.removeItem(stationId[0][0].ID+'tempIntakeData')
+        localStorage.removeItem(stationId+'tempIntakeData')
         navigate('/', {
             replace: true,
             state: { sent: true }

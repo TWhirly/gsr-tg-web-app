@@ -62,6 +62,7 @@ const Measures = () => {
     const [toggleState, setToggleState] = useState(false);
     const [isFieldsFilled, setfieldsFilled] = useState(false);
     const [loadedFromLocal, setLoadedFromLocal] = useState(true)
+    const overdue = useState((new Date).getHours() > 22)
     
 
 
@@ -616,7 +617,7 @@ const Measures = () => {
     console.log('render', formData);
     console.log('is changes exist', haveChanges)
     console.log('load from local? ', loadedFromLocal)
-    // console.log('station ID', stationId)
+    console.log('overdue ', overdue[0])
     console.log('date is', (new Date()).getDate)
     // console.log('modiefed cal', cal)
 
@@ -625,7 +626,8 @@ const Measures = () => {
 
         return (
             <div className={styles.container}>
-                <Element name={"start"} className={styles.subheader} id={'start'}>Замеры НП сегодня, {(new Date).toLocaleDateString()} </Element>
+                <Element name={"start"} className={styles.subheader} id={'start'}>Замеры НП сегодня, {(new Date).toLocaleDateString()} 
+                {(overdue[0]  &&<text className={styles.subheader}>Замеры заблокированы</text>)}</Element>
                 <div className={styles.intakesContainer}>{fields.map((field) => {
                     return (
                         <div className={styles.intakeBlock} key={field.id}>
@@ -640,6 +642,7 @@ const Measures = () => {
                                 <div className={styles.hBefore}>Расчетный остаток по сменному отчёту</div>
                                 <div className={styles.inputline}>
                                     <input
+                                    disabled={overdue[0]}
                                         className={styles.input}
                                         id={field.id}
                                         name='repRem'
@@ -652,12 +655,14 @@ const Measures = () => {
                                         onFocus={clearOnFocus}
                                         onBlur={handleBlurT} />
                                     <button
+                                    disabled={overdue[0]}
                                         className={styles.button}
                                         id={field.id}
                                         name='repRem'
                                         tabIndex="-1"
                                         value={formData[field.id]['repRem']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
                                     <button
+                                    disabled={overdue[0]}
                                         className={styles.button}
                                         id={field.id}
                                         name='repRem'
@@ -676,6 +681,7 @@ const Measures = () => {
 
 
                                     <input
+                                    disabled={overdue[0]}
                                         className={styles.input}
                                         id={field.id}
                                         name='height'
@@ -689,11 +695,13 @@ const Measures = () => {
                                         onFocus={clearOnFocus}
                                         onBlur={handleBlurH} />
                                     <button className={styles.button}
+                                    disabled={overdue[0]}
                                         id={field.id}
                                         name='height'
                                         tabIndex="-1"
                                         value={formData[field.id]['height']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
                                     <button className={styles.button}
+                                    disabled={overdue[0]}
                                         id={field.id}
                                         name='height'
                                         tabIndex="-1"
@@ -705,6 +713,7 @@ const Measures = () => {
                                 <div className={styles.waybill}>Плотность:</div>
                                 <div className={styles.inputline}>
                                     <input
+                                    disabled={overdue[0]}
                                         className={styles.input}
                                         id={field.id}
                                         name='d'
@@ -716,12 +725,14 @@ const Measures = () => {
                                         onFocus={clearOnFocus}
                                         onBlur={handleBlurD} />
                                     <button
+                                    disabled={overdue[0]}
                                         className={styles.button}
                                         id={field.id}
                                         name='d'
                                         tabIndex="-1"
                                         value={formData[field.id]['d']} onClick={(e) => handleChangeDens(e, -0.001)}>&minus;</button>
                                     <button
+                                    disabled={overdue[0]}
                                         className={styles.button}
                                         id={field.id}
                                         name='d'
@@ -731,6 +742,7 @@ const Measures = () => {
                                 <div className={styles.waybill}>Температура:</div>
                                 <div className={styles.inputline}>
                                     <input
+                                    disabled={overdue[0]}
                                         className={styles.input}
                                         id={field.id}
                                         name='t'
@@ -744,12 +756,14 @@ const Measures = () => {
                                         onChange={handleChangeTemp}
                                         onBlur={handleBlurT} />
                                     <button
+                                    disabled={overdue[0]}
                                         className={styles.button}
                                         id={field.id}
                                         name='t'
                                         tabIndex="-1"
                                         value={formData[field.id]['t']} onClick={(e) => handleChangeTemp(e, -1)}>&minus;</button>
                                     <button
+                                    disabled={overdue[0]}
                                         className={styles.button}
                                         id={field.id}
                                         name='t'
@@ -765,7 +779,7 @@ const Measures = () => {
 
 
                 </div>
-                {(isFieldsFilled && haveChanges &&<Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)}
+                {(!overdue[0] && isFieldsFilled && haveChanges &&<Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)}
             </div>
 
 
