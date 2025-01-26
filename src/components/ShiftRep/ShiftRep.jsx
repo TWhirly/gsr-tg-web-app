@@ -61,7 +61,7 @@ const ShiftRep = () => {
     useEffect(() => {
 
 
-
+        localStorage.clear();
         const loadFields = async () => {
             let fetchedFields
             let initialFormData
