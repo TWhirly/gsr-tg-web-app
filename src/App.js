@@ -14,6 +14,7 @@ import ShopOrders from './components/ShopOrders/shopOredrs.jsx'
 import CoffeIngs from './components/CoffeIngs/CoffeIngs.jsx';
 import FuelIntake from './components/fuelIntake/FuelIntake.jsx';
 import FormComponent from './components/ResForm/form_try';
+import RepArchive from './components/RepArchive/RepArchive.jsx';
 import ShiftRep from './components/ShiftRep/ShiftRep.jsx';
 import Measures from './components/Measures/Measures.jsx'
 import { DataProvider } from './DataContext';
@@ -61,6 +62,7 @@ function App() {
                 <Route path="/FuelIntake" element={<FuelIntake />} />
                 <Route path="/ShiftRep" element={<ShiftRep />} />
                 <Route path="/Measures" element={<Measures />} />
+                <Route path="/RepArchive" element={<RepArchive />} />
             </Routes>
         </div>
         </DataProvider>

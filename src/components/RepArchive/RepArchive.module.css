@@ -1,0 +1,98 @@
+.container {
+    top: 0;
+    background: var(--bgColor);
+    display: flex;
+    flex-direction: column;
+}
+
+.dateBlock {
+    border: 1px solid;
+    margin: 10px;
+    background-color: var(--tg-theme-secondary-bg-color);
+}
+
+.date {
+    font-weight: bolder;
+    text-align: center;
+}
+
+.caBlock {
+    background-color: var(--tg-theme-secondary-bg-color);
+    margin-bottom: 5px;
+    flex-direction: row;
+    
+}
+
+.ca {
+    margin-top: 10;
+    text-align: center;
+}
+
+.manager {
+    font-size: 0.5rem;
+    margin-left: 2px;
+}
+
+.nomenclatureBlock {
+    height: fit-content;
+    font-size: 1rem;
+    opacity: 1;
+    visibility: visible;
+    text-align: center;
+    white-space: break-spaces;
+    
+    /* transition: height 0.5s ease; */
+}
+
+.nomenclatureRow {
+    
+    font-size: 0.7rem;
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    --row-height: 100%;
+    height: var(--row-height);
+}
+
+.no {
+    text-align: center;
+    width: 1rem;
+    margin: auto;
+}
+
+.amt {
+    flex: 1;
+    width: 2rem;
+    text-align: center;
+    margin: auto;
+}
+
+.nomenclature {
+    width: calc(100% - 3rem);
+}
+
+.nomenclatureBlock.hide {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    /* transition:  height 0.5s ease; */
+}
+
+.expand {
+    display: flex;
+    position: relative;
+    font-size: 0.7rem;
+    color: blue;
+    text-decoration: underline;
+    justify-content: right;
+    margin-top: 3px;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.progress{
+    display: flex;
+    justify-content: center;
+    margin-top: 45vh;
+    
+  }

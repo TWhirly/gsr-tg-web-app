@@ -559,7 +559,8 @@ const Measures = () => {
                     formData[key].d == '' ||
                     formData[key].t == '' ||
                     formData[key].height == '' ||
-                    formData[key].repRem == '') {
+                    formData[key].repRem == '' ||
+                    formData[key].w == '') {
                     return false
                 }
             }
@@ -755,6 +756,35 @@ const Measures = () => {
                                         name='t'
                                         tabIndex="-1"
                                         value={formData[field.id]['t']} onClick={(e) => handleChangeTemp(e, 1)}>+</button>
+                                </div>
+                                <div className={styles.hBefore}>Вода, см</div>
+                                <div className={styles.inputline}>
+
+
+                                    <input
+                                        className={styles.input}
+                                        id={field.id}
+                                        defaultValue={0}
+                                        name='w'
+                                        value={formData[field.id]['w']}
+                                        max={cal[field.Tank]['maxH']}
+                                        type='text'
+                                        inputMode='decimal'
+                                        min={0}
+                                        onChange={handleChange}
+                                        maxLength={5}
+                                        onFocus={clearOnFocus}
+                                        onBlur={handleBlurH} />
+                                    <button className={styles.button}
+                                        id={field.id}
+                                        name='w'
+                                        tabIndex="-1"
+                                        value={formData[field.id]['w']} onClick={(e) => handleChange(e, -0.1)}>&minus;</button>
+                                    <button className={styles.button}
+                                        id={field.id}
+                                        name='w'
+                                        tabIndex="-1"
+                                        value={formData[field.id]['w']} onClick={(e) => handleChange(e, 0.1)}>+</button>
                                 </div>
                             </div>
                         </div>
