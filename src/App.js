@@ -17,6 +17,7 @@ import FormComponent from './components/ResForm/form_try';
 import RepArchive from './components/RepArchive/RepArchive.jsx';
 import ShiftRep from './components/ShiftRep/ShiftRep.jsx';
 import Measures from './components/Measures/Measures.jsx'
+import AutoRefresh from './components/AutoRefresh/AutoRefresh.jsx'
 import { DataProvider } from './DataContext';
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
 
     return (
         <DataProvider>
+            <AutoRefresh> </AutoRefresh>
         <div className={App}>
             <Header />
             <Routes>
@@ -65,6 +67,7 @@ function App() {
                 <Route path="/RepArchive" element={<RepArchive />} />
             </Routes>
         </div>
+       
         </DataProvider>
     );
 }

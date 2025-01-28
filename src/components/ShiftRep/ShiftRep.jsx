@@ -61,11 +61,11 @@ const ShiftRep = () => {
     useEffect(() => {
 
 
-
+        localStorage.clear();
         const loadFields = async () => {
             let fetchedFields
             let initialFormData
-            const storedData = localStorage.getItem(stationId[0][0].ID+'tempShiftData');
+            const storedData = localStorage.getItem(stationId+'tempShiftData');
 
 
 
@@ -201,7 +201,7 @@ const ShiftRep = () => {
 
         setfieldsFilled(() => {
             const date = (new Date()).toLocaleDateString();
-            localStorage.setItem(stationId[0][0].ID+'tempShiftData', JSON.stringify({ ...formData, date: date }))
+            localStorage.setItem(stationId+'tempShiftData', JSON.stringify({ ...formData, date: date }))
             for (let key of Object.keys(formData).filter(key => key != 'cashbox1 sevices' &&
                 key != 'cashbox2 services' && key != 'operator1' && key != 'operator2'
             )) {
@@ -229,7 +229,7 @@ const ShiftRep = () => {
             },
             body: JSON.stringify({ ...formData, initData: window.Telegram.WebApp.initData, date: updDate })
         })
-        localStorage.removeItem(stationId[0][0].ID+'tempShiftData')
+        localStorage.removeItem(stationId+'tempShiftData')
         navigate('/', {
             replace: true,
             state: { sent: true }

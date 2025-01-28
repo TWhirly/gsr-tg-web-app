@@ -13,6 +13,7 @@
 
 .subheader {
     display: flex;
+    flex-direction: column;
     height: fit-content;
     font-size: larger;
     font-weight: bold;
