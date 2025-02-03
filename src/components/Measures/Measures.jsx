@@ -62,7 +62,7 @@ const Measures = () => {
     const [toggleState, setToggleState] = useState(false);
     const [isFieldsFilled, setfieldsFilled] = useState(false);
     const [loadedFromLocal, setLoadedFromLocal] = useState(true)
-    const overdue = useState((new Date).getHours() > 22)
+    const overdue = useState((new Date).getHours() < 22)
     
 
 
@@ -71,6 +71,8 @@ const Measures = () => {
 
         
         console.log(localStorage)
+
+       console.log(0 ? true : false )
 
         const loadFields = async () => {
             let fetchedFields
@@ -465,7 +467,7 @@ const Measures = () => {
         }
         var value
         if (d) {
-
+            console.log('T Val is ', tValue)
             value = +(+tValue + +d)
         }
         else {
@@ -473,6 +475,7 @@ const Measures = () => {
             value = tValue
 
         }
+        console.log('t is ', value)
         if ([key] == 'repRem') {
             setFormData(prevData => ({
                 ...prevData,
@@ -553,15 +556,17 @@ const Measures = () => {
     useEffect(() => {
         setfieldsFilled(() => {
             for (let key of Object.keys(formData)) {
-                if (formData[key].d == null ||
+                if (
+                    formData[key].d == null ||
                     formData[key].t == null ||
                     formData[key].height == null ||
                     formData[key].repRem == null ||
-                    formData[key].d == '' ||
-                    formData[key].t == '' ||
-                    formData[key].height == '' ||
-                    formData[key].repRem == '' ||
-                    formData[key].w == '') {
+                    formData[key].d.toString() == '' ||
+                    formData[key].t.toString() == '' ||
+                    formData[key].height.toString() == '' ||
+                    formData[key].repRem.toString() == '' ||
+                    formData[key].w.toString() == ''
+                    ) {
                     return false
                 }
             }
@@ -572,13 +577,11 @@ const Measures = () => {
     useEffect(() => {
         var loaded = []
         var current = []
-        // console.log('formData in check', formData)
-        // console.log('formDataInputs in check', formDataInputs)
         Object.keys(formData).forEach(key => {
             Object.keys(formData[key]).forEach(key2 => {
-                if ((key2 == 'd' || key2 == 'height' || key2 == 't' || key2 == 'repRem') && formData[key][key2]) {
-                    current.push(formData[key][key2])
-                    loaded.push(formDataInputs[key][key2])
+                if ((key2 == 'd' || key2 == 'height' || key2 == 't' || key2 == 'repRem' || key2 == 'w') && formData[key][key2].toString()) {
+                    current.push(formData[key][key2].toString())
+                    loaded.push(formDataInputs[key][key2].toString())
                 }
             })
         })
@@ -619,7 +622,8 @@ const Measures = () => {
     console.log('is changes exist', haveChanges)
     console.log('load from local? ', loadedFromLocal)
     console.log('overdue ', overdue[0])
-    console.log('date is', (new Date()).getDate)
+    console.log('are all fields filled? ', isFieldsFilled)
+    console.log('date is', (new Date()).getDate())
     // console.log('modiefed cal', cal)
 
     if (calibLoad && formLoad) {
