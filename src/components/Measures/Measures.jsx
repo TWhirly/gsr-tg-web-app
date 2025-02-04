@@ -62,7 +62,7 @@ const Measures = () => {
     const [toggleState, setToggleState] = useState(false);
     const [isFieldsFilled, setfieldsFilled] = useState(false);
     const [loadedFromLocal, setLoadedFromLocal] = useState(true)
-    const overdue = useState((new Date).getHours() < 22)
+    const overdue = useState((new Date).getHours() > 22)
     
 
 
