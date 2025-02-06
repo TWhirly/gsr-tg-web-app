@@ -335,7 +335,7 @@ const ShiftRep = () => {
                             name={'header'}
                         >Сопутствующие товары</div>
 
-                        {fields.filter((field) => field.category == 'Сопутствующие товары').map((field) => {
+                        {fields.filter((field) => field.category == 'Сопутствующие товары' && field.name != 'Мойка робот').map((field) => {
 
 
                             return (
