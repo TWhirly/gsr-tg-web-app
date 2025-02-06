@@ -579,7 +579,7 @@ const Measures = () => {
         var current = []
         Object.keys(formData).forEach(key => {
             Object.keys(formData[key]).forEach(key2 => {
-                if ((key2 == 'd' || key2 == 'height' || key2 == 't' || key2 == 'repRem' || key2 == 'w') && formData[key][key2].toString()) {
+                if ((key2 == 'd' || key2 == 'height' || key2 == 't' || key2 == 'repRem' || key2 == 'w') && formData[key][key2] != undefined) {
                     current.push(formData[key][key2].toString())
                     loaded.push(formDataInputs[key][key2].toString())
                 }
