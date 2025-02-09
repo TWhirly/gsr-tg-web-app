@@ -31,6 +31,9 @@ const CoffeCounts = () => {
     const [ycountsReady, setIsYcountsReady] = useState(false);
     const [Ycounts, setYcounts] = useState({});
     const [TotCoffe, setTotCoffe] = useState('');
+    const { tg, queryId } = useTelegram();
+
+    tg.MainButton.show();
 
     const date = new Date();
 
@@ -127,52 +130,53 @@ const CoffeCounts = () => {
             replace: true,
             state: { sent: true }
         });
-
-
     }
 
-    var elem = (document.getElementById("totcoffe"))
-    // var theCSSprop = window.getComputedStyle("totcoffe",null).getPropertyValue("height");
-    console.log('elem', elem)
-    // document.documentElement.style.setProperty("--totCoffeHeight", document.getElementById('totcoffe').offsetHeight);
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', handleSubmit)
+        return () => {
+            tg.offEvent('mainButtonClicked', handleSubmit)
+        }
+    }, [handleSubmit])
+
 
     return (
         <div className={styles.container}>
             <header className={styles.header}>Счётчики кофемашины</header>
             <div className={styles.formContainer}>
-               
 
-                    <Group className={styles.inputs}>{fields.map((field) => {
-                        return (
-                            <div className={styles.numberField} key={field.id}>
-                                <NumberField id={field.id} value={formData[field.id]} aria-label="e"
-                                    minValue={0}
-                                    description={field.id}
-                                    // isRequired={true}
-                                    onInput={handleInput}
-                                    onChange={(v) => handleChange(v, field.id)}>
-                                        <Label className={styles.inputtype}>{field.id}</Label>
-                                    <div className={styles.inputLine}>
-                                        <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
-                                        <Input className={styles.input} />
-                                        {/* <Text className={styles.description} slot="description">{field.id}</Text> */}
-                                        <Button className={styles.reactAriaButton} slot="increment">+</Button>
-                                    </div>
-                                </NumberField>
-                            </div>
 
-                        );
+                <Group className={styles.inputs}>{fields.map((field) => {
+                    return (
+                        <div className={styles.numberField} key={field.id}>
+                            <NumberField id={field.id} value={formData[field.id]} aria-label="e"
+                                minValue={0}
+                                description={field.id}
+                                // isRequired={true}
+                                onInput={handleInput}
+                                onChange={(v) => handleChange(v, field.id)}>
+                                <Label className={styles.inputtype}>{field.id}</Label>
+                                <div className={styles.inputLine}>
+                                    <Button className={styles.reactAriaButton} slot="decrement">&minus;</Button>
+                                    <Input className={styles.input} />
+                                    {/* <Text className={styles.description} slot="description">{field.id}</Text> */}
+                                    <Button className={styles.reactAriaButton} slot="increment">+</Button>
+                                </div>
+                            </NumberField>
+                        </div>
 
-                    })}
+                    );
 
-                    </Group>
-                    
-                   
-             
+                })}
+
+                </Group>
+
+
+
 
             </div>
             <div className={styles.totcoffe}>{(ycountsReady && TotCoffe)}</div>
-            <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
+            {/* <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button> */}
         </div>
     )
 

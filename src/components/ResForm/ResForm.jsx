@@ -4,6 +4,7 @@ import { localUrl } from '../../localSettings.js'
 import 'animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
+
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { type } from '@testing-library/user-event/dist/type/index.js';
@@ -17,6 +18,8 @@ const APIURL = localUrl.APIURL;
 
 
 const ResForm = () => {
+
+    
     const navigate = useNavigate();
     const fetchFormFields = async () => {
         const response = await fetch(APIURL + '/res', {
@@ -35,6 +38,9 @@ const ResForm = () => {
     const [formData, setFormData] = useState({});
     const [formDataInputs, setFormDataInputs] = useState({});
     const [allFieldsFilled, setIsFormComplete] = useState(false);
+    const {tg, queryId} = useTelegram();
+
+
 
     useEffect(() => {
         const loadFields = async () => {
@@ -73,6 +79,10 @@ const ResForm = () => {
             ...prevData,
             [id]: value,
         }));
+        setFormData((prevData) => ({
+            ...prevData,
+            [id]: value,
+        }));
         console.log('input ', formData)
        
     };
@@ -82,7 +92,13 @@ const ResForm = () => {
         const allFieldsFilled = fields.every(field => (formDataInputs[field.id])) && Object.keys(formData).length > 0;
        
         allFieldsFilled && setIsFormComplete(allFieldsFilled);
+       
     }, [formDataInputs, fields]);
+
+    useEffect(() => {
+    allFieldsFilled ? tg.MainButton.show() : tg.MainButton.hide()
+
+    }, [allFieldsFilled])
 
     const handleSubmit = () => {
         console.log(allFieldsFilled);
@@ -102,6 +118,17 @@ const ResForm = () => {
           
 
     }
+
+    const onSendData = () => {
+        console.log('Main button clicked')
+    }
+
+    useEffect(() => {
+            tg.onEvent('mainButtonClicked', handleSubmit)
+            return () => {
+                tg.offEvent('mainButtonClicked', handleSubmit)
+            }
+        }, [handleSubmit])
 
     console.log('render');
     console.log('init', stationId[0])
@@ -136,7 +163,7 @@ const ResForm = () => {
                 })}</Group>
             </group>
            
-            {(allFieldsFilled && <Button onPress={handleSubmit} className={styles.submit} >Отправить</Button>)}
+            {/* {(allFieldsFilled && <Button onPress={handleSubmit} className={styles.submit} >Отправить</Button>)} */}
             </div>
             
     )

@@ -41,17 +41,17 @@ const GasForm = () => {
     const [formReady, setIsFormReady] = useState(false);
     const [Ycounts, setYcounts] = useState({});
     const [TotCoffe, setTotCoffe] = useState('');
+    const {tg, queryId} = useTelegram();
+		
+		tg.MainButton.show();
 
     const date = new Date();
-
-  
 
     useEffect(() => {
         const loadFields = async () => {
             const fetchedFields = await fetchFormFields();
             setFields(fetchedFields);
             setIsFormReady(true);
-            // Инициализируем состояние formData с пустыми значениями
             const initialFormData = fetchedFields.reduce((acc, field) => {
                 acc[field.id] = +field.cnt;
                 return acc;
@@ -61,25 +61,11 @@ const GasForm = () => {
         loadFields();
     }, []);
 
-    // useEffect(() => {
-    //     Object.entries(formData).map((item) => {
-    //         console.log('items', item[0], item[1])
-    //         // if(isNaN(item[1]) || item[1] == ''){
-    //         //     setFormData((prevData) => ({
-    //         //         ...prevData,
-    //         //         [item[0]]: 0,
-    //         //     }));
-    //         // }
-    //     })
-    // }, [formData])
-
-
     const handleChange = (value, id) => {
         if(value == '' || isNaN(value) || value == null){
             value = 0
         }
         value = +value
-       
        
         setFormData((prevData) => ({
             ...prevData,
@@ -97,9 +83,6 @@ const GasForm = () => {
         }
         value = +value
         
-        console.log('value in input', value)
-        console.log('e ', e.target['value'])
-
         setFormData((prevData) => ({
             ...prevData,
             [id]: value,
@@ -108,8 +91,6 @@ const GasForm = () => {
     };
 
     const handleSubmit = () => {
-        console.log(formData)
-        console.log("tyring to submit resToSubmit values:", formData);
         var date = new Date();
         const updDateTime = date.getFullYear() + '-' +
             ('00' + (date.getMonth() + 1)).slice(-2) + '-' +
@@ -128,11 +109,15 @@ const GasForm = () => {
             replace: true,
             state: { sent: true }
         });
-
     }
-    console.log(+(null))
-    console.log('type field', fields)
-    console.log('render', formData)
+
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', handleSubmit)
+        return () => {
+            tg.offEvent('mainButtonClicked', handleSubmit)
+        }
+    }, [handleSubmit])
+
     if (formReady == true) {
         return (
             <div div className={styles.container}>
@@ -253,7 +238,7 @@ const GasForm = () => {
                         })}</Group>
                     </group>
                 </div>
-                <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button>
+                {/* <Button className={styles.submit} onPress={handleSubmit}  >Отправить</Button> */}
             </div>
         )
     }

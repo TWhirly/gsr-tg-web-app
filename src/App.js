@@ -25,6 +25,10 @@ function App() {
     const { onToggleButton, tg } = useTelegram();
     window.Telegram.WebApp.expand();
     window.Telegram.WebApp.disableVerticalSwipes()
+    tg.MainButton.hide()
+    tg.MainButton.setParams({
+        text: `Отправить`
+    })
     var appStyleClassName = ''
     const bgColorInput = document.getElementById("bg-color");
 

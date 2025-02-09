@@ -15,6 +15,7 @@ import NumField from '../InputFields/NumField.jsx';
 import { DataContext } from '../../DataContext';
 
 
+
 const APIURL = localUrl.APIURL;
 
 
@@ -45,9 +46,9 @@ const CafeRems = () => {
     const [toggleClear, setToggleClear] = useState(false);
     const [buttonPressed, setButtonPressed] = useState(false);
     const { stationId } = useContext(DataContext);
+    const {tg, queryId} = useTelegram();
 
-
-
+    tg.MainButton.show();
 
     const amtsData = [
         { id: 'остаток' },
@@ -213,8 +214,6 @@ const CafeRems = () => {
         }
     }
 
-
-
     const handleSubmit = () => {
         delete recievedFormData.date;
         var date = new Date();
@@ -237,6 +236,14 @@ const CafeRems = () => {
             state: { sent: true }
         });
     }
+
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', handleSubmit)
+        return () => {
+            tg.offEvent('mainButtonClicked', handleSubmit)
+        }
+    }, [handleSubmit])
+
 
     return (
         <div>
@@ -333,7 +340,7 @@ const CafeRems = () => {
                         </div>
                     );
                 })}
-                <Button className={styles.submit} onPress={handleSubmit} >Отправить</Button>
+                {/* <Button className={styles.submit} onPress={handleSubmit} >Отправить</Button> */}
             </Group>
 
         </div>

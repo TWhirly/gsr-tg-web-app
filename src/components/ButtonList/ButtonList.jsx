@@ -6,12 +6,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { localUrl } from '../../localSettings.js'
 
 
+
 // const APIURL = localUrl.APIURL;
 
 // console.log(APIURL)
 const APIURL = localUrl.APIURL;
 const ButtonList = () => {
     const APIURL = localUrl.APIURL;
+    
 
     const [data, setData] = useState([]);
     const [Plandata, setPlanData] = useState('');
@@ -99,6 +101,8 @@ const ButtonList = () => {
     }
 
     const { tg, queryId } = useTelegram();
+    tg.MainButton.hide()
+
 
     const [sentVisible, setSentVisible] = useState(false);
 
