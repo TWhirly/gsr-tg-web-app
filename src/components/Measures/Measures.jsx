@@ -3,7 +3,6 @@ import styles from './Measures.module.css';
 import { localUrl } from '../../localSettings.js'
 import 'animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
-import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader } from 'react-aria-components';
 import { useLinkProps } from '@react-aria/utils';
 import { useTelegram } from "../../hooks/useTelegram";
 import { Element, Events, animateScroll as scroll, Link } from 'react-scroll';
