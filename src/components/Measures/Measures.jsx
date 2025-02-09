@@ -55,9 +55,11 @@ const Measures = () => {
     const [densTempShow, setDensTempshow] = useState(new Map())
     const [toggleState, setToggleState] = useState(false);
     const [isFieldsFilled, setfieldsFilled] = useState(false);
-    const [loadedFromLocal, setLoadedFromLocal] = useState(true);
+
+    const [loadedFromLocal, setLoadedFromLocal] = useState(true)
     const overdue = useState((new Date).getHours() > 22);
     const { tg, queryId } = useTelegram();
+
 
     useEffect(() => {
 
