@@ -59,12 +59,9 @@ const FuelIntake = () => {
     const [densTempShow, setDensTempshow] = useState(new Map())
     const [toggleState, setToggleState] = useState(false);
     const { stationId } = useContext(DataContext);
-
-
-
+    const {tg, queryId} = useTelegram();
+		
     useEffect(() => {
-
-
 
         const loadFields = async () => {
             let fetchedFields
@@ -114,14 +111,11 @@ const FuelIntake = () => {
             setFormDataInputs(initialFormData)
             setFields(fetchedFields);
             setFormLoad(true);
-
-
         };
 
         const loadCalibration = async () => {
             const fetchedCalFields = await calibration();
             setFieldsCal(fetchedCalFields)
-            console.log('fetched cal', fetchedCalFields)
             let i
             const initialCalibration = fetchedCalFields.reduce((acc, field) => {
 
@@ -152,7 +146,6 @@ const FuelIntake = () => {
             fields.map((field) => {
                 const id = field.id
                 const value = field.hBefore
-                console.log('id & value', id, value)
                 setFormData(prevData => ({
                     ...prevData,
                     [id]: {
@@ -177,7 +170,6 @@ const FuelIntake = () => {
 
 
     const calcAwaitH = (h, id, tank, waybill) => {
-        // console.log('calc')
         let volume
         let height
         let cap = +formData[id]['cap']
@@ -196,11 +188,7 @@ const FuelIntake = () => {
         else {
             volume = 0;
         }
-        // cal[tank][Math.trunc(h) - 1]
-        console.log('vol is ', volume, 'waybill is ', waybill, 'cap is ', cap )
         const awaitVol = +volume + waybill - +cap
-        console.log('await vol is ', awaitVol)
-        console.log('max V is ', Math.max(...Object.values(cal[tank])))
         if (awaitVol < Math.max(...Object.values(cal[tank]))) {
             for (let i = 0; i < Object.entries(cal[tank]).length; i++) {
                 if (Object.entries(cal[tank])[i][1] > awaitVol) {
@@ -208,10 +196,8 @@ const FuelIntake = () => {
                     break
                 }
             }
-            console.log('calculated height is ', height)
             return ((Math.ceil((((awaitVol - height[0][1]) / ((height[1][1] - height[0][1]))) + +height[0][0]) * 10)) / 10)
         }
-
         else {
             return (NaN)
         }
@@ -219,7 +205,6 @@ const FuelIntake = () => {
 
     const hadleClickDensTempShow = (e) => {
         const id = e.target.id
-        console.log('DTshow', e.target)
         setToggleState(toggleState == true ? false : true)
 
         if (densTempShow.get(id)) {
@@ -244,7 +229,6 @@ const FuelIntake = () => {
         const key = e.target.name
         const value = e.target.value
         if (key.substring(0, 1) == 'd') {
-            console.log('key is d started')
             setFormData(prevData => ({
                 ...prevData,
                 [id]: {
@@ -269,7 +253,6 @@ const FuelIntake = () => {
         const key = e.target.name
         const tValue = e.target.value
         const oldValue = recievedFormData[id][key]
-        console.log('old dens ', oldValue)
         let value
         if (tValue.length == 2) {
             value = oldValue
@@ -321,7 +304,6 @@ const FuelIntake = () => {
         const id = e.target.id
         const key = e.target.name
         const tValue = e.target.value
-        console.log('tValue', tValue)
         const oldValue = recievedFormData[id][key]
         let value
        
@@ -329,14 +311,11 @@ const FuelIntake = () => {
             value = tValue + ',0'
         }
         if(tValue.length === 0){
-            console.log('9')
             value = oldValue
         }
         if(tValue.includes(',') && tValue.length > 0) {
-            console.log('hm')
             value = tValue
         }
-        console.log('vv is', value)
         setFormData(prevData => ({
             ...prevData,
             [id]: {
@@ -355,7 +334,6 @@ const FuelIntake = () => {
         let tValue = e.target.value.replace(/[^\d.,]/g, '').replace(',', '.');
         tValue.length == 0 ? tValue = '' : tValue
         if (isNaN(+tValue)) {
-            console.log('isNaN', tValue.length)
             tValue = tValue.substring(0, tValue.length - 1)
         }
         var value
@@ -393,8 +371,6 @@ const FuelIntake = () => {
     };
 
     const handleChangeTemp = (e, d) => {
-        console.log('onChange', e.target)
-        console.log(formData)
         const id = e.target.id
         const key = e.target.name
         let tValue = e.target.value.toString().replace(/[^\d]/g, '').replace('.', '').replace(',', '')
@@ -421,8 +397,6 @@ const FuelIntake = () => {
     };
 
     const handleChangeDens = (e, d) => {
-        console.log('onChange', e.target)
-        console.log('value length is ', (e.target.value).length)
         const id = e.target.id
         const key = e.target.name
         let tValue = e.target.value.replace(/[^\d.,]/g, '').replace('.', ',')
@@ -440,9 +414,7 @@ const FuelIntake = () => {
             tValue = '0,'
         }
         if (d) {
-            console.log('parse', tValue.replace(',', '.'))
             value = ((parseFloat(tValue.replace(',', '.'))) + (d ? +d : 0)).toFixed(3).replace('.', ',')
-            // value = (+(e.target.value) + (d ? +d : 0)).toFixed(3)
         }
 
 
@@ -486,8 +458,6 @@ const FuelIntake = () => {
     , [formData, formDataInputs]);
 
     const handleSubmit = () => {
-        console.log(formData)
-        console.log("tyring to submit resToSubmit values:", formData);
         fetch(APIURL + '/sendFuelIntake', {
             method: 'POST',
             headers: {
@@ -500,15 +470,21 @@ const FuelIntake = () => {
             replace: true,
             state: { sent: true }
         });
-
-
     }
-    console.log('render', formData, formDataInputs);
-    console.log('is changes exist', haveChanges)
+
+    useEffect(() => {
+        haveChanges ? tg.MainButton.show() : tg.MainButton.hide()
+    
+        }, [haveChanges])
+
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', handleSubmit)
+        return () => {
+            tg.offEvent('mainButtonClicked', handleSubmit)
+        }
+    }, [handleSubmit])
    
     if (calibLoad && formLoad) {
-
-
         return (
             <div className={styles.container}>
                 <Element name={"start"} className={styles.subheader} id={'start'}>Поступления НП сегодня, {(new Date).toLocaleDateString()} </Element>
@@ -780,7 +756,7 @@ const FuelIntake = () => {
                 })}
                 
                 </div>
-                {(haveChanges && <Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)}
+                {/* {(haveChanges && <Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)} */}
             </div>
     
         )

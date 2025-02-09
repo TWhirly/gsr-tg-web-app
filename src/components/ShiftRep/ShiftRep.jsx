@@ -55,6 +55,7 @@ const ShiftRep = () => {
     const [totFuelWord, setTotFuelWord] = useState('')
     const overdue = useState((new Date).getHours() > 14)
     const { stationId } = useContext(DataContext);
+    const {tg, queryId} = useTelegram();
 
 
 
@@ -66,13 +67,9 @@ const ShiftRep = () => {
             let fetchedFields
             let initialFormData
             const storedData = localStorage.getItem(stationId+'tempShiftData');
-
-
-
             if (storedData) {
                 setLoadedFromLocal(true)
                 const storedDataObj = JSON.parse(storedData);
-                console.log('stored', storedDataObj)
                 if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
                     localStorage.removeItem('tempShiftReportData');
                     return
@@ -84,7 +81,6 @@ const ShiftRep = () => {
                     fetchedFields.push(storedDataObj[key])
                 })
                 setIsChangesExist(true)
-                console.log('fetched from stored', fetchedFields)
                 setFields(fetchedFields);
                 initialFormData = fetchedFields.reduce((acc, field) => {
 
@@ -126,7 +122,6 @@ const ShiftRep = () => {
                     return acc
                 }, {});
             }
-            console.log('fetched intake data is ', fetchedFields)
             setFormData(initialFormData);
             setRecievedFormData(initialFormData);
             setFormDataInputs(initialFormData)
@@ -138,7 +133,6 @@ const ShiftRep = () => {
 
     useEffect(() => {
         const total = Object.keys(formData).filter((key) => key.slice(0, -1) == 't').reduce((acc, item) => acc + +formData[item]['cnt'], 0)
-        console.log('ob keys', Object.keys(formData).filter((key) => key.slice(0, -1) == 't'))
         const getTotWord = (total) => {
             if (total % 10 === 1 && total % 100 !== 11) {
                 return 'литр';
@@ -156,11 +150,9 @@ const ShiftRep = () => {
     }, [formData])
 
     const handleChangeOperator = (e) => {
-        console.log(e)
         const id = e.target.id
         const value = e.target.value
         const key = e.target.name
-        console.log(e.target.name)
         setFormData(prevData => ({
             ...prevData,
             [id]: {
@@ -173,12 +165,9 @@ const ShiftRep = () => {
 
 
     const handleChangeTemp = (e, d) => {
-        console.log('onChange', e.target)
-        console.log(formData)
         const id = e.target.id
         const key = e.target.name
         const tValue = +(e.target.value).replace(/[^0-9]/g, '')
-        console.log('tValue is ', tValue)
         let value
         if (d) {
             value = +(+tValue + +d)
@@ -216,8 +205,6 @@ const ShiftRep = () => {
     }, [formData, formDataInputs]);
 
     const handleSubmit = () => {
-        console.log(formData)
-        console.log("tyring to submit resToSubmit values:", formData);
         var date = new Date();
         const updDate = date.getFullYear() + '-' +
             ('00' + (date.getMonth() + 1)).slice(-2) + '-' +
@@ -234,16 +221,20 @@ const ShiftRep = () => {
             replace: true,
             state: { sent: true }
         });
-
-
     }
 
+        useEffect(() => {
+            isFieldsFilled ? tg.MainButton.show() : tg.MainButton.hide()
+    
+        }, [isFieldsFilled])
 
-    console.log('render', formData);
-    console.log('is changes exist', isFieldsFilled)
-    console.log('load from local? ', loadedFromLocal)
-    console.log('overdue', overdue[0])
-    // console.log('modiefed cal', cal)
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', handleSubmit)
+        return () => {
+            tg.offEvent('mainButtonClicked', handleSubmit)
+        }
+    }, [handleSubmit])
+
     if(overdue[0]){
         return (
             <div className={styles.overdue}>
@@ -497,7 +488,7 @@ const ShiftRep = () => {
                         </div>
 
                     </div>
-                    {(isFieldsFilled && <Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)}
+                    {/* {(isFieldsFilled && <Button onPress={handleSubmit} className={styles.submit}>Отправить</Button>)} */}
                 </div>
 
             </div>

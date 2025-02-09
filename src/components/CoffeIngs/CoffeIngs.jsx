@@ -4,8 +4,8 @@ import { localUrl } from '../../localSettings.js'
 import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
-// const { stationId } = useContext(DataContext);
 import { DataContext } from '../../DataContext';
+import { useTelegram } from "../../hooks/useTelegram";
 
 
 const APIURL = localUrl.APIURL;
@@ -37,26 +37,19 @@ const CoffeIngs = () => {
     const [toggleState, setToggleState] = useState(false);
     const [toggleClear, setToggleClear] = useState(false);
     const { stationId } = useContext(DataContext);
-
-
-
-
-    
+    const {tg, queryId} = useTelegram();
+		
+		tg.MainButton.show();
 
     useEffect(() => {
         const storedData = localStorage.getItem(stationId+'CoffeIngsData');
-        // if (storedData && storedData.date == (new Date()).toLocaleDateString()) {
         if (storedData) {
-
-            console.log('local stored data', JSON.parse(storedData));
             let storedDataObj = JSON.parse(storedData);
             if (storedDataObj.date !== (new Date()).toLocaleDateString()) {
                 localStorage.removeItem(stationId+'CoffeIngsData');
                 return
             }
-            console.log('st d date', storedDataObj.date)
             delete storedDataObj.date
-            console.log('local stored data2', storedDataObj);
             const fetchedFields = [];
             const show = new Map();
 
@@ -77,11 +70,8 @@ const CoffeIngs = () => {
         else {
             const loadFields = async () => {
                 const fetchedFields = await fetchFormFields();
-                console.log('fetched', fetchedFields, typeof (fetchedFields))
                 setFields(fetchedFields);
                 // Инициализируем состояние formData с пустыми значениями
-               
-
                 const initialFormData = fetchedFields.reduce((acc, field) => {
                     if(!acc[field.cat]){ 
                         acc[field.cat] = {};
@@ -89,18 +79,13 @@ const CoffeIngs = () => {
                     if(!acc[field.cat][field.id]){
                         acc[field.cat][field.id] = {}
                     }
-
                     acc[field.cat][field.id] = {amt: field.cnt, unit: field.unit, order: NaN}
-
                     return acc;
                 }, {});
                 setFormData(initialFormData);
                 setRecievedFormData(initialFormData);
-
             };
-
             loadFields();
-
         }
     }, []);
 
@@ -110,9 +95,7 @@ const CoffeIngs = () => {
     }, [showAdditionalFields, toggleState])
 
     const handleChange = (v, cat, field) => {
-        console.log('recieved f data', cat, field, v)
         setToggleClear(false);
-        console.log('rec2', recievedFormData)
         recievedFormData[cat][field]['amt'] = v;
         const date = (new Date()).toLocaleDateString();
         localStorage.setItem(stationId+'CoffeIngsData', JSON.stringify({ ...formData, date: date }))
@@ -148,7 +131,14 @@ const CoffeIngs = () => {
             state: { sent: true }
         });
     }
-    console.log('rec', recievedFormData)
+
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', handleSubmit)
+        return () => {
+            tg.offEvent('mainButtonClicked', handleSubmit)
+        }
+    }, [handleSubmit])
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>Ингредиенты КМ </div>
@@ -191,7 +181,7 @@ const CoffeIngs = () => {
 
                     </div>
                 ))}
-                 <Button className={styles.submit} onPress={handleSubmit}>Отправить</Button>
+                 {/* <Button className={styles.submit} onPress={handleSubmit}>Отправить</Button> */}
             </div>
            
         </div>

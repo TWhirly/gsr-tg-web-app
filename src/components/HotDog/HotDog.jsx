@@ -5,6 +5,7 @@ import '/node_modules/animate.css/animate.css';
 import { useNavigate, useHistory } from "react-router-dom";
 import { NumberField, Label, Group, Input, Button, Cell, Column, Row, Table, TableBody, TableHeader, Text } from 'react-aria-components';
 import { DataContext } from '../../DataContext';
+import { useTelegram } from "../../hooks/useTelegram";
 // const { stationId } = useContext(DataContext);
 
 
@@ -38,6 +39,9 @@ const HotDog = () => {
     const [toggleState, setToggleState] = useState(false);
     const [toggleClear, setToggleClear] = useState(false);
     const { stationId } = useContext(DataContext);
+    const {tg, queryId} = useTelegram();
+		
+		tg.MainButton.show();
 
 
 
@@ -142,7 +146,14 @@ const HotDog = () => {
             state: { sent: true }
         });
     }
-    console.log('rec', fields)
+
+    useEffect(() => {
+        tg.onEvent('mainButtonClicked', handleSubmit)
+        return () => {
+            tg.offEvent('mainButtonClicked', handleSubmit)
+        }
+    }, [handleSubmit])
+
     return (
         <div>
             <h4 className={styles.header}>Ингредиенты для хот-догов
@@ -186,7 +197,7 @@ const HotDog = () => {
                         </div>
                     );
                 })}
-                <Button className={styles.submit} onPress={handleSubmit} >Отправить</Button>
+                {/* <Button className={styles.submit} onPress={handleSubmit} >Отправить</Button> */}
             </Group>
 
         </div>
